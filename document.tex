@@ -1,0 +1,101 @@
+\documentclass[russian,utf8]{eskdtext}
+%\documentclass[12pt]{article}
+\usepackage{cmap} % для корректной кодировки кириллицы при копировании текста из PDF
+\usepackage{pscyr} % Нормальные векторные шрифты
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtext}
+\usepackage[T1,T2A]{fontenc} % для кириллицы
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel} % для переносов в русском языке
+\DeclareRobustCommand{\No}{\ifmmode{\nfss@text{\textnumero}}\else\textnumero\fi} % исправление к eskdx
+\usepackage{eskdchngsheet}
+
+\ESKDdepartment{Метрологический отдел поверки и калибровки СИ}
+\ESKDcompany{Новгородский филиал ФБУ "Тест-С.-Петербург"} 
+\ESKDclassCode{Код по классификатору}
+\ESKDtitle{Формуляр}
+\ESKDdocName{Микрометр МК50-2 ГОСТ 111-60}
+\ESKDsignature{Обозначение документа}
+\ESKDauthor{Богданова~Т.~М.}
+\ESKDtitleApprovedBy{Директор филиала}{Бетке~С.~С.} 
+\ESKDtitleAgreedBy{Начальник МО}{Ядрышникова~И.~С.}
+\ESKDtitleAgreedBy{Инженер по стандартизации}{Наумова~Т.~И.}
+\ESKDtitleDesignedBy{Ведущий инженер по метрологии}{Богданова~Т.~М.}
+\ESKDdate{2006/02/25}
+
+% \title{\LaTeX}
+% \date{}
+% \author{}
+
+% \font\testfont=GOST_2_304-81_A
+
+% \input{data.tex}
+% \mytest{} \obj1@name{} 
+
+\usepackage{forloop}
+
+\makeatletter
+
+\newcounter{GSI@measurementTool@cnt}
+\newcounter{GSI@measurementTool@channel@cnt}[GSI@measurementTool@cnt]
+
+\newcommand{\measurementTool}[1]{
+	\addtocounter{GSI@measurementTool@cnt}{1}
+
+	{
+		\newcommand{\channel}[1]{
+			\addtocounter{GSI@measurementTool@channel@cnt}{1}
+			\global\@namedef{GSI@measurementTool@\number\value{GSI@measurementTool@cnt}@channel@\number\value{GSI@measurementTool@channel@cnt}}{ ##1 }
+			\global\@namedef{GSI@measurementTool@\number\value{GSI@measurementTool@cnt}@channel@cnt}{\value{GSI@measurementTool@channel@cnt}}
+		}
+
+		#1
+	}
+}
+
+\newcommand{\theChannel}[1]{
+	\@nameuse{GSI@measurementTool@1@channel@\number#1}
+}
+
+\newcommand{\foreachChannel}[1]{
+	{
+		\newcounter{index}
+		\forLoop{1}{\@nameuse{GSI@measurementTool@1@channel@cnt}}{index}{
+			#1
+		}
+	}
+}
+
+\makeatother
+
+\measurementTool{
+	\channel{test133333}
+	\channel{test2}
+	\channel{test3}
+}
+
+\begin{document}
+	\maketitle
+  
+	% \testfont test ГОСТ шрифт.
+
+	\foreachChannel{
+		канал №\number\theindex: \theChannel{\theindex} \par
+	}
+	%\multido{\iActor=1+1}{\NumberActors}{\Actors(\iActor) & \Dates(\iActor) \\ \hline}
+	
+  \LaTeX{} "--- это своего рода препроцессор текста для \TeX{} "---
+  программы компьютерной вёрстки. \LaTeX{} является программируемым и
+  расширяемым, что позволяет автоматизировать большую часть аспектов
+  набора, включая нумерацию, перекрёстные ссылки, таблицы и изображения
+  (их размещение и подписи к ним), общий вид страницы, библиографию и
+  многое-многое другое. \LaTeX{} был первоначально написан Лэсли Лампортом
+  в 1984-м году и стал наиболее популярным способом использования \TeX{}а;
+  очень мало людей сегодня пишут на оригинальном \TeX{}е. Текущей
+  версией является \LaTeXe.
+  \newline
+  \begin{eqnarray}
+    E &=& mc^2\\
+    m &=& \frac{m_0}{\sqrt{1-\frac{v^2}{c^2}}}\cdot 2 \cdot 10^{23}
+  \end{eqnarray}
+\end{document}
