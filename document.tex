@@ -2,11 +2,29 @@
 %\documentclass[12pt]{article}
 \usepackage{cmap} % для корректной кодировки кириллицы при копировании текста из PDF
 \usepackage{pscyr} % Нормальные векторные шрифты
+
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage{mathtext}
+% меняем знаки неравенств на привычные "русские"
+\let\le\leqslant
+\let\ge\geqslant
+ % определяем привычный тангенс и котангенс
+\let\tan\tg
+\let\arctan\arctg
+\let\cot\ctg
+\let\arccot\arcctg
+% заменяем знак умножения (x) на точку (по ГОСТ)
+\let\times\cdot
+
+\usepackage{textcomp}
+
 \usepackage[T1,T2A]{fontenc} % для кириллицы
 \usepackage[utf8]{inputenc}
-\usepackage[russian]{babel} % для переносов в русском языке
+\usepackage[russian]{babel} % для переносов в русском языке и не только
+\righthyphenmin=2 % разрешаем перенос 2 символов на новую строку
+
+\frenchspacing
+
 \DeclareRobustCommand{\No}{\ifmmode{\nfss@text{\textnumero}}\else\textnumero\fi} % исправление к eskdx
 \usepackage{eskdchngsheet}
 
@@ -93,9 +111,13 @@
   в 1984-м году и стал наиболее популярным способом использования \TeX{}а;
   очень мало людей сегодня пишут на оригинальном \TeX{}е. Текущей
   версией является \LaTeXe.
-  \newline
+  
+  $$
+	  2\times\Delta\tan\alpha \le 2*\Delta\tg\mu
+  $$
+  
   \begin{eqnarray}
     E &=& mc^2\\
-    m &=& \frac{m_0}{\sqrt{1-\frac{v^2}{c^2}}}\cdot 2 \cdot 10^{23}
+    m &=& \frac{m_0}{\sqrt{1-\frac{v^2}{c^2}}}\times 2 \times 10^{23}
   \end{eqnarray}
 \end{document}
