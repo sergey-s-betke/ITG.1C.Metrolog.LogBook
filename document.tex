@@ -1,32 +1,51 @@
 \documentclass[russian,utf8]{eskdtext}
-%\documentclass[12pt]{article}
-\usepackage{cmap} % для корректной кодировки кириллицы при копировании текста из PDF
-\usepackage{pscyr} % Нормальные векторные шрифты
 
-\usepackage{amsmath,amsthm,amssymb}
-\usepackage{mathtext}
-% меняем знаки неравенств на привычные "русские"
-\let\le\leqslant
-\let\ge\geqslant
- % определяем привычный тангенс и котангенс
-\let\tan\tg
-\let\arctan\arctg
-\let\cot\ctg
-\let\arccot\arcctg
-% заменяем знак умножения (x) на точку (по ГОСТ)
-\let\times\cdot
+\usepackage{cmap} % для корректной кодировки кириллицы при копировании текста из PDF
+
+\usepackage{xecyr}
+\frenchspacing
 
 \usepackage{textcomp}
 
-\usepackage[T1,T2A]{fontenc} % для кириллицы
-\usepackage[utf8]{inputenc}
-\usepackage[russian]{babel} % для переносов в русском языке и не только
-\righthyphenmin=2 % разрешаем перенос 2 символов на новую строку
-
-\frenchspacing
+% Чтобы использовать символ градуса (°) - \degree 
+\usepackage{gensymb} 
 
 \DeclareRobustCommand{\No}{\ifmmode{\nfss@text{\textnumero}}\else\textnumero\fi} % исправление к eskdx
 \usepackage{eskdchngsheet}
+
+% Для работы шрифтов
+\usepackage{xltxtra} 
+%\usepackage{fontspec}
+% Для того чтобы работали стандартные сочетания символов ---, --, << >> и т.п. 
+\defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase} 
+% Ставим основной шрифт 
+\setmainfont{OpenGost Type B TT} 
+\setmonofont[Mapping=tex-ansi]{Courier New} 
+
+% формулы
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{mathtext}
+
+\usepackage{unicode-math}
+%\setmathfont{OpenGost Type B TT}
+%\setmathfont[range={\mathit}]{OpenGost Type B TT}
+%\setmathfont[range={\mathup}]{OpenGost Type B TT}
+%\setmathfont[range={\mathbin}]{OpenGost Type B TT}
+
+% поддержка активных гиперссылок
+\usepackage[unicode=true]{hyperref} 
+\hypersetup{ %
+	breaklinks=true 
+	,bookmarks=true 
+	,pdfauthor={Sergey S. Betke}
+	,pdftitle={title}
+	,colorlinks=false 
+	% ,citecolor=blue
+	% ,urlcolor=blue
+	% ,linkcolor=magenta
+	,pdfborder={0 0 0}
+}
+\urlstyle{same}  % don't use monospace font for urls
 
 \ESKDdepartment{Метрологический отдел поверки и калибровки СИ}
 \ESKDcompany{Новгородский филиал ФБУ "Тест-С.-Петербург"} 
@@ -44,11 +63,6 @@
 % \title{\LaTeX}
 % \date{}
 % \author{}
-
-% \font\testfont=GOST_2_304-81_A
-
-% \input{data.tex}
-% \mytest{} \obj1@name{} 
 
 \usepackage{forloop}
 
