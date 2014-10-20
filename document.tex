@@ -1,30 +1,29 @@
 \documentclass[russian,utf8]{eskdtext}
 
-\usepackage{ifxetex,ifluatex}
+\usepackage{ifxetex}
 
 \usepackage{cmap} % для корректной кодировки кириллицы при копировании текста из PDF
 
+\RequireXeTeX
+
+% XeLaTeX
 \usepackage{xecyr}
-\frenchspacing
-%\usepackage{polyglossia}
-%\setdefaultlanguage{russian}
-%\setmainlanguage{russian}
-
 \usepackage{textcomp}
-
 % Чтобы использовать символ градуса (°) - \degree 
 \usepackage{gensymb} 
-
-\DeclareRobustCommand{\No}{\ifmmode{\nfss@text{\textnumero}}\else\textnumero\fi} % исправление к eskdx
-\usepackage{eskdchngsheet}
-
-% Для работы шрифтов
-\usepackage{xltxtra} 
-% mapping - для того чтобы работали стандартные сочетания символов ---, --, << >> и т.п. 
+% Enable loading of OpenType fonts
+\usepackage[cm-default]{fontspec}
 \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase} 
 % Ставим основной шрифт 
 \setmainfont{OpenGost Type B TT} 
+\setromanfont{OpenGost Type B TT} 
+\setsansfont{OpenGost Type B TT} 
 \setmonofont[Mapping=tex-ansi]{Courier New} 
+
+\renewcommand{\ESKDfontTabBody}{\ESKDfontV\itshape}
+
+\DeclareRobustCommand{\No}{\ifmmode{\nfss@text{\textnumero}}\else\textnumero\fi} % исправление к eskdx
+\usepackage{eskdchngsheet}
 
 % формулы
 \usepackage{amsmath,amsthm,amssymb}
