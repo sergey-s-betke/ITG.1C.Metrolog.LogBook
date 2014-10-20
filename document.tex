@@ -118,6 +118,8 @@
 	\channel{test3}
 }
 
+%\setlength{\parskip}{5mm}
+
 \begin{document}
 	
 	\maketitle
@@ -139,13 +141,13 @@
 	
 	Проверим блоки.
 	
-	{\par\vspace{\partopsep}\hbox{\vrule\hspace{0.5em}\parbox{\textwidth-0.5em}{
+	{\par\vspace{\parsep}\vspace{\parskip}\hbox{\vrule\hspace{0.5em}\parbox{\textwidth-0.5em}{
 		Иногда используется следующий способ выделения текста:
 		абзац набирается с некоторым отступом от левого поля,
 		а слева от него, вровень с левым полем, печатается
 		вертикальная линейка.
-	}}\par\vspace{\partopsep}}
-	  	
+	}}\vspace{\parsep}\par}
+	
 	И ссылки: формула 2 - см. \ref{formula2}.
 	
 	Поставщик
