@@ -25,12 +25,21 @@
 % формулы
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage{mathtext}
-
 \usepackage{unicode-math}
 %\setmathfont{OpenGost Type B TT}
 %\setmathfont[range={\mathit}]{OpenGost Type B TT}
 %\setmathfont[range={\mathup}]{OpenGost Type B TT}
 %\setmathfont[range={\mathbin}]{OpenGost Type B TT}
+% меняем знаки неравенств на привычные "русские"
+\let\le\leqslant
+\let\ge\geqslant
+% определяем привычный тангенс и котангенс
+\let\tan\tg
+\let\arctan\arctg
+\let\cot\ctg
+\let\arccot\arcctg
+% заменяем знак умножения (x) на точку (по ГОСТ)
+\let\times\cdot
 
 % поддержка активных гиперссылок
 \usepackage[unicode=true]{hyperref} 
@@ -107,11 +116,11 @@
 }
 
 \begin{document}
+	  \let\times\cdot
+	  
 	\maketitle
   
-	% \testfont test ГОСТ шрифт.
-
-	\foreachChannel{
+  	\foreachChannel{
 		канал №\number\theindex: \theChannel{\theindex} \par
 	}
 	%\multido{\iActor=1+1}{\NumberActors}{\Actors(\iActor) & \Dates(\iActor) \\ \hline}
