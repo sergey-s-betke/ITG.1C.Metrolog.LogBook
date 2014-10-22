@@ -12,14 +12,34 @@
 
 % подключаем чертёжные шрифты типа A
 \DeclareOption{A}{
+	\newfontfamily\gostfontA{GOST 2.304-81 type A}[
+		Path = fonts/ ,
+		Extension = .ttf ,
+		% UprightFont = * ,
+		% BoldFont = * Bold ,
+		BoldFeatures = { FakeBold = 1.5 } ,
+		ItalicFont = * Italic ,
+		% BoldItalicFont = * Bold Italic ,
+		BoldItalicFeatures = { FakeBold = 1.5 } ,
+		% SlantedFont = * Italic ,
+		% BoldSlantedFont = * Bold Italic,
+		% SmallCapsFont = *
+	]
+	\let\gostA\gostfontA
+	\let\gostfont\gostfontA
 	\setmainfont{GOST 2.304-81 type A}[
 		Path = fonts/ ,
 		Extension = .ttf ,
-		% UprightFont = * Regular ,
+		% UprightFont = * ,
 		% BoldFont = * Bold ,
+		BoldFeatures = { FakeBold = 1.5 } ,
 		ItalicFont = * Italic ,
-		% BoldItalicFont = * Bold Italic
-	]
+		% BoldItalicFont = * Bold Italic,
+		BoldItalicFeatures = { FakeBold = 1.5 } ,
+		% SlantedFont = * Italic ,
+		% BoldSlantedFont = * Bold Italic,
+		% SmallCapsFont = *
+			]
 	%\setmainfont{OpenGost Type A TT} 
 	%\setromanfont{OpenGost Type A TT} 
 	%\setsansfont{OpenGost Type A TT} 
@@ -27,15 +47,34 @@
 
 % подключаем чертёжные шрифты типа B
 \DeclareOption{B}{
+	\newfontfamily\gostfontB{GOST 2.304-81 type B}[
+		Path = fonts/ ,
+		Extension = .ttf ,
+		% UprightFont = * ,
+		% BoldFont = * Bold ,
+		BoldFeatures = { FakeBold = 1.5 } ,
+		ItalicFont = * Italic ,
+		% BoldItalicFont = * Bold Italic ,
+		BoldItalicFeatures = { FakeBold = 1.5 } ,
+		% SlantedFont = * Italic ,
+		% BoldSlantedFont = * Bold Italic,
+		% SmallCapsFont = *
+	]
+	\let\gostB\gostfontB
+	\let\gostfont\gostfontB
 	\setmainfont{GOST 2.304-81 type B}[
 		Path = fonts/ ,
 		Extension = .ttf ,
-		% UprightFont = * Regular ,
+		% UprightFont = * ,
 		% BoldFont = * Bold ,
+		BoldFeatures = { FakeBold = 1.5 } ,
 		ItalicFont = * Italic ,
-		% BoldItalicFont = * Bold Italic
+		% BoldItalicFont = * Bold Italic ,
+		BoldItalicFeatures = { FakeBold = 1.5 } ,
+		% SlantedFont = * Italic ,
+		% BoldSlantedFont = * Bold Italic,
+		% SmallCapsFont = *
 	]
-	%\setmainfont{OpenGost Type B TT} 
 	%\setromanfont{OpenGost Type B TT} 
 	%\setsansfont{OpenGost Type B TT} 
 }
