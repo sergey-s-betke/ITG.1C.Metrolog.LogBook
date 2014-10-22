@@ -11,14 +11,47 @@
 	\par#1\par
 }
 
+\newlength\@signatureWidth@t
+\newlength\@signatureWidth
+
 % ФИО и подпись в грифе документа
 \newcommand{\signatureStamp@NameAndSignature}[1]{%
-	\par\rule{2cm}{.1mm}~#1zzz\par
+	{%
+		\par%
+		\settowidth{\@signatureWidth@t}{~#1}%
+		\setlength{\@signatureWidth}{\linewidth}%
+		\addtolength{\@signatureWidth}{-\@signatureWidth@t}%
+		\parbox[t]{\@signatureWidth}{%
+			\centering\hrulefill\\%
+			\renewcommand{\baselinestretch}{1}\selectfont%
+			\vspace{-0.2ex}%
+			\tiny{}подпись%
+		}%
+		\hrulefill~#1%
+		\par%
+	}
 }
 
+% Шаблон даты
+\newcommand{\dateTemplate}[0]{%
+	<<\rule{2em}{.4pt}>>~\rule{10em}{.4pt}~\rule{4em}{.4pt}%
+}
+
+\newlength\@dateTemplateWidth
+		
 % Дата подписи в грифе документа
 \newcommand{\signatureStamp@Date}[1]{%
-	\par``\rule{.8cm}{.1mm}'' \rule{2.3cm}{.1mm}\ \rule{1.5cm}{.1mm}\par
+	{%
+		\par\centering%
+		\settowidth{\@dateTemplateWidth}{\dateTemplate}%
+		\parbox[t]{\@dateTemplateWidth}{%
+			\centering\dateTemplate\\%
+			\renewcommand{\baselinestretch}{1}\selectfont%
+			\vspace{-0.2ex}%
+			\tiny{}дата%
+		}%
+		\par%
+	}
 }
 
 % только виза в грифе документа по п.1.4
