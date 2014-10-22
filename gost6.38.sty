@@ -11,25 +11,37 @@
 	\par#1\par
 }
 
-\newlength\@signatureWidth@t
-\newlength\@signatureWidth
+% графа с пояснением
+\newcommand{\annotatedField}[3]{%
+	{%
+		\parbox[t]{#1}{%
+			\centering#2\\%
+			\renewcommand{\baselinestretch}{1}\selectfont%
+			\vspace{-0.2ex}%
+			\tiny#3%
+		}%
+	}
+}
+
+\newlength\@annotatedFieldWidth@t
+\newlength\@annotatedFieldWidth
+
+% ФИО и подпись в грифе документа
+\newcommand{\annotatedFieldLine}[3]{%
+	{%
+		\par%
+		\settowidth{\@annotatedFieldWidth@t}{ #2}%
+		\setlength{\@annotatedFieldWidth}{\linewidth}%
+		\addtolength{\@annotatedFieldWidth}{-\@annotatedFieldWidth@t}%
+		\annotatedField{\@annotatedFieldWidth}{#1}{#3}%
+		\hfill#2%
+		\par%
+	}
+}
 
 % ФИО и подпись в грифе документа
 \newcommand{\signatureStamp@NameAndSignature}[1]{%
-	{%
-		\par%
-		\settowidth{\@signatureWidth@t}{~#1}%
-		\setlength{\@signatureWidth}{\linewidth}%
-		\addtolength{\@signatureWidth}{-\@signatureWidth@t}%
-		\parbox[t]{\@signatureWidth}{%
-			\centering\hrulefill\\%
-			\renewcommand{\baselinestretch}{1}\selectfont%
-			\vspace{-0.2ex}%
-			\tiny{}подпись%
-		}%
-		\hrulefill~#1%
-		\par%
-	}
+	\annotatedFieldLine{\hrulefill}{#1}{подпись}%
 }
 
 % Шаблон даты
@@ -44,12 +56,7 @@
 	{%
 		\par\centering%
 		\settowidth{\@dateTemplateWidth}{\dateTemplate}%
-		\parbox[t]{\@dateTemplateWidth}{%
-			\centering\dateTemplate\\%
-			\renewcommand{\baselinestretch}{1}\selectfont%
-			\vspace{-0.2ex}%
-			\tiny{}дата%
-		}%
+		\annotatedField{\@dateTemplateWidth}{\dateTemplate}{дата}%
 		\par%
 	}
 }
