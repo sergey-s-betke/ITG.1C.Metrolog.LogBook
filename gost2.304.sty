@@ -12,14 +12,30 @@
 
 % подключаем чертёжные шрифты типа A
 \DeclareOption{A}{
-	\setmainfont{OpenGost Type A TT} 
+	\setmainfont{GOST 2.304-81 type A}[
+		Path = fonts/ ,
+		Extension = .ttf ,
+		% UprightFont = * Regular ,
+		% BoldFont = * Bold ,
+		ItalicFont = * Italic ,
+		% BoldItalicFont = * Bold Italic
+	]
+	%\setmainfont{OpenGost Type A TT} 
 	%\setromanfont{OpenGost Type A TT} 
 	%\setsansfont{OpenGost Type A TT} 
 }
 
 % подключаем чертёжные шрифты типа B
 \DeclareOption{B}{
-	\setmainfont{OpenGost Type B TT} 
+	\setmainfont{GOST 2.304-81 type B}[
+		Path = fonts/ ,
+		Extension = .ttf ,
+		% UprightFont = * Regular ,
+		% BoldFont = * Bold ,
+		ItalicFont = * Italic ,
+		% BoldItalicFont = * Bold Italic
+	]
+	%\setmainfont{OpenGost Type B TT} 
 	%\setromanfont{OpenGost Type B TT} 
 	%\setsansfont{OpenGost Type B TT} 
 }
