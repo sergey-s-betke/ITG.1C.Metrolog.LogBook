@@ -1,0 +1,34 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{gost6.38}[2014/10/22 v0.1 GOST 6.38-90]
+
+% собственно гриф документа
+\newcommand{\signatureStamp@Title}[1]{%
+	\par#1\par
+}
+
+% должность в грифе документа
+\newcommand{\signatureStamp@Post}[1]{%
+	\par#1\par
+}
+
+% ФИО и подпись в грифе документа
+\newcommand{\signatureStamp@NameAndSignature}[1]{%
+	\par\rule{2cm}{.1mm}~#1zzz\par
+}
+
+% Дата подписи в грифе документа
+\newcommand{\signatureStamp@Date}[1]{%
+	\par``\rule{.8cm}{.1mm}'' \rule{2.3cm}{.1mm}\ \rule{1.5cm}{.1mm}\par
+}
+
+% гриф документа по п.1.4
+% #1 - собственно гриф (Утверждаю, Согласовано и т.д.)
+% #2 - должность 
+% #3 - ФИО
+% #4 - дата
+\newcommand{\signatureStamp}[4]{%
+	\signatureStamp@Title{#1}%
+	\signatureStamp@Post{#2}%
+	\signatureStamp@NameAndSignature{#3}%
+	\signatureStamp@Date{#4}%
+}
