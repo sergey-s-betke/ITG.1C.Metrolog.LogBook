@@ -1,30 +1,20 @@
 \documentclass[russian,utf8,twoside]{eskdtext}
 
 \usepackage{ifxetex}
-
-\usepackage{cmap} % для корректной кодировки кириллицы при копировании текста из PDF
-
 \RequireXeTeX
 
-\usepackage[finecorners]{gost2.104}
+\usepackage{cmap} % для корректной кодировки кириллицы при копировании текста из PDF
+\RequirePackage{xecyr}
+
+\usepackage{gost2.104}
+\usepackage{gost2.105.titlesheet}
 
 % XeLaTeX
 \usepackage{xecyr}
 \usepackage{textcomp}
 % Чтобы использовать символ градуса (°) - \degree 
 \usepackage{gensymb} 
-% Enable loading of OpenType fonts
-\usepackage[cm-default]{fontspec}
-\defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase} 
-% Ставим основной шрифт 
-\setmainfont{OpenGost Type B TT} 
-\setromanfont{OpenGost Type B TT} 
-\setsansfont{OpenGost Type B TT} 
-\setmonofont[Mapping=tex-ansi]{Courier New} 
 
-\renewcommand{\ESKDfontTabBody}{\ESKDfontV\itshape}
-
-\DeclareRobustCommand{\No}{\ifmmode{\nfss@text{\textnumero}}\else\textnumero\fi} % исправление к eskdx
 \usepackage{eskdchngsheet}
 
 % формулы

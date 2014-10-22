@@ -1,0 +1,31 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{gost2.304}[2014/10/22 v0.1 GOST 2.304-81]
+
+\RequirePackage{ifxetex}
+\RequireXeTeX
+
+\RequirePackage{xecyr}
+
+% Enable loading of OpenType fonts
+\usepackage[cm-default]{fontspec}
+\defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+
+% подключаем чертёжные шрифты типа A
+\DeclareOption{A}{
+	\setmainfont{OpenGost Type A TT} 
+	%\setromanfont{OpenGost Type A TT} 
+	%\setsansfont{OpenGost Type A TT} 
+}
+
+% подключаем чертёжные шрифты типа B
+\DeclareOption{B}{
+	\setmainfont{OpenGost Type B TT} 
+	%\setromanfont{OpenGost Type B TT} 
+	%\setsansfont{OpenGost Type B TT} 
+}
+
+\ExecuteOptions{B}
+
+\ProcessOptions\relax
+
+%\renewcommand{\ESKDfontTabBody}{\ESKDfontV\itshape}

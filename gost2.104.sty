@@ -55,5 +55,9 @@
 
 \ProcessOptions\relax
 
-\RequirePackage{eskdstamp}
+\RequirePackage[B]{gost2.304}
+	
+% исправление к eskdx
+\DeclareRobustCommand{\No}{\ifmmode{\nfss@text{\textnumero}}\else\textnumero\fi}
 
+\RequirePackage{eskdstamp}
