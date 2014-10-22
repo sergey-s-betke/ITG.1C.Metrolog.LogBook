@@ -21,6 +21,16 @@
 	\par``\rule{.8cm}{.1mm}'' \rule{2.3cm}{.1mm}\ \rule{1.5cm}{.1mm}\par
 }
 
+% только виза в грифе документа по п.1.4
+% #1 - должность 
+% #2 - ФИО
+% #3 - дата
+\newcommand{\signatureStampVisa}[3]{%
+	\signatureStamp@Post{#1}%
+	\signatureStamp@NameAndSignature{#2}%
+	\signatureStamp@Date{#3}%
+}
+
 % гриф документа по п.1.4
 % #1 - собственно гриф (Утверждаю, Согласовано и т.д.)
 % #2 - должность 
@@ -28,7 +38,5 @@
 % #4 - дата
 \newcommand{\signatureStamp}[4]{%
 	\signatureStamp@Title{#1}%
-	\signatureStamp@Post{#2}%
-	\signatureStamp@NameAndSignature{#3}%
-	\signatureStamp@Date{#4}%
+	\signatureStampVisa{#2}{#3}{#4}%
 }
