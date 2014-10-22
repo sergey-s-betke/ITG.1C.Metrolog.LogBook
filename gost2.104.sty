@@ -11,11 +11,11 @@
 		\savebox{\ESKD@frame@box}{%
 			\setlength{\unitlength}{1mm}%
 			\begin{picture}(0,0)(0,0)
-			\linethickness{\ESKDlineThick}
-			\put(0.5\ESKDltu{\ESKDlineThick},\ESKDltu{\ESKDframeH}){\line(1,0){\ESKDltu{\ESKDframeW}}}
-			\put(-0.5\ESKDltu{\ESKDlineThick},0){\line(1,0){\ESKDltu{\ESKDframeW}}}
-			\put(0,0.5\ESKDltu{\ESKDlineThick}){\line(0,1){\ESKDltu{\ESKDframeH}}}
-			\put(\ESKDltu{\ESKDframeW},-0.5\ESKDltu{\ESKDlineThick}){\line(0,1){\ESKDltu{\ESKDframeH}}}
+				\linethickness{\ESKDlineThick}
+				\put(0.5\ESKDltu{\ESKDlineThick},\ESKDltu{\ESKDframeH}){\line(1,0){\ESKDltu{\ESKDframeW}}}
+				\put(-0.5\ESKDltu{\ESKDlineThick},0){\line(1,0){\ESKDltu{\ESKDframeW}}}
+				\put(0,0.5\ESKDltu{\ESKDlineThick}){\line(0,1){\ESKDltu{\ESKDframeH}}}
+				\put(\ESKDltu{\ESKDframeW},-0.5\ESKDltu{\ESKDlineThick}){\line(0,1){\ESKDltu{\ESKDframeH}}}
 			\end{picture}%
 		}%
 		%
@@ -23,24 +23,24 @@
 		\savebox{\ESKD@columns@xix@box}{%
 			\setlength{\unitlength}{1mm}%
 			\begin{picture}(0,0)(0,0)
-			\linethickness{\ESKDlineThick}
-			\put(-0.5\ESKDltu{\ESKDlineThick},12){\line(1,0){145}}
-			\put(0,7){\line(1,0){145}}
-			\put(0,-0.5\ESKDltu{\ESKDlineThick}){\line(0,1){12}}
-			\put(25,0){\line(0,1){12}}
-			\put(60,0){\line(0,1){12}}
-			\put(85,0){\line(0,1){12}}
-			\put(110,0){\line(0,1){12}}
-			\put(145,0.5\ESKDltu{\ESKDlineThick}){\line(0,1){12}}
-			\put(0.5\ESKDltu{\ESKDlineThick},0){\line(1,0){145}}
-			\put(0, 8.3){\makebox[25mm]{\ESKDfontIII\ESKDcolumnXIXname}}
-			\put(0, 2.3){\makebox[25mm]{\ESKDfontIII\ESKDtheColumnXIX}}
-			\put(25, 8.3){\makebox[35mm]{\ESKDfontIII\ESKDcolumnXXname}}
-			\put(60, 8.3){\makebox[25mm]{\ESKDfontIII\ESKDcolumnXXIname}}
-			\put(60, 2.3){\makebox[25mm]{\ESKDfontIII\ESKDtheColumnXXI}}
-			\put(85, 8.3){\makebox[25mm]{\ESKDfontIII\ESKDcolumnXXIIname}}
-			\put(85, 2.3){\makebox[25mm]{\ESKDfontIII\ESKDtheColumnXXII}}
-			\put(110, 8.3){\makebox[35mm]{\ESKDfontIII\ESKDcolumnXXIIIname}}
+				\linethickness{\ESKDlineThick}
+				\put(-0.5\ESKDltu{\ESKDlineThick},12){\line(1,0){145}}
+				\put(0,7){\line(1,0){145}}
+				\put(0,-0.5\ESKDltu{\ESKDlineThick}){\line(0,1){12}}
+				\put(25,0){\line(0,1){12}}
+				\put(60,0){\line(0,1){12}}
+				\put(85,0){\line(0,1){12}}
+				\put(110,0){\line(0,1){12}}
+				\put(145,0.5\ESKDltu{\ESKDlineThick}){\line(0,1){12}}
+				\put(0.5\ESKDltu{\ESKDlineThick},0){\line(1,0){145}}
+				\put(0, 8.3){\makebox[25mm]{\ESKDfontIII\ESKDcolumnXIXname}}
+				\put(0, 2.3){\makebox[25mm]{\ESKDfontIII\ESKDtheColumnXIX}}
+				\put(25, 8.3){\makebox[35mm]{\ESKDfontIII\ESKDcolumnXXname}}
+				\put(60, 8.3){\makebox[25mm]{\ESKDfontIII\ESKDcolumnXXIname}}
+				\put(60, 2.3){\makebox[25mm]{\ESKDfontIII\ESKDtheColumnXXI}}
+				\put(85, 8.3){\makebox[25mm]{\ESKDfontIII\ESKDcolumnXXIIname}}
+				\put(85, 2.3){\makebox[25mm]{\ESKDfontIII\ESKDtheColumnXXII}}
+				\put(110, 8.3){\makebox[35mm]{\ESKDfontIII\ESKDcolumnXXIIIname}}
 			\end{picture}%
 		}
 		\fi
@@ -50,6 +50,8 @@
 \DeclareOption*{%
 	\PassOptionsToClass{\CurrentOption}{eskdstamp}%
 }
+
+\ExecuteOptions{finecorners}
 
 \ProcessOptions\relax
 
