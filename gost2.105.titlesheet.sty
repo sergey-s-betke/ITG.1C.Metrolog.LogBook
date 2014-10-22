@@ -1,0 +1,13 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{gost2.105.titlesheet}[2014/10/22 v0.1 GOST 2.105-95 Title sheet]
+
+\RequirePackage{ifxetex}
+\RequireXeTeX
+
+\RequirePackage{gost6.38}
+
+\RequirePackage{eskdtitle}
+
+\renewcommand{\ESKDtitleMakeStamp}[2]{%
+	\signatureStamp{}{#1}{#2}{}
+}
