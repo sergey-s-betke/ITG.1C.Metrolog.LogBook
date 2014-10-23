@@ -80,3 +80,20 @@
 	\signatureStamp@Title{#1}%
 	\signatureStampVisa{#2}{#3}{#4}%
 }
+
+\newlength\@signatureStampBoxW
+\setlength{\@signatureStampBoxW}{30em}
+
+\newcommand{\signatureStampVisaBox}[3]{%
+	\parbox[t]{\@signatureStampBoxW}{%
+		\centering%
+		\signatureStampVisa{#1}{#2}{#3}%
+	}
+}
+
+\newcommand{\signatureStampBox}[4]{%
+	\parbox[t]{\@signatureStampBoxW}{%
+		\centering%
+		\signatureStamp{#1}{#2}{#3}{#4}%
+	}
+}
