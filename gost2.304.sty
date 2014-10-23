@@ -4,6 +4,7 @@
 \RequirePackage{ifxetex}
 \RequireXeTeX
 
+\RequirePackage[T2A,T1]{fontenc}
 \RequirePackage{xecyr}
 
 % Enable loading of OpenType fonts
@@ -16,10 +17,10 @@
 		Path = fonts/ ,
 		Extension = .ttf ,
 		% UprightFont = * ,
-		% BoldFont = * Bold ,
+		BoldFont = * ,
 		BoldFeatures = { FakeBold = 1.5 } ,
 		ItalicFont = * Italic ,
-		% BoldItalicFont = * Bold Italic ,
+		BoldItalicFont = * Italic ,
 		BoldItalicFeatures = { FakeBold = 1.5 } ,
 		% SlantedFont = * Italic ,
 		% BoldSlantedFont = * Bold Italic,
@@ -31,18 +32,15 @@
 		Path = fonts/ ,
 		Extension = .ttf ,
 		% UprightFont = * ,
-		% BoldFont = * Bold ,
+		BoldFont = * ,
 		BoldFeatures = { FakeBold = 1.5 } ,
 		ItalicFont = * Italic ,
-		% BoldItalicFont = * Bold Italic,
+		BoldItalicFont = * Italic,
 		BoldItalicFeatures = { FakeBold = 1.5 } ,
 		% SlantedFont = * Italic ,
 		% BoldSlantedFont = * Bold Italic,
 		% SmallCapsFont = *
-			]
-	%\setmainfont{OpenGost Type A TT} 
-	%\setromanfont{OpenGost Type A TT} 
-	%\setsansfont{OpenGost Type A TT} 
+	]
 }
 
 % подключаем чертёжные шрифты типа B
@@ -51,10 +49,10 @@
 		Path = fonts/ ,
 		Extension = .ttf ,
 		% UprightFont = * ,
-		% BoldFont = * Bold ,
+		BoldFont = * ,
 		BoldFeatures = { FakeBold = 1.5 } ,
 		ItalicFont = * Italic ,
-		% BoldItalicFont = * Bold Italic ,
+		BoldItalicFont = * Italic ,
 		BoldItalicFeatures = { FakeBold = 1.5 } ,
 		% SlantedFont = * Italic ,
 		% BoldSlantedFont = * Bold Italic,
@@ -66,19 +64,19 @@
 		Path = fonts/ ,
 		Extension = .ttf ,
 		% UprightFont = * ,
-		% BoldFont = * Bold ,
+		BoldFont = * ,
 		BoldFeatures = { FakeBold = 1.5 } ,
 		ItalicFont = * Italic ,
-		% BoldItalicFont = * Bold Italic ,
+		BoldItalicFont = * Italic ,
 		BoldItalicFeatures = { FakeBold = 1.5 } ,
 		% SlantedFont = * Italic ,
 		% BoldSlantedFont = * Bold Italic,
 		% SmallCapsFont = *
 	]
-	%\setromanfont{OpenGost Type B TT} 
-	%\setsansfont{OpenGost Type B TT} 
 }
 
 \ExecuteOptions{B}
 
 \ProcessOptions\relax
+
+\let\ESKDfontShape\gostfont
