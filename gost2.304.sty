@@ -8,7 +8,7 @@
 
 % Enable loading of OpenType fonts
 \usepackage[cm-default]{fontspec}
-\defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+\defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
 
 % подключаем чертёжные шрифты типа A
 \DeclareOption{A}{
@@ -82,5 +82,3 @@
 \ExecuteOptions{B}
 
 \ProcessOptions\relax
-
-%\renewcommand{\ESKDfontTabBody}{\ESKDfontV\itshape}
