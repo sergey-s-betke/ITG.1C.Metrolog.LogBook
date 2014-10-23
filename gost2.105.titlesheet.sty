@@ -6,8 +6,21 @@
 
 \RequirePackage{gost6.38}
 
+\RequirePackage{eskdstamp}
 \RequirePackage{eskdtitle}
 
 \renewcommand{\ESKDtitleMakeStamp}[2]{%
 	\signatureStamp{}{#1}{#2}{}
+}
+
+\renewenvironment{ESKDtitlePage}{%
+	%\begin{ESKDpadding}{5mm}{5mm}
+		\newpage
+	%	\ESKDsetPadding{5mm}{5mm}
+	\ESKDstyle{\ESKD@default@style@title}
+}{%
+	%\end{ESKDpadding}
+		\clearpage
+	%	\ESKDsetPadding{\ESKD@padding@h}{\ESKD@padding@v}
+	\aftergroup\ESKD@title@after@page
 }

@@ -1,4 +1,4 @@
-\documentclass[russian,utf8,twoside]{eskdtext}
+\documentclass[russian,utf8,twoside,vpadding=5mm,hpadding=5mm]{eskdtext}
 
 \usepackage{ifxetex}
 \RequireXeTeX
@@ -9,11 +9,9 @@
 \usepackage{gost2.104}
 \usepackage{gost2.105.titlesheet}
 
-% XeLaTeX
-\usepackage{xecyr}
-\usepackage{textcomp}
-% Чтобы использовать символ градуса (°) - \degree 
-\usepackage{gensymb} 
+%\usepackage{textcomp}
+% Чтобы использовать символ градуса (°) - \degree
+%\usepackage{gensymb}
 
 \usepackage{eskdchngsheet}
 
@@ -52,7 +50,7 @@
 \urlstyle{same}  % don't use monospace font for urls
 
 \ESKDdepartment{Метрологический отдел поверки и калибровки СИ}
-\ESKDcompany{Новгородский филиал ФБУ "Тест-С.-Петербург"} 
+\ESKDcompany{Новгородский филиал ФБУ <<Тест-С.-Петербург>>} 
 \ESKDclassCode{Код по классификатору}
 \ESKDtitle{Формуляр}
 \ESKDdocName{Микрометр МК50-2 ГОСТ 111-60}
@@ -110,8 +108,6 @@
 	\channel{test3}
 }
 
-%\setlength{\parskip}{5mm}
-
 \begin{document}
 	
 	\maketitle
@@ -142,9 +138,11 @@
 	
 	И ссылки: формула 2 - см. \ref{formula2}.
 	
-	Поставщик
-	\parbox[t]{15em}{\centering{}ООО "Фирма"\\*\hrule\smallskip\tiny{}наименование},
-	именуемое в дальнейшем "Поставщик", и другая фирма и другая фирма и другая фирма.
+	\begin{adjustwidth}{10mm}{10mm}
+		Поставщик
+		\parbox[t]{15em}{\centering{}ООО <<Фирма>>\\*\hrule\smallskip\tiny{}наименование},
+		именуемое в дальнейшем <<Поставщик>>, и другая фирма и другая фирма и другая фирма.
+	\end{adjustwidth}
 	
 	$$
 		2\times\Delta\tan\alpha \le 2*\Delta\tg\mu
