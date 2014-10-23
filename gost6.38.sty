@@ -1,14 +1,25 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{gost6.38}[2014/10/22 v0.1 GOST 6.38-90]
 
+\RequirePackage[T2A,T1]{fontenc}
+
+\newcommand*{\signatureStampTitle}[1]{%
+	\centering%
+	\textbf{
+		\expandafter\MakeUppercase{#1}
+	}
+}
+
 % собственно гриф документа
 \newcommand{\signatureStamp@Title}[1]{%
-	\par#1\par
+	\par{\signatureStampTitle{#1}\par}
 }
+
+\newcommand*{\signatureStampPost}[1]{#1}
 
 % должность в грифе документа
 \newcommand{\signatureStamp@Post}[1]{%
-	\par#1\par
+	\par{\signatureStampPost{#1}\par}
 }
 
 % графа с пояснением
@@ -39,9 +50,14 @@
 	}
 }
 
+\newcommand*{\signatureStampName}[1]{#1}
+
 % ФИО и подпись в грифе документа
 \newcommand{\signatureStamp@NameAndSignature}[1]{%
-	\annotatedFieldLine{\hrulefill}{#1}{подпись}%
+	\annotatedFieldLine%
+		{\hrulefill}%
+		{{\signatureStampName{#1}}}%
+		{подпись}%
 }
 
 % Шаблон даты
@@ -82,18 +98,16 @@
 }
 
 \newlength\@signatureStampBoxW
-\setlength{\@signatureStampBoxW}{30em}
+\setlength{\@signatureStampBoxW}{20em}
 
 \newcommand{\signatureStampVisaBox}[3]{%
 	\parbox[t]{\@signatureStampBoxW}{%
-		\centering%
 		\signatureStampVisa{#1}{#2}{#3}%
 	}
 }
 
 \newcommand{\signatureStampBox}[4]{%
 	\parbox[t]{\@signatureStampBoxW}{%
-		\centering%
 		\signatureStamp{#1}{#2}{#3}{#4}%
 	}
 }

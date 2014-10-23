@@ -4,6 +4,7 @@
 \RequirePackage{ifxetex}
 \RequireXeTeX
 
+\RequirePackage[T2A,T1]{fontenc}
 \RequirePackage{gost6.38}
 
 \RequirePackage{eskdstamp}
@@ -22,7 +23,7 @@
 }
 
 \renewcommand{\ESKDtitleMakeStamp}[2]{%
-	\signatureStamp{}{#1}{#2}{}
+	\signatureStampBox{}{#1}{#2}{}
 }
 
 \renewcommand{\ESKD@title@split@field}[2]{%
@@ -48,8 +49,6 @@
 	\ESKD@title@split@field{\ESKDtheTitleFieldIIl}{\ESKDtheTitleFieldIIr}%
 }
 
-\def\ESKDtheTitleFieldIIIl{}
-
 \renewcommand{\ESKDtheTitleFieldIIIl}{%
 	\ifx\ESKD@title@approving@sheet\@undefined
 		\expandafter%
@@ -62,8 +61,21 @@
 		\ESKD@title@approving@sheet
 	\fi
 }
-
-\def\ESKDtheTitleFieldIIIr{}
+\renewcommand{\ESKDtheTitleFieldIIIl}{%
+	\ifx\ESKD@title@approving@sheet\@undefined
+		\expandafter%
+		\ifx\csname ESKD@title@agreed@name@1\endcsname\relax\else
+			\signatureStampBox %
+				{\ESKDagreedName}%
+				{\@nameuse{ESKD@title@agreed@post@1}}%
+				{\@nameuse{ESKD@title@agreed@name@1}}%
+				{}
+		\fi
+	\else
+		\textbf{\MakeUppercase{\ESKDapprovedName}}\\
+		\ESKD@title@approving@sheet
+	\fi
+}
 
 \renewcommand{\ESKDtheTitleFieldIIIr}{%
 	\ifx\ESKD@title@approving@sheet\@undefined
@@ -74,9 +86,23 @@
 		\fi
 	\fi
 }
+\renewcommand{\ESKDtheTitleFieldIIIr}{%
+	\ifx\ESKD@title@approving@sheet\@undefined
+		\expandafter%
+		\ifx\csname ESKD@title@approved@name@1\endcsname\relax\else
+			\signatureStampBox %
+				{\ESKDapprovingName}%
+				{\@nameuse{ESKD@title@approved@post@1}}%
+				{\@nameuse{ESKD@title@approved@name@1}}%
+				{}
+		\fi
+	\fi
+}
 
 \renewcommand{\ESKDtheTitleFieldIII}{%
-	\ESKD@title@split@field{\ESKDtheTitleFieldIIIl}{\ESKDtheTitleFieldIIIr}%
+	\ESKDtitleFontIII%
+	\noindent%
+	\ESKDtheTitleFieldIIIl\hfill\ESKDtheTitleFieldIIIr%
 }
 
 \renewcommand{\ESKDtheTitleFieldIV}{%
@@ -147,13 +173,15 @@
 			\vspace{5mm \@plus 15mm \@minus 3mm}
 			\begin{center}\ESKDtitleFontII\ESKDtheTitleFieldII\end{center}
 			\vspace{10mm \@plus 20mm \@minus 6mm}
-			\begin{center}\ESKDtitleFontIII\ESKDtheTitleFieldIII\end{center}}
+			\ESKDtheTitleFieldIII
+		}
 		\par\vspace{10mm \@plus 2mm \@minus 4mm}\noindent
 		\parbox[c][.30\vsize][t]{\linewidth}{%
 			\begin{center}\ESKDtitleFontIV\bfseries\ESKDtheTitleFieldIV\end{center}
 			\begin{center}\ESKDtitleFontV\ESKDtheTitleFieldV\end{center}
 			\begin{center}\ESKDtitleFontVI\ESKDtheTitleFieldVI\end{center}
-			\begin{center}\ESKDtitleFontVII\ESKDtheTitleFieldVII\end{center}}
+			\begin{center}\ESKDtitleFontVII\ESKDtheTitleFieldVII\end{center}
+		}
 		\par\vspace{4mm \@plus 2mm \@minus 2mm}\noindent
 		\begin{center}\ESKDtitleFontVIII\ESKDtheTitleFieldVIII\end{center}
 		\vfill
