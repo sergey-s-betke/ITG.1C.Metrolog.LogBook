@@ -6,8 +6,10 @@
 \newcommand*{\signatureStampTitle}[1]{%
 	\centering%
 	\textbf{
-		\expandafter\MakeUppercase{#1}
+		\MakeUppercase{#1}
 	}
+	\par
+	\vspace{2ex minus 0.5ex}
 }
 
 % собственно гриф документа
@@ -85,6 +87,7 @@
 	\signatureStamp@Post{#1}%
 	\signatureStamp@NameAndSignature{#2}%
 	\signatureStamp@Date{#3}%
+	\vspace{2ex plus 1ex minus 1ex}
 }
 
 % гриф документа по п.1.4
