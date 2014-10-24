@@ -36,7 +36,12 @@
 }
 
 \renewcommand{\ESKDtheTitleFieldI}{%
-	\ESKDtheDepartment\par\ESKDtheCompany%
+	\begin{center}
+		\ESKDtitleFontI
+		\ESKDtheDepartment%
+		\par%
+		\ESKDtheCompany%
+	\end{center}
 }
 
 \def\ESKDtheTitleFieldIIl{}
@@ -164,7 +169,7 @@
 
 \renewcommand{\ESKDtheTitleFieldX}{\ESKDtheYear}
 
-\renewcommand{\ESKDtitleFontI}{\ESKDfontV}
+\renewcommand{\ESKDtitleFontI}{\ESKDfontV\bfseries}
 \renewcommand{\ESKDtitleFontII}{\ESKDfontIII}
 \renewcommand{\ESKDtitleFontIII}{%
 	\ESKDfontIII\renewcommand{\baselinestretch}{1.50}\selectfont}
@@ -180,13 +185,11 @@
 	\begin{ESKDtitlePage}
 		\setlength{\topsep}{0mm}
 		\noindent
-		\parbox[c][.28\vsize][t]{\linewidth}{%
-			\begin{center}\ESKDtitleFontI\bfseries\ESKDtheTitleFieldI\end{center}
-			\vspace{5mm \@plus 15mm \@minus 3mm}
-			\begin{center}\ESKDtitleFontII\ESKDtheTitleFieldII\end{center}
-			\vspace{10mm \@plus 20mm \@minus 6mm}
-			\ESKDtheTitleFieldIII%
-		}
+		\ESKDtheTitleFieldI
+		\vspace{5mm \@plus 15mm \@minus 3mm}
+		\begin{center}\ESKDtitleFontII\ESKDtheTitleFieldII\end{center}
+		\vspace{10mm \@plus 20mm \@minus 6mm}
+		\ESKDtheTitleFieldIII%
 		\par\vspace{10mm \@plus 2mm \@minus 4mm}\noindent
 		\parbox[c][.30\vsize][t]{\linewidth}{%
 			\begin{center}\ESKDtitleFontIV\bfseries\ESKDtheTitleFieldIV\end{center}
