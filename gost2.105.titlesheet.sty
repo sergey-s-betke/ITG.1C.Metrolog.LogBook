@@ -47,14 +47,15 @@
 \def\ESKDtheTitleFieldIIl{}
 
 \renewcommand{\ESKDtheTitleFieldIIl}{%
+	\noindent%
+	\ESKDtitleFontII %
 	\ESKDtheClassCode%
 }
-
-\def\ESKDtheTitleFieldIIr{}
 
 \renewcommand{\ESKDtheTitleFieldIIr}{}
 
 \renewcommand{\ESKDtheTitleFieldII}{%
+	\ESKDtitleFontII%
 	\ESKD@title@split@field{\ESKDtheTitleFieldIIl}{\ESKDtheTitleFieldIIr}%
 }
 
@@ -185,19 +186,19 @@
 	\begin{ESKDtitlePage}
 		\setlength{\topsep}{0mm}
 		\noindent
-		\ESKDtheTitleFieldI
-		\vspace{5mm \@plus 15mm \@minus 3mm}
-		\begin{center}\ESKDtitleFontII\ESKDtheTitleFieldII\end{center}
-		\vspace{10mm \@plus 20mm \@minus 6mm}
+		\ESKDtheTitleFieldI%
+		\vspace{5mm}
+		\ESKDtheTitleFieldII%
+		\vspace{10mm}
 		\ESKDtheTitleFieldIII%
-		\par\vspace{10mm \@plus 2mm \@minus 4mm}\noindent
+		\par\vspace{10mm \@plus 30mm \@minus 4mm}\noindent
 		\parbox[c][.30\vsize][t]{\linewidth}{%
 			\begin{center}\ESKDtitleFontIV\bfseries\ESKDtheTitleFieldIV\end{center}
 			\begin{center}\ESKDtitleFontV\ESKDtheTitleFieldV\end{center}
 			\begin{center}\ESKDtitleFontVI\ESKDtheTitleFieldVI\end{center}
 			\begin{center}\ESKDtitleFontVII\ESKDtheTitleFieldVII\end{center}
 		}
-		\par\vspace{4mm \@plus 2mm \@minus 2mm}\noindent
+		\par\vspace{10mm \@plus 30mm \@minus 2mm}\noindent
 		\ESKDtheTitleFieldVIII%
 		\vfill
 		\begin{center}\ESKDtitleFontX\ESKDtheTitleFieldX\end{center}
