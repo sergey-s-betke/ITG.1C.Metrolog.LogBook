@@ -27,8 +27,12 @@
 }
 
 \renewcommand{\ESKD@title@split@field}[2]{%
-	\parbox[t]{.4\hsize}{\raggedright#1}\hfill
-	\parbox[t]{.4\hsize}{\raggedright#2}%
+	\par%
+	\noindent%
+	\parbox[t]{.5\linewidth}{\raggedright#1}%
+	\hfill%
+	\parbox[t]{.5\linewidth}{\raggedleft#2}%
+	\par%
 }
 
 \renewcommand{\ESKDtheTitleFieldI}{%
@@ -101,8 +105,7 @@
 
 \renewcommand{\ESKDtheTitleFieldIII}{%
 	\ESKDtitleFontIII%
-	\noindent%
-	\ESKDtheTitleFieldIIIl\hfill\ESKDtheTitleFieldIIIr%
+	\ESKD@title@split@field{\ESKDtheTitleFieldIIIl}{\ESKDtheTitleFieldIIIr}%
 }
 
 \renewcommand{\ESKDtheTitleFieldIV}{%
@@ -126,8 +129,12 @@
 		\loop
 			\ifnum \ESKD@tmpcnta < \ESKD@title@agreed@cnt
 			\advance \ESKD@tmpcnta 1
-			\ESKD@title@make@stamp{agreed}{\number\ESKD@tmpcnta}
-			\par\vspace{5mm}
+			\signatureStampBox %
+				{}%
+				{\@nameuse{ESKD@title@agreed@post@\number\ESKD@tmpcnta}}%
+				{\@nameuse{ESKD@title@agreed@name@\number\ESKD@tmpcnta}}%
+				{}%
+			%\par\vspace{5mm}
 		\repeat
 	\fi
 }
@@ -140,13 +147,18 @@
 		\loop
 			\ifnum \ESKD@tmpcnta < \ESKD@title@designed@cnt
 			\advance \ESKD@tmpcnta 1
-			\ESKD@title@make@stamp{designed}{\number\ESKD@tmpcnta}
-			\par\vspace{5mm}
+			\signatureStampBox %
+				{}%
+				{\@nameuse{ESKD@title@designed@post@\number\ESKD@tmpcnta}}%
+				{\@nameuse{ESKD@title@designed@name@\number\ESKD@tmpcnta}}%
+				{}%
+			%\par\vspace{5mm}
 		\repeat
 	\fi
 }
 
 \renewcommand{\ESKDtheTitleFieldVIII}{%
+	\ESKDtitleFontVIII%
 	\ESKD@title@split@field{\ESKDtheTitleFieldVIIIl}{\ESKDtheTitleFieldVIIIr}%
 }
 
@@ -183,7 +195,7 @@
 			\begin{center}\ESKDtitleFontVII\ESKDtheTitleFieldVII\end{center}
 		}
 		\par\vspace{4mm \@plus 2mm \@minus 2mm}\noindent
-		\begin{center}\ESKDtitleFontVIII\ESKDtheTitleFieldVIII\end{center}
+		\ESKDtheTitleFieldVIII%
 		\vfill
 		\begin{center}\ESKDtitleFontX\ESKDtheTitleFieldX\end{center}
 	\end{ESKDtitlePage}
