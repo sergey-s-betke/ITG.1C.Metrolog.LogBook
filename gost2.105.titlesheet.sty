@@ -115,8 +115,13 @@
 }
 
 \renewcommand{\ESKDtheTitleFieldIV}{%
-	\MakeUppercase{\ESKDtheTitle}\par%
-	\ESKDtheDocName%
+	\begin{center}
+		\ESKDtitleFontIV%
+		\MakeUppercase{\ESKDtheTitle}%
+		\par
+		\ESKDtheDocName%
+		\par
+	\end{center}
 }
 
 \renewcommand{\ESKDtheTitleFieldV}{}
@@ -174,7 +179,7 @@
 \renewcommand{\ESKDtitleFontII}{\ESKDfontIII}
 \renewcommand{\ESKDtitleFontIII}{%
 	\ESKDfontIII\renewcommand{\baselinestretch}{1.50}\selectfont}
-\renewcommand{\ESKDtitleFontIV}{\ESKDfontV}
+\renewcommand{\ESKDtitleFontIV}{\ESKDfontV\bfseries}
 \renewcommand{\ESKDtitleFontV}{\ESKDfontV}
 \renewcommand{\ESKDtitleFontVI}{\ESKDfontV}
 \renewcommand{\ESKDtitleFontVII}{\ESKDfontIII}
@@ -182,25 +187,41 @@
 	\ESKDfontIII\renewcommand{\baselinestretch}{1.25}\selectfont}
 \renewcommand{\ESKDtitleFontX}{\ESKDfontV}
 
+\newsavebox{\ESKD@theTitleField@IV@box}
+
 \renewcommand{\maketitle}{%
 	\begin{ESKDtitlePage}
 		\setlength{\topsep}{0mm}
 		\noindent
-		\ESKDtheTitleFieldI%
-		\vspace{5mm}
-		\ESKDtheTitleFieldII%
-		\vspace{10mm}
-		\ESKDtheTitleFieldIII%
-		\par\vspace{10mm \@plus 30mm \@minus 4mm}\noindent
-		\parbox[c][.30\vsize][t]{\linewidth}{%
-			\begin{center}\ESKDtitleFontIV\bfseries\ESKDtheTitleFieldIV\end{center}
+		% отрисовываем поле 4 (заголовок) в бокс с целью центрирования по вертикали на странице
+		\sbox{\ESKD@theTitleField@IV@box}{%
+			\parbox[t]{100mm}{%
+				\ESKDtheTitleFieldIV%
+			}
+		}
+		\parbox[t][.4\vsize plus 150mm][t]{\linewidth}{
+			\setlength{\topsep}{0mm}
+			\noindent
+			\ESKDtheTitleFieldI%
+			\vspace{5mm}
+			\ESKDtheTitleFieldII%
+			\vspace{10mm}
+			\ESKDtheTitleFieldIII%
+			\par\vspace{10mm \@plus 30mm \@minus 4mm}\noindent
+		}\par
+		%{ \usebox{\ESKD@theTitleField@IV@box} }
+		\par
+		\ESKDtheTitleFieldIV%
+		\parbox[t][.4\vsize plus 150mm][b]{\linewidth}{
+			\setlength{\topsep}{0mm}
+			\noindent
 			\begin{center}\ESKDtitleFontV\ESKDtheTitleFieldV\end{center}
 			\begin{center}\ESKDtitleFontVI\ESKDtheTitleFieldVI\end{center}
 			\begin{center}\ESKDtitleFontVII\ESKDtheTitleFieldVII\end{center}
+			\par\vspace{10mm \@plus 30mm \@minus 2mm}\noindent
+			\ESKDtheTitleFieldVIII%
+			\vfill
+			\begin{center}\ESKDtitleFontX\ESKDtheTitleFieldX\end{center}
 		}
-		\par\vspace{10mm \@plus 30mm \@minus 2mm}\noindent
-		\ESKDtheTitleFieldVIII%
-		\vfill
-		\begin{center}\ESKDtitleFontX\ESKDtheTitleFieldX\end{center}
 	\end{ESKDtitlePage}
 }
