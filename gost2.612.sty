@@ -3,13 +3,23 @@
 
 \RequirePackage{xecyr}
 
-\newcommand*{\@newProperty}[2]{
-	\@ifundefined{#1}{
-		\global\@namedef{#1}{#2}
-	}{
+\newcommand*{\@setObjectId}[1]{\@namedef{@objectId}{#1}}
+
+\newcommand*{\@objectMemberId}[1]{\@nameuse{@objectId}@#1}
+
+\newcommand*{\@setObjectProperty}[2]{%
+	\@ifundefined{\@objectMemberId{#1}}{%
+		\global\@namedef{\@objectMemberId{#1}}{#2}%
+	}{%
 		\errhelp{Команда должна быть пропущена, нажмите <return> для продолжения}%
 		\errmessage{Переопределение значения элемента данных не допускается}%
-	}
+	}%
+}
+
+\newcommand*{\@defObjectProperty}[1]{%
+	\@namedef{#1}##1{%
+		\@setObjectProperty{#1}{##1}%
+	}%
 }
 
 \newcounter{ГОСТ2.612@Изделие}
@@ -19,9 +29,8 @@
 	\stepcounter{ГОСТ2.612@Изделие}
 	\setcounter{ГОСТ2.612@Изделие@Количество}{\value{ГОСТ2.612@Изделие}}
 	{
-		\newcommand*{\Наименование}[1]{
-			\@newProperty{ГОСТ2.612@Изделие@\number\value{ГОСТ2.612@Изделие}@Наименование}{##1}
-		}
+		\@setObjectId{ГОСТ2.612@Изделие@\number\value{ГОСТ2.612@Изделие}}
+		\@defObjectProperty{Наименование}
 		#1
 	}
 }
