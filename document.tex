@@ -52,6 +52,15 @@
 % \date{}
 % \author{}
 
+\usepackage{gost2.612}
+
+\Изделие{
+	\Наименование{Микрометр МК50-2 ГОСТ~111-60}
+}
+\Изделие{
+	\Наименование{Микрометр МК25-2 ГОСТ~111-60}
+}
+
 \usepackage{forloop}
 
 \makeatletter
@@ -95,9 +104,19 @@
 }
 
 \begin{document}
-	
+
 	\maketitle
-	
+
+	\makeatletter
+
+	\@nameuse{ГОСТ2.612@Изделие@1@Наименование}
+
+	\@nameuse{ГОСТ2.612@Изделие@2@Наименование}
+
+	\@nameuse{ГОСТ2.612@Изделие@3@Наименование}
+
+	\makeatother
+
 	\foreachChannel{
 		канал №\number\theindex: \theChannel{\theindex} \par
 	}

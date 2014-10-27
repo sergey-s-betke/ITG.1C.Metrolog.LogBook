@@ -1,0 +1,29 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{gost2.612}[2014/10/27 v0.1 GOST 2.612-2011]
+
+\RequirePackage{xecyr}
+
+\newcommand*{\@newProperty}[2]{
+	\@ifundefined{#1}{
+		\global\@namedef{#1}{#2}
+	}{
+		\errhelp{Команда должна быть пропущена, нажмите <return> для продолжения}%
+		\errmessage{Переопределение значения элемента данных не допускается}%
+	}
+}
+
+\newcounter{ГОСТ2.612@Изделие}
+\newcounter{ГОСТ2.612@Изделие@Количество}
+
+\newcommand{\Изделие}[1]{
+	\stepcounter{ГОСТ2.612@Изделие}
+	\setcounter{ГОСТ2.612@Изделие@Количество}{\value{ГОСТ2.612@Изделие}}
+	{
+		\newcommand*{\Наименование}[1]{
+			\@newProperty{ГОСТ2.612@Изделие@\number\value{ГОСТ2.612@Изделие}@Наименование}{##1}
+		}
+		#1
+	}
+}
+
+%\usepackage{forloop}
