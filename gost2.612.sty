@@ -22,6 +22,9 @@
 	}%
 }
 
+\let\@defObjectMandatoryProperty\@defObjectProperty
+\let\@defObjectOptionalProperty\@defObjectProperty
+
 \newcounter{ГОСТ2.612@Изделие}
 \newcounter{ГОСТ2.612@Изделие@Количество}
 
@@ -30,7 +33,9 @@
 	\setcounter{ГОСТ2.612@Изделие@Количество}{\value{ГОСТ2.612@Изделие}}
 	{
 		\@setObjectId{ГОСТ2.612@Изделие@\number\value{ГОСТ2.612@Изделие}}
-		\@defObjectProperty{Наименование}
+		\@defObjectMandatoryProperty{Наименование}
+		\@defObjectMandatoryProperty{Обозначение}
+		\@defObjectOptionalProperty{УсловноеОбозначение}
 		#1
 	}
 }
