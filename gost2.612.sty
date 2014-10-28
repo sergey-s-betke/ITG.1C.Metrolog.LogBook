@@ -4,14 +4,42 @@
 \RequirePackage{xecyr}
 \RequirePackage{xparse}
 
-\newcommand*{\@setObjectId}[1]{\@namedef{@objectId}{#1}}
+\def\@objectId{}
+
+\newcommand*{\@setObjectId}[1]{\edef\@objectId{#1}}
 
 \newcommand*{\@objectMemberId}[1]{\@nameuse{@objectId}@#1}
+\newcommand*{\@objectMemberItemId}[2]{\@nameuse{@objectId}@#1@\number#2}
+
+\newcommand{\@defObject}[2]{%
+	\@namedef{#1}##1{
+		{
+			\@setObjectId{\@objectMemberId{#1}}
+			#2
+			##1
+		}
+	}
+}
+\let\@object\@defObject
+
+\newcommand{\@defObjectCollection}[2]{%
+	\newcounter{\@objectMemberId{#1}}
+	\@namedef{#1}##1{
+		\stepcounter{\@objectMemberId{#1}}
+		\@setObjectProperty{#1@count}{\number\value{@Формуляр@Изделие}}
+		{
+			\@setObjectId{\@objectMemberItemId{#1}{\value{\@objectMemberId{#1}}}}
+			#2
+			##1
+		}
+	}
+}
+\let\@objects\@defObjectCollection
 
 \newcommand*{\@setObjectProperty}[2]{%
 	% отключаю проверку переопределения из-за несовместимости со значениями по умолчанию
 	%\@ifundefined{\@objectMemberId{#1}}{%
-		\global\@namedef{\@objectMemberId{#1}}{#2}%
+		\global\expandafter\edef\csname\@objectMemberId{#1}\endcsname{#2}%
 	%}{%
 	%	\errhelp{Команда должна быть пропущена, нажмите <return> для продолжения}%
 	%	\errmessage{Переопределение значения элемента данных не допускается}%
@@ -39,27 +67,14 @@
 	}
 }
 
-\newcounter{ГОСТ2.612@Формуляр@Изделие}
-\newcounter{ГОСТ2.612@Формуляр@Изделие@Количество}
-
-\newcommand{\Формуляр}[1]{
-	{
-		\@setObjectId{ГОСТ2.612@Формуляр}
-		\newcommand{\Изделие}[1]{
-			\stepcounter{ГОСТ2.612@Формуляр@Изделие}
-			\setcounter{ГОСТ2.612@Формуляр@Изделие@Количество}{\value{ГОСТ2.612@Формуляр@Изделие}}
-			{
-				\@setObjectId{ГОСТ2.612@Формуляр@Изделие@\number\value{ГОСТ2.612@Формуляр@Изделие}}
-				\@property{Наименование}
-				\@property{Обозначение}
-				\@property*{УсловноеОбозначение}
-				\@property{Номер}
-				\@property*{КонтрольныйНомер}
-				##1
-			}
-		}
-		\@property*{Часть}
-		\@property{ЕдиницаИзмерения}[шт.]
-		#1
+\@object{Формуляр}{
+	\@objects{Изделие}{
+		\@property{Наименование}
+		\@property{Обозначение}
+		\@property*{УсловноеОбозначение}
+		\@property{Номер}
+		\@property*{КонтрольныйНомер}
 	}
+	\@property*{Часть}
+	\@property{ЕдиницаИзмерения}[шт.]
 }
