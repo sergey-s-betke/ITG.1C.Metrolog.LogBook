@@ -2,18 +2,20 @@
 \ProvidesPackage{gost2.612}[2014/10/27 v0.1 GOST 2.612-2011]
 
 \RequirePackage{xecyr}
+\RequirePackage{xparse}
 
 \newcommand*{\@setObjectId}[1]{\@namedef{@objectId}{#1}}
 
 \newcommand*{\@objectMemberId}[1]{\@nameuse{@objectId}@#1}
 
 \newcommand*{\@setObjectProperty}[2]{%
-	\@ifundefined{\@objectMemberId{#1}}{%
+	% отключаю проверку переопределения из-за несовместимости со значениями по умолчанию
+	%\@ifundefined{\@objectMemberId{#1}}{%
 		\global\@namedef{\@objectMemberId{#1}}{#2}%
-	}{%
-		\errhelp{Команда должна быть пропущена, нажмите <return> для продолжения}%
-		\errmessage{Переопределение значения элемента данных не допускается}%
-	}%
+	%}{%
+	%	\errhelp{Команда должна быть пропущена, нажмите <return> для продолжения}%
+	%	\errmessage{Переопределение значения элемента данных не допускается}%
+	%}%
 }
 
 \newcommand*{\@defObjectProperty}[1]{%
@@ -22,22 +24,42 @@
 	}%
 }
 
+% TODO добавить проверку определения обязательных свойств
 \let\@defObjectMandatoryProperty\@defObjectProperty
 \let\@defObjectOptionalProperty\@defObjectProperty
 
-\newcounter{ГОСТ2.612@Изделие}
-\newcounter{ГОСТ2.612@Изделие@Количество}
-
-\newcommand{\Изделие}[1]{
-	\stepcounter{ГОСТ2.612@Изделие}
-	\setcounter{ГОСТ2.612@Изделие@Количество}{\value{ГОСТ2.612@Изделие}}
-	{
-		\@setObjectId{ГОСТ2.612@Изделие@\number\value{ГОСТ2.612@Изделие}}
-		\@defObjectMandatoryProperty{Наименование}
-		\@defObjectMandatoryProperty{Обозначение}
-		\@defObjectOptionalProperty{УсловноеОбозначение}
-		#1
+\NewDocumentCommand{\@property}{s m o}{
+	\IfBooleanTF{#1}{%
+		\@defObjectOptionalProperty{#2}%
+	}{%
+		\@defObjectMandatoryProperty{#2}%
+	}
+	\IfNoValueF{#3}{%
+		\@setObjectProperty{#2}{#3}%
 	}
 }
 
-%\usepackage{forloop}
+\newcounter{ГОСТ2.612@Формуляр@Изделие}
+\newcounter{ГОСТ2.612@Формуляр@Изделие@Количество}
+
+\newcommand{\Формуляр}[1]{
+	{
+		\@setObjectId{ГОСТ2.612@Формуляр}
+		\newcommand{\Изделие}[1]{
+			\stepcounter{ГОСТ2.612@Формуляр@Изделие}
+			\setcounter{ГОСТ2.612@Формуляр@Изделие@Количество}{\value{ГОСТ2.612@Формуляр@Изделие}}
+			{
+				\@setObjectId{ГОСТ2.612@Формуляр@Изделие@\number\value{ГОСТ2.612@Формуляр@Изделие}}
+				\@property{Наименование}
+				\@property{Обозначение}
+				\@property*{УсловноеОбозначение}
+				\@property{Номер}
+				\@property*{КонтрольныйНомер}
+				##1
+			}
+		}
+		\@property*{Часть}
+		\@property{ЕдиницаИзмерения}[шт.]
+		#1
+	}
+}
