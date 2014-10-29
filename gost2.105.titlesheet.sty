@@ -20,9 +20,7 @@
 	\ESKDstyle{\ESKD@default@style@title}%
 	\parindent=0mm
 	\topsep=0mm
-	\begin{center}
 }{%
-	\end{center}
 	%\end{ESKDpadding}
 		\clearpage
 	%	\ESKDsetPadding{\ESKD@padding@h}{\ESKD@padding@v}
@@ -36,10 +34,17 @@
 \renewcommand{\ESKD@title@split@field}[2]{%
 	\par%
 	\noindent%
-	\parbox[t]{.5\linewidth}{\raggedright#1}%
-	\hfill%
-	\parbox[t]{.5\linewidth}{\raggedleft#2}%
-	\par%
+	\hbox{%
+		\vtop{%
+			\hsize=.45\linewidth%
+			#1%
+		}%
+		\hspace{.1\linewidth}%
+		\vtop{%
+			\hsize=.45\linewidth%
+			#2%
+		}%
+	}\par%
 }
 
 \renewcommand{\ESKDtheTitleFieldI}{%
@@ -55,8 +60,7 @@
 \def\ESKDtheTitleFieldIIl{}
 
 \renewcommand{\ESKDtheTitleFieldIIl}{%
-	\noindent%
-	\ESKDtitleFontII %
+	\ESKDtitleFontII%
 	\ESKDtheClassCode%
 }
 
@@ -71,18 +75,7 @@
 	\ifx\ESKD@title@approving@sheet\@undefined
 		\expandafter%
 		\ifx\csname ESKD@title@agreed@name@1\endcsname\relax\else
-			\textbf{\MakeUppercase{\ESKDagreedName}}\\
-			\ESKD@title@make@stamp{agreed}{1}
-		\fi
-	\else
-		\textbf{\MakeUppercase{\ESKDapprovedName}}\\
-		\ESKD@title@approving@sheet
-	\fi
-}
-\renewcommand{\ESKDtheTitleFieldIIIl}{%
-	\ifx\ESKD@title@approving@sheet\@undefined
-		\expandafter%
-		\ifx\csname ESKD@title@agreed@name@1\endcsname\relax\else
+			\raggedright%
 			\signatureStampBox %
 				{\ESKDagreedName}%
 				{\@nameuse{ESKD@title@agreed@post@1}}%
@@ -99,15 +92,7 @@
 	\ifx\ESKD@title@approving@sheet\@undefined
 		\expandafter%
 		\ifx\csname ESKD@title@approved@name@1\endcsname\relax\else
-			\textbf{\MakeUppercase{\ESKDapprovingName}}\\
-			\ESKD@title@make@stamp{approved}{1}
-		\fi
-	\fi
-}
-\renewcommand{\ESKDtheTitleFieldIIIr}{%
-	\ifx\ESKD@title@approving@sheet\@undefined
-		\expandafter%
-		\ifx\csname ESKD@title@approved@name@1\endcsname\relax\else
+			\raggedleft%
 			\signatureStampBox %
 				{\ESKDapprovingName}%
 				{\@nameuse{ESKD@title@approved@post@1}}%
@@ -137,21 +122,23 @@
 }
 
 \renewcommand{\ESKDtheTitleFieldV}{%
-	\ESKDtitleFontV%
+	\begin{center}%
+		\ESKDtitleFontV%
+	\end{center}
 }
 
 \renewcommand{\ESKDtheTitleFieldVI}{%
-	\par
-	\ESKDtitleFontVI%
-	\MakeUppercase{\ESKDtheSignature}
-	\par
+	\begin{center}%
+		\ESKDtitleFontVI%
+		\MakeUppercase{\ESKDtheSignature}
+	\end{center}
 }
 
 \renewcommand{\ESKDtheTitleFieldVII}{%
-	\ESKDtitleFontVII%
+	\begin{center}%
+		\ESKDtitleFontVII%
+	\end{center}
 }
-
-\def\ESKDtheTitleFieldVIIIl{}
 
 \renewcommand{\ESKDtheTitleFieldVIIIl}{%
 	\ifx\ESKD@title@approving@sheet\@undefined
@@ -160,7 +147,8 @@
 		\loop
 			\ifnum \ESKD@tmpcnta < \ESKD@title@agreed@cnt
 			\advance \ESKD@tmpcnta 1
-			\signatureStampBox %
+			\raggedright%
+			\signatureStampBox%
 				{\@header}%
 				{\@nameuse{ESKD@title@agreed@post@\number\ESKD@tmpcnta}}%
 				{\@nameuse{ESKD@title@agreed@name@\number\ESKD@tmpcnta}}%
@@ -171,14 +159,13 @@
 	\fi
 }
 
-\def\ESKDtheTitleFieldVIIIr{}
-
 \renewcommand{\ESKDtheTitleFieldVIIIr}{%
 	\ifx\ESKD@title@approving@sheet\@undefined
 		\ESKD@tmpcnta = 0
 		\loop
 			\ifnum \ESKD@tmpcnta < \ESKD@title@designed@cnt
 			\advance \ESKD@tmpcnta 1
+			\raggedleft%
 			\signatureStampBox %
 				{}%
 				{\@nameuse{ESKD@title@designed@post@\number\ESKD@tmpcnta}}%
@@ -197,10 +184,10 @@
 }
 
 \renewcommand{\ESKDtheTitleFieldX}{
-	\par
-	\ESKDtitleFontX%
-	%\ESKDtheYear
-	\par
+	\begin{center}%
+		\ESKDtitleFontX%
+		%\ESKDtheYear
+	\end{center}
 }
 
 \renewcommand{\ESKDtitleFontI}{\ESKDfontV\bfseries}
