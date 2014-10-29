@@ -11,7 +11,7 @@
 %\RequirePackage{textcomp}
 %\RequirePackage{gensymb}
 
-\LoadClass[russian,utf8,vpadding=5mm,hpadding=5mm]{eskdtext}
+\LoadClass[russian,utf8,vpadding=10mm,hpadding=3mm]{eskdtext}
 
 \RequirePackage{gost2.104}
 \RequirePackage{gost2.105.titlesheet}
