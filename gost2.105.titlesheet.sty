@@ -49,6 +49,7 @@
 		\par%
 		\ESKDtheCompany%
 	\end{center}
+	\vspace{5mm}
 }
 
 \def\ESKDtheTitleFieldIIl{}
@@ -117,8 +118,10 @@
 }
 
 \renewcommand{\ESKDtheTitleFieldIII}{%
+	\vspace{10mm}
 	\ESKDtitleFontIII%
 	\ESKD@title@split@field{\ESKDtheTitleFieldIIIl}{\ESKDtheTitleFieldIIIr}%
+	\par\vspace{10mm \@minus 4mm}
 }
 
 \renewcommand{\ESKDtheTitleFieldIV}{%
@@ -210,11 +213,8 @@
 		\hbox{%
 			\vtop{
 				\ESKDtheTitleFieldI%
-				\vspace{5mm}
 				\ESKDtheTitleFieldII%
-				\vspace{10mm}
 				\ESKDtheTitleFieldIII%
-				\par\vspace{10mm \@minus 4mm}
 			}%
 			\vtop to \@beforeTitle{}%
 		}\par
