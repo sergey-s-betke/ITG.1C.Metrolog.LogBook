@@ -126,21 +126,30 @@
 
 \renewcommand{\ESKDtheTitleFieldIV}{%
 	\begin{center}%
+		\vspace{10mm \@minus 2mm}
 		\ESKDtitleFontIV%
 		\MakeUppercase{\ESKDtheTitle}%
 		\par
 		\ESKDtheDocName%
 		\par
+		\vspace{10mm \@minus 2mm}
 	\end{center}
 }
 
-\renewcommand{\ESKDtheTitleFieldV}{}
-
-\renewcommand{\ESKDtheTitleFieldVI}{%
-	\MakeUppercase{\ESKDtheSignature}%
+\renewcommand{\ESKDtheTitleFieldV}{%
+	\ESKDtitleFontV%
 }
 
-\renewcommand{\ESKDtheTitleFieldVII}{}
+\renewcommand{\ESKDtheTitleFieldVI}{%
+	\par
+	\ESKDtitleFontVI%
+	\MakeUppercase{\ESKDtheSignature}
+	\par
+}
+
+\renewcommand{\ESKDtheTitleFieldVII}{%
+	\ESKDtitleFontVII%
+}
 
 \def\ESKDtheTitleFieldVIIIl{}
 
@@ -179,11 +188,18 @@
 }
 
 \renewcommand{\ESKDtheTitleFieldVIII}{%
+	\vspace{10mm \@minus 2mm}
 	\ESKDtitleFontVIII%
 	\ESKD@title@split@field{\ESKDtheTitleFieldVIIIl}{\ESKDtheTitleFieldVIIIr}%
+	\par
 }
 
-\renewcommand{\ESKDtheTitleFieldX}{\ESKDtheYear}
+\renewcommand{\ESKDtheTitleFieldX}{
+	\par
+	\ESKDtitleFontX%
+	\ESKDtheYear
+	\par
+}
 
 \renewcommand{\ESKDtitleFontI}{\ESKDfontV\bfseries}
 \renewcommand{\ESKDtitleFontII}{\ESKDfontIII}
@@ -219,16 +235,11 @@
 			\vtop to \@beforeTitle{}%
 		}\par
 		\usebox{\ESKD@theTitleField@IV@box}\par
-		\vfil
-		\parbox[t][.4\vsize plus 150mm][b]{\linewidth}{
-			\setlength{\topsep}{0mm}
-			\begin{center}\ESKDtitleFontV\ESKDtheTitleFieldV\end{center}
-			\begin{center}\ESKDtitleFontVI\ESKDtheTitleFieldVI\end{center}
-			\begin{center}\ESKDtitleFontVII\ESKDtheTitleFieldVII\end{center}
-			\par\vspace{10mm \@plus 30mm \@minus 2mm}
-			\ESKDtheTitleFieldVIII%
-			\vfill
-			\begin{center}\ESKDtitleFontX\ESKDtheTitleFieldX\end{center}
-		}
+		\ESKDtheTitleFieldV
+		\ESKDtheTitleFieldVI
+		\ESKDtheTitleFieldVII
+		\ESKDtheTitleFieldVIII%
+		\vfill
+		\ESKDtheTitleFieldX%
 	\end{ESKDtitlePage}
 }
