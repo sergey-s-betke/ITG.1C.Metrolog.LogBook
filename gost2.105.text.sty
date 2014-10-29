@@ -5,8 +5,15 @@
 \RequireXeTeX
 
 \RequirePackage[T2A,T1]{fontenc}
-
 \RequirePackage{eskdsect}
+
+\DeclareOption*{%
+	\PassOptionsToPackage{\CurrentOption}{eskdsect}%
+}
+
+\ExecuteOptions{pointsection}
+
+\ProcessOptions\relax
 
 \renewcommand\tableofcontents{%
 	\begingroup
@@ -17,20 +24,25 @@
 	\newpage
 }
 
-\renewcommand{\theparagraph}{\thesubsection.\arabic{paragraph}}
+\let\paragraph\point
+\let\theparagraph\thepoint
+\let\subparagraph\subpoint
+\let\thesubparagraph\thesubpoint
 
-\newlength{\ESKDparagraphSkipBefore}
-\setlength{\ESKDparagraphSkipBefore}{0mm \@plus 3mm}
-\newlength{\ESKDparagraphSkipAfter}
-\setlength{\ESKDparagraphSkipAfter}{\parskip}
-\newcommand{\ESKDparagraphStyle}{\normalfont\normalsize}
+%\renewcommand{\theparagraph}{\thesubsection.\arabic{paragraph}}
 
-\renewcommand\paragraph{%
-	\@startsection{paragraph}{4}%
-		{\parindent}%
-		{\ESKDparagraphSkipBefore}%
-		{\ESKDparagraphSkipAfter}%
-		{\ESKDparagraphStyle}%
-}
+%\newlength{\ESKDparagraphSkipBefore}
+%\setlength{\ESKDparagraphSkipBefore}{0mm \@plus 3mm}
+%\newlength{\ESKDparagraphSkipAfter}
+%\setlength{\ESKDparagraphSkipAfter}{\parskip}
+%\newcommand{\ESKDparagraphStyle}{\normalfont\normalsize}
 
-\let\paragraphmark\theparagraph
+%\renewcommand\paragraph{%
+%	\@startsection{paragraph}{4}%
+%		{\parindent}%
+%		{\ESKDparagraphSkipBefore}%
+%		{\ESKDparagraphSkipAfter}%
+%		{\ESKDparagraphStyle}%
+%}
+
+%\c@secnumdepth=5

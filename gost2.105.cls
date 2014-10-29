@@ -11,7 +11,7 @@
 %\RequirePackage{textcomp}
 %\RequirePackage{gensymb}
 
-\LoadClass[russian,utf8,twoside,vpadding=5mm,hpadding=5mm]{eskdtext}
+\LoadClass[russian,utf8,vpadding=5mm,hpadding=5mm]{eskdtext}
 
 \RequirePackage{gost2.104}
 \RequirePackage{gost2.105.titlesheet}
@@ -23,5 +23,19 @@
 \DeclareOption{draft}{
 	\PassOptionsToClass{\CurrentOption}{extarticle}
 }
+\DeclareOption{pointsingle}{
+	\PassOptionsToClass{\CurrentOption}{eskdtext}
+	\PassOptionsToPackage{\CurrentOption}{gost2.105.text}
+}
+\DeclareOption{pointsection}{
+	\PassOptionsToClass{\CurrentOption}{eskdtext}
+	\PassOptionsToPackage{\CurrentOption}{gost2.105.text}
+}
+\DeclareOption{pointsubsection}{
+	\PassOptionsToClass{\CurrentOption}{eskdtext}
+	\PassOptionsToPackage{\CurrentOption}{gost2.105.text}
+}
+
+\ExecuteOptions{twoside,pointsection}
 
 \ProcessOptions\relax
