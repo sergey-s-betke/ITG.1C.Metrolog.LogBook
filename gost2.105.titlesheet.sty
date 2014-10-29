@@ -121,18 +121,18 @@
 	\vspace{10mm}
 	\ESKDtitleFontIII%
 	\ESKD@title@split@field{\ESKDtheTitleFieldIIIl}{\ESKDtheTitleFieldIIIr}%
-	\par\vspace{10mm \@minus 4mm}
+	\par\vspace{10mm \@plus 0mm \@minus 4mm}
 }
 
 \renewcommand{\ESKDtheTitleFieldIV}{%
 	\begin{center}%
-		\vspace{10mm \@minus 2mm}
+		\vspace{10mm \@plus 0mm \@minus 2mm}
 		\ESKDtitleFontIV%
 		\MakeUppercase{\ESKDtheTitle}%
 		\par
 		\ESKDtheDocName%
 		\par
-		\vspace{10mm \@minus 2mm}
+		\vspace{10mm \@plus 0mm \@minus 2mm}
 	\end{center}
 }
 
@@ -156,15 +156,17 @@
 \renewcommand{\ESKDtheTitleFieldVIIIl}{%
 	\ifx\ESKD@title@approving@sheet\@undefined
 		\ESKD@tmpcnta = 1
+		\let\@header\ESKDagreedName
 		\loop
 			\ifnum \ESKD@tmpcnta < \ESKD@title@agreed@cnt
 			\advance \ESKD@tmpcnta 1
 			\signatureStampBox %
-				{}%
+				{\@header}%
 				{\@nameuse{ESKD@title@agreed@post@\number\ESKD@tmpcnta}}%
 				{\@nameuse{ESKD@title@agreed@name@\number\ESKD@tmpcnta}}%
 				{}%
 			%\par\vspace{5mm}
+			\let\@header\relax
 		\repeat
 	\fi
 }
