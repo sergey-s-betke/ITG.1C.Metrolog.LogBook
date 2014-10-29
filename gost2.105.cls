@@ -15,9 +15,7 @@
 
 \RequirePackage{gost2.104}
 \RequirePackage{gost2.105.titlesheet}
-
-\RequirePackage{eskdstamp}
-\RequirePackage{eskdtitle}
+\RequirePackage{gost2.105.text}
 
 \DeclareOption{twoside}{
 	\PassOptionsToClass{\CurrentOption}{eskdtext}

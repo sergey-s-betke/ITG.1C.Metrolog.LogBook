@@ -1,0 +1,36 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{gost2.105.text}[2014/10/29 v0.1 GOST 2.105-95 Text styles]
+
+\RequirePackage{ifxetex}
+\RequireXeTeX
+
+\RequirePackage[T2A,T1]{fontenc}
+
+\RequirePackage{eskdsect}
+
+\renewcommand\tableofcontents{%
+	\begingroup
+		\ESKDsectAlign{section}{Center}
+		\section*{\contentsname\@mkboth{\MakeUppercase\contentsname}{\MakeUppercase\contentsname}}%
+	\endgroup
+	\@starttoc{toc}
+	\newpage
+}
+
+\renewcommand{\theparagraph}{\thesubsection.\arabic{paragraph}}
+
+\newlength{\ESKDparagraphSkipBefore}
+\setlength{\ESKDparagraphSkipBefore}{0mm \@plus 3mm}
+\newlength{\ESKDparagraphSkipAfter}
+\setlength{\ESKDparagraphSkipAfter}{\parskip}
+\newcommand{\ESKDparagraphStyle}{\normalfont\normalsize}
+
+\renewcommand\paragraph{%
+	\@startsection{paragraph}{4}%
+		{\parindent}%
+		{\ESKDparagraphSkipBefore}%
+		{\ESKDparagraphSkipAfter}%
+		{\ESKDparagraphStyle}%
+}
+
+\let\paragraphmark\theparagraph
