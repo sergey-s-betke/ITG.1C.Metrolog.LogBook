@@ -1,0 +1,176 @@
+
+%\setmathfont{OpenGost Type B TT}
+%\setmathfont[range={\mathit}]{OpenGost Type B TT}
+%\setmathfont[range={\mathup}]{OpenGost Type B TT}
+%\setmathfont[range={\mathbin}]{OpenGost Type B TT}
+% меняем знаки неравенств на привычные "русские"
+\let\le\leqslant
+\let\ge\geqslant
+% определяем привычный тангенс и котангенс
+\let\tan\tg
+\let\arctan\arctg
+\let\cot\ctg
+\let\arccot\arcctg
+% заменяем знак умножения (x) на точку (по ГОСТ)
+\let\times\cdot
+
+%\usepackage{forloop}
+
+\makeatletter
+
+\newcounter{GSI@measurementTool@cnt}
+\newcounter{GSI@measurementTool@channel@cnt}[GSI@measurementTool@cnt]
+
+\newcommand{\measurementTool}[1]{
+	\addtocounter{GSI@measurementTool@cnt}{1}
+
+	{
+		\newcommand{\channel}[1]{
+			\addtocounter{GSI@measurementTool@channel@cnt}{1}
+			\global\@namedef{GSI@measurementTool@\number\value{GSI@measurementTool@cnt}@channel@\number\value{GSI@measurementTool@channel@cnt}}{ ##1 }
+			\global\@namedef{GSI@measurementTool@\number\value{GSI@measurementTool@cnt}@channel@cnt}{\value{GSI@measurementTool@channel@cnt}}
+		}
+
+		#1
+	}
+}
+
+\newcommand{\theChannel}[1]{
+	\@nameuse{GSI@measurementTool@1@channel@\number#1}
+}
+
+\newcommand{\foreachChannel}[1]{
+	{
+		\newcounter{index}
+		\forLoop{1}{\@nameuse{GSI@measurementTool@1@channel@cnt}}{index}{
+			#1
+		}
+	}
+}
+
+\measurementTool{
+	\channel{test133333}
+	\channel{test2}
+	\channel{test3}
+}
+
+	\newpage
+
+	\@nameuse{@Формуляр@Изделие@count}
+	
+	\@nameuse{@Формуляр@Изделие@1@Наименование}
+	
+	\@nameuse{@Формуляр@Изделие@2@Наименование}
+	
+	\@nameuse{@Формуляр@Изделие@3@Наименование}
+	
+	\@nameuse{@Формуляр@ЕдиницаИзмерения}
+	
+	%\foreachChannel{
+	%	канал №\number\theindex: \theChannel{\theindex} \par
+	%}
+	%\multido{\iActor=1+1}{\NumberActors}{\Actors(\iActor) & \Dates(\iActor) \\ \hline}
+	
+	\LaTeX{} "--- это своего рода {\fontshape{it}\selectfont{}препроцессор} текста для \TeX{} "---
+	программы компьютерной вёрстки. \LaTeX{} является программируемым и
+	расширяемым, что позволяет автоматизировать большую часть аспектов
+	набора, включая нумерацию, перекрёстные ссылки, таблицы и изображения
+	(их размещение и подписи к ним), общий вид страницы, библиографию и
+	многое-многое другое. \LaTeX{} был первоначально написан Лэсли Лампортом
+	в 1984-м году и стал наиболее популярным способом использования \TeX{}а;
+	очень мало людей сегодня пишут на оригинальном \TeX{}е. Текущей
+	версией является \LaTeXe.
+	
+	Проверим блоки.
+	
+	{\par\vspace{\parsep}\vspace{\parskip}\hbox{\vrule\hspace{0.5em}\parbox{\textwidth-0.5em}{
+		Иногда используется следующий способ выделения текста:
+		абзац набирается с некоторым отступом от левого поля,
+		а слева от него, вровень с левым полем, печатается
+		вертикальная линейка.
+	}}\vspace{\parsep}\par}
+	
+	И ссылки: формула 2 - см. \ref{formula2}.
+	
+	\begin{adjustwidth}{10mm}{10mm}
+		Поставщик
+		\parbox[t]{15em}{\centering{}ООО <<Фирма>>\\*\hrule\smallskip\tiny{}наименование},
+		именуемое в дальнейшем <<Поставщик>>, и другая фирма и другая фирма и другая фирма.
+	\end{adjustwidth}
+	
+	$$
+		2\times\Delta\tan\alpha \le 2*\Delta\tg\mu
+	$$
+	  
+	\begin{eqnarray}
+		E &=& mc^2\\
+		m &=& \frac{m_0}{\sqrt{1-\frac{v^2}{c^2}}}\times 2 \times 10^{23} \label{formula2}
+	\end{eqnarray}
+	
+	\LaTeX{} "--- это своего рода препроцессор текста для \TeX{} "---
+	программы компьютерной вёрстки. \LaTeX{} является программируемым и
+	расширяемым, что позволяет автоматизировать большую часть аспектов
+	набора, включая нумерацию, перекрёстные ссылки, таблицы и изображения
+	(их размещение и подписи к ним), общий вид страницы, библиографию и
+	многое-многое другое. \LaTeX{} был первоначально написан Лэсли Лампортом
+	в 1984-м году и стал наиболее популярным способом использования \TeX{}а;
+	очень мало людей сегодня пишут на оригинальном \TeX{}е. Текущей
+	версией является \LaTeXe.
+	
+	Проверим блоки.
+	
+	{\par\vspace{\partopsep}\hbox{\vrule\hspace{0.5em}\parbox{\textwidth-0.5em}{
+		Иногда используется следующий способ выделения текста:
+		абзац набирается с некоторым отступом от левого поля,
+		а слева от него, вровень с левым полем, печатается
+		вертикальная линейка.
+	}}\par\vspace{\partopsep}}
+	
+	И ссылки: формула 2 - см. \ref{formula2}.
+	
+	Поставщик
+	\parbox[t]{15em}{\centering{}ООО "Фирма"\\*\hrule\smallskip\tiny{}наименование},
+	именуемое в дальнейшем "Поставщик", и другая фирма и другая фирма и другая фирма.
+	
+	$$
+		2\times\Delta\tan\alpha \le 2*\Delta\tg\mu
+	$$
+	
+	\begin{eqnarray}
+		E &=& mc^2\\
+		m &=& \frac{m_0}{\sqrt{1-\frac{v^2}{c^2}}}\times 2 \times 10^{23}
+	\end{eqnarray}
+	
+	\LaTeX{} "--- это своего рода препроцессор текста для \TeX{} "---
+	программы компьютерной вёрстки. \LaTeX{} является программируемым и
+	расширяемым, что позволяет автоматизировать большую часть аспектов
+	набора, включая нумерацию, перекрёстные ссылки, таблицы и изображения
+	(их размещение и подписи к ним), общий вид страницы, библиографию и
+	многое-многое другое. \LaTeX{} был первоначально написан Лэсли Лампортом
+	в 1984-м году и стал наиболее популярным способом использования \TeX{}а;
+	очень мало людей сегодня пишут на оригинальном \TeX{}е. Текущей
+	версией является \LaTeXe.
+	
+	Проверим блоки.
+
+	{\par\vspace{\partopsep}\hbox{\vrule\hspace{0.5em}\parbox{\textwidth-0.5em}{
+		Иногда используется следующий способ выделения текста:
+		абзац набирается с некоторым отступом от левого поля,
+		а слева от него, вровень с левым полем, печатается
+		вертикальная линейка.
+	}}\par\vspace{\partopsep}}
+	
+	И ссылки: формула 2 - см. \ref{formula2}.
+	
+	Поставщик
+	\parbox[t]{15em}{\centering{}ООО "Фирма"\\*\hrule\smallskip\tiny{}наименование},
+	именуемое в дальнейшем "Поставщик", и другая фирма и другая фирма и другая фирма.
+	
+	$$
+		2\times\Delta\tan\alpha \le 2*\Delta\tg\mu
+	$$
+		
+	\begin{eqnarray}
+		E &=& mc^2\\
+		m &=& \frac{m_0}{\sqrt{1-\frac{v^2}{c^2}}}\times 2 \times 10^{23}
+	\end{eqnarray}
