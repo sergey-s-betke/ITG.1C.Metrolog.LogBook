@@ -7,6 +7,12 @@
 \RequirePackage[T2A,T1]{fontenc}
 \RequirePackage{eskdsect}
 
+\RequirePackage{amsmath,amsthm,amssymb}
+\RequirePackage{mathtext}
+\RequirePackage{unicode-math}
+
+\RequirePackage[unicode=true]{hyperref} 
+
 \DeclareOption*{%
 	\PassOptionsToPackage{\CurrentOption}{eskdsect}%
 }
@@ -14,6 +20,20 @@
 \ExecuteOptions{pointsection}
 
 \ProcessOptions\relax
+
+\hypersetup{ %
+	breaklinks=true 
+	,bookmarks=true 
+	,pdfauthor={Sergey S. Betke}
+	,pdftitle={title}
+	,colorlinks=false 
+	% ,citecolor=blue
+	% ,urlcolor=blue
+	% ,linkcolor=magenta
+	,pdfborder={0 0 0}
+}
+\urlstyle{same}  % don't use monospace font for urls
+
 
 \renewcommand\tableofcontents{%
 	\begingroup
