@@ -26,7 +26,7 @@
 	\newcounter{\@objectMemberId{#1}}
 	\@namedef{#1}##1{
 		\stepcounter{\@objectMemberId{#1}}
-		\@setObjectProperty{#1@count}{\number\value{@Формуляр@Изделие}}
+		\@setObjectProperty{#1@count}{\number\value{\@objectMemberId{#1}}}
 		{
 			\@setObjectId{\@objectMemberItemId{#1}{\value{\@objectMemberId{#1}}}}
 			#2
@@ -84,7 +84,7 @@
 		\@property*{Подразделение} % только для ЛУ, нет в ГОСТ 2.612
 	}
 	% реквизиты листа утверждения, и титульного листа так же, если он использован в роли ЛУ
-	\@object{Разработал}{
+	\@objects{Разработал}{
 		\@object{ДолжностноеЛицо}{
 			\@property*{Должность}
 			\@property{Фамилия}
