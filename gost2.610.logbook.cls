@@ -9,10 +9,17 @@
 
 \ProcessOptions\relax
 
+\RequirePackage{xecyr}
+\RequirePackage{xstring}
+
 \AtBeginDocument{
-	\ESKDdepartment{Метрологический отдел поверки и калибровки СИ}
-	\ESKDcompany{Новгородский филиал ФБУ <<Тест-С.-Петербург>>} 
-	\ESKDclassCode{ОКП Код изделия}
+	\ESKDcompany{\@nameuse{@Формуляр@Организация@Наименование}}
+	\ifx\@Формуляр@Организация@Подразделение\empty\else
+		\ESKDdepartment{\@nameuse{@Формуляр@Организация@Подразделение}}
+	\fi
+	\ifx\@Формуляр@Изделие@КодОКП\empty\else
+		\ESKDclassCode{ОКП~\StrLeft{\@nameuse{@Формуляр@Изделие@КодОКП}}{2}~\StrGobbleLeft{\@nameuse{@Формуляр@Изделие@КодОКП}}{2}}
+	\fi
 	\ESKDtitle{Формуляр}
 	\ESKDdocName{Микрометр МК50-2 ГОСТ 111-60}
 	\ESKDsignature{Обозначение документа}
@@ -29,7 +36,6 @@
 \LoadClass{gost2.105}
 \RequirePackage{gost2.612}
 \RequirePackage{todo}
-\RequirePackage{xecyr}
 
 \providecommand{\УказанияПоЭксплуатацииИзделия}[1]{
 	\@namedef{Формуляр@УказанияПоЭксплуатацииИзделия}{#1}
@@ -177,10 +183,6 @@
 	\subsection{Приём и передача изделия}
 	
 	\todo{Заполнить раздел <<Приём и передача изделия>>}
-	
-	\subsection{Сведения о закреплении изделия при эксплуатации}
-	
-	\todo{Заполнить раздел <<Сведения о закреплении изделия при эксплуатации>>}
 	
 	\subsection{Сведения о закреплении изделия при эксплуатации}
 	
