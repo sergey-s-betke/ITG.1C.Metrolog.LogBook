@@ -20,17 +20,24 @@
 	\ifx\@Формуляр@Изделие@КодОКП\empty\else
 		\ESKDclassCode{ОКП~\StrLeft{\@nameuse{@Формуляр@Изделие@КодОКП}}{2}~\StrGobbleLeft{\@nameuse{@Формуляр@Изделие@КодОКП}}{2}}
 	\fi
-	\ESKDtitle{Формуляр}
-	\ESKDdocName{Микрометр МК50-2 ГОСТ 111-60}
-	\ESKDsignature{Обозначение документа}
+	\ESKDtitle{\@nameuse{@Формуляр@Изделие@Наименование}}
+	\ESKDdocName{Формуляр}
+	\ESKDsignature{\@nameuse{@Формуляр@Изделие@Обозначение}\@nameuse{@Формуляр@Часть}}
+	
 	\ESKDauthor{Богданова~Т.~М.}
-	\ESKDtitleApprovedBy{Директор филиала}{Бетке~С.~С.}
+	\ESKDtitleDesignedBy{Ведущий инженер по метрологии}{Богданова~Т.~М.}
+	\ESKDtitleDesignedBy{Инженер по метрологии}{Дель~Н.~Н.}
+	
 	\ESKDtitleAgreedBy{Начальник МО}{Ядрышникова~И.~С.}
 	\ESKDtitleAgreedBy{Инженер по стандартизации}{Наумова~Т.~И.}
 	\ESKDtitleAgreedBy{Инженер по стандартизации}{Наумова~Т.~И.}
-	\ESKDtitleDesignedBy{Ведущий инженер по метрологии}{Богданова~Т.~М.}
-	\ESKDtitleDesignedBy{Инженер по метрологии}{Дель~Н.~Н.}
-	\ESKDdate{2014/10/24}
+	
+	\ESKDtitleApprovedBy{%
+		\@nameuse{@Формуляр@Утвердил@ДолжностноеЛицо@Должность}%
+	}{\@Формуляр@ФамилияИО{@Формуляр@Утвердил@ДолжностноеЛицо}}
+	\ESKDapprovedBy{\@Формуляр@ФамилияИО{@Формуляр@Утвердил@ДолжностноеЛицо}}
+	
+	%\ESKDdate{2014/10/24}
 }
 
 \LoadClass{gost2.105}
