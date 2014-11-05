@@ -15,11 +15,7 @@
 
 \RequirePackage{todo}
 
-\let\@doc@begin\document
-\let\@doc@end\enddocument
-\renewenvironment{document}{%
-	\@doc@begin%
-
+\AtBeginDocument{%
 	\ESKDdepartment{Метрологический отдел поверки и калибровки СИ}
 	\ESKDcompany{Новгородский филиал ФБУ <<Тест-С.-Петербург>>} 
 	\ESKDclassCode{Код изделия по ОКП}
@@ -269,12 +265,13 @@
 	\section{Сведения о цене и условиях приобретения изделия}
 	
 	\todo{Заполнить раздел <<Сведения о цене и условиях приобретения изделия>>}
-}{%
+}
+
+\AtEndDocument{%
 	\newpage
 	\todo{Создать и заполнить раздел терминов и определений}
 	\todo{Создать и заполнить раздел списка литературы}
 	\newpage
 	
 	\todos{}
-	\@doc@end
 }
