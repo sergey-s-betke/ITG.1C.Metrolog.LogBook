@@ -1,22 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{gost2.105}[2014/10/24 v0.1 GOST 2.105-95 Text Document]
 
-\RequirePackage{ifxetex}
-\RequireXeTeX
-
-\RequirePackage[T2A,T1]{fontenc}
-\RequirePackage{cmap}
-\RequirePackage{xecyr}
-
-%\RequirePackage{textcomp}
-%\RequirePackage{gensymb}
-
-\LoadClass[russian,utf8,vpadding=10mm,hpadding=3mm]{eskdtext}
-
-\RequirePackage{gost2.104}
-\RequirePackage{gost2.105.titlesheet}
-\RequirePackage{gost2.105.text}
-
 \DeclareOption{twoside}{
 	\PassOptionsToClass{\CurrentOption}{eskdtext}
 }
@@ -36,6 +20,22 @@
 	\PassOptionsToPackage{\CurrentOption}{gost2.105.text}
 }
 
-\ExecuteOptions{twoside,pointsection}
+\ExecuteOptions{twoside,pointsubsection}
 
 \ProcessOptions\relax
+
+\RequirePackage{ifxetex}
+\RequireXeTeX
+
+\RequirePackage[T2A,T1]{fontenc}
+\RequirePackage{cmap}
+\RequirePackage{xecyr}
+
+%\RequirePackage{textcomp}
+%\RequirePackage{gensymb}
+
+\LoadClass[russian,utf8,vpadding=10mm,hpadding=3mm]{eskdtext}
+
+\RequirePackage{gost2.104}
+\RequirePackage{gost2.105.titlesheet}
+\RequirePackage{gost2.105.text}
