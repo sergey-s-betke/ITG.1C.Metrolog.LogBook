@@ -13,6 +13,21 @@
 \let\@doc@end\enddocument
 \renewenvironment{document}{%
 	\@doc@begin%
+
+	\ESKDdepartment{Метрологический отдел поверки и калибровки СИ}
+	\ESKDcompany{Новгородский филиал ФБУ <<Тест-С.-Петербург>>} 
+	\ESKDclassCode{Код изделия по ОКП}
+	\ESKDtitle{Формуляр}
+	\ESKDdocName{Микрометр МК50-2 ГОСТ 111-60}
+	\ESKDsignature{Обозначение документа}
+	\ESKDauthor{Богданова~Т.~М.}
+	\ESKDtitleApprovedBy{Директор филиала}{Бетке~С.~С.}
+	\ESKDtitleAgreedBy{Начальник МО}{Ядрышникова~И.~С.}
+	\ESKDtitleAgreedBy{Инженер по стандартизации}{Наумова~Т.~И.}
+	\ESKDtitleAgreedBy{Инженер по стандартизации}{Наумова~Т.~И.}
+	\ESKDtitleDesignedBy{Ведущий инженер по метрологии}{Богданова~Т.~М.}
+	\ESKDtitleDesignedBy{Инженер по метрологии}{Дель~Н.~Н.}
+	\ESKDdate{2014/10/24}
 	\maketitle
 	\tableofcontents
 	
