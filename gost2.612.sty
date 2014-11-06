@@ -1,71 +1,10 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{gost2.612}[2014/10/27 v0.1 GOST 2.612-2011]
 
+\ProcessOptions\relax
+
 \RequirePackage{xecyr}
-\RequirePackage{xparse}
-
-\def\@objectId{}
-
-\newcommand*{\@setObjectId}[1]{\edef\@objectId{#1}}
-
-\newcommand*{\@objectMemberId}[1]{\@nameuse{@objectId}@#1}
-\newcommand*{\@objectMemberItemId}[2]{\@nameuse{@objectId}@#1@\number#2}
-
-\newcommand{\@defObject}[2]{%
-	\@namedef{#1}##1{
-		{
-			\@setObjectId{\@objectMemberId{#1}}
-			#2
-			##1
-		}
-	}
-}
-\let\@object\@defObject
-
-\newcommand{\@defObjectCollection}[2]{%
-	\newcounter{\@objectMemberId{#1}}
-	\@namedef{#1}##1{
-		\stepcounter{\@objectMemberId{#1}}
-		\@setObjectProperty{#1@count}{\number\value{\@objectMemberId{#1}}}
-		{
-			\@setObjectId{\@objectMemberItemId{#1}{\value{\@objectMemberId{#1}}}}
-			#2
-			##1
-		}
-	}
-}
-\let\@objects\@defObjectCollection
-
-\newcommand*{\@setObjectProperty}[2]{%
-	% отключаю проверку переопределения из-за несовместимости со значениями по умолчанию
-	%\@ifundefined{\@objectMemberId{#1}}{%
-		\global\expandafter\edef\csname\@objectMemberId{#1}\endcsname{#2}%
-	%}{%
-	%	\errhelp{Команда должна быть пропущена, нажмите <return> для продолжения}%
-	%	\errmessage{Переопределение значения элемента данных не допускается}%
-	%}%
-}
-
-\newcommand*{\@defObjectProperty}[1]{%
-	\@namedef{#1}##1{%
-		\@setObjectProperty{#1}{##1}%
-	}%
-}
-
-% TODO добавить проверку определения обязательных свойств
-\let\@defObjectMandatoryProperty\@defObjectProperty
-\let\@defObjectOptionalProperty\@defObjectProperty
-
-\NewDocumentCommand{\@property}{s m o}{
-	\IfBooleanTF{#1}{%
-		\@defObjectOptionalProperty{#2}%
-	}{%
-		\@defObjectMandatoryProperty{#2}%
-	}
-	\IfNoValueF{#3}{%
-		\@setObjectProperty{#2}{#3}%
-	}
-}
+\RequirePackage{structs}
 
 \newcommand{\@Формуляр@ФамилияИО}[1]{%
 	\@nameuse{@Формуляр@#1@ДолжностноеЛицо@Фамилия}~\@nameuse{@Формуляр@#1@ДолжностноеЛицо@Инициалы}%
