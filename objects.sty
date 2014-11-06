@@ -16,14 +16,7 @@
 	\@namedef{#1}##1{
 		{
 			\@setObjectId{\@objectMemberId{#1}}
-			%\NewDocumentCommand{\@objectMemberId{@get}}{t. m}{
-				%\IfBooleanTF{####1}{%
-				%	\@nameuse{\@objectMemberId{####2@@get}}%
-				%}{%
-				%	\PackageError{struct}{Expected . after \\obj\{objectId\}}%
-				%}
-			%}
-			\expandafter\xdef\csname \@objectMemberId{@get}\endcsname####1{%
+			\expandafter\xdef\csname \@objectMemberId{@get}\endcsname.####1{%
 				\noexpand\csname \@objectMemberId{####1@@get}\endcsname%
 			}
 			#2
@@ -81,21 +74,6 @@
 	}
 }
 
-\NewDocumentCommand{\obja}{m}{%
-	\@nameuse{@#1@@get}%
-	%\csname @#1@@get\endcsname%
+\def\object#1{%
+	\csname @#1@@get\endcsname%
 } 
-
-% #1 - object id
-\NewDocumentCommand{\obj}{m t.}{%
-	\IfBooleanTF{#2}{%
-		\@doObjProperties{#1}%
-	}{%
-		\PackageError{struct}{Expected . after \\obj\{objectId\}}%
-	}
-} 
-
-\NewDocumentCommand{\@doObjProperties}{m m t.}{%
-	\@nameuse{@#1@#2}%
-}
-
