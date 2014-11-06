@@ -7,74 +7,74 @@
 
 \def\@object@this{}
 
-\def\@setObjectId#1{\edef\@object@this{#1}}
+\def\@object@this@set#1{\edef\@object@this{#1}}
 
-\def\@objectMemberId#1{\@nameuse{@object@this}@#1}
+\def\@object@this@MemberId#1{\@nameuse{@object@this}@#1}
 
-\def\@objectMemberItemId#1[#2]{\@nameuse{@object@this}@#1@\number#2}
+\def\@object@this@MemberItemId#1[#2]{\@nameuse{@object@this}@#1@\number#2}
 
-\def\@defObject#1#2{%
+\def\@object@new#1#2{%
 	\expandafter\def\csname#1\endcsname##1{
 		{
-			\@setObjectId{\@objectMemberId{#1}}
+			\@object@this@set{\@object@this@MemberId{#1}}
 			#2
 			##1
 		}
 	}
-	\expandafter\xdef\csname \@objectMemberId{#1@@get}\endcsname.##1{%
-		\noexpand\csname \@objectMemberId{#1@##1@@get}\endcsname%
+	\expandafter\xdef\csname \@object@this@MemberId{#1@@get}\endcsname.##1{%
+		\noexpand\csname \@object@this@MemberId{#1@##1@@get}\endcsname%
 	}
 }
-\let\@object\@defObject
+\let\@object\@object@new
 
-\def\@defObjectCollection#1#2{%
-	\newcounter{\@objectMemberId{#1}}
+\def\@object@newCollection#1#2{%
+	\newcounter{\@object@this@MemberId{#1}}
 	\expandafter\def\csname#1\endcsname##1{
-		\stepcounter{\@objectMemberId{#1}}
-		\@setObjectProperty{#1@count}{\number\value{\@objectMemberId{#1}}}
+		\stepcounter{\@object@this@MemberId{#1}}
+		\@object@this@property@set{#1@count}{\number\value{\@object@this@MemberId{#1}}}
 		{
-			\@setObjectId{\@objectMemberItemId{#1}[\value{\@objectMemberId{#1}}]}
+			\@object@this@set{\@object@this@MemberItemId{#1}[\value{\@object@this@MemberId{#1}}]}
 			#2
 			##1
 		}
 	}
-	\expandafter\xdef\csname \@objectMemberId{#1@@get}\endcsname[##1].##2{%
-		\noexpand\csname \@objectMemberId{#1@##1@##2@@get}\endcsname%
+	\expandafter\xdef\csname \@object@this@MemberId{#1@@get}\endcsname[##1].##2{%
+		\noexpand\csname \@object@this@MemberId{#1@##1@##2@@get}\endcsname%
 	}
 }
-\let\@objects\@defObjectCollection
+\let\@objects\@object@newCollection
 
-\def\@setObjectProperty#1#2{%
+\def\@object@this@property@set#1#2{%
 	% отключаю проверку переопределения из-за несовместимости со значениями по умолчанию
-	%\@ifundefined{\@objectMemberId{#1}}{%
-		\expandafter\xdef\csname\@objectMemberId{#1}\endcsname{#2}%
+	%\@ifundefined{\@object@this@MemberId{#1}}{%
+		\expandafter\xdef\csname\@object@this@MemberId{#1}\endcsname{#2}%
 	%}{%
 	%	\errhelp{Команда должна быть пропущена, нажмите <return> для продолжения}%
 	%	\errmessage{Переопределение значения элемента данных не допускается}%
 	%}%
 }
 
-\def\@defObjectProperty#1{%
+\def\@object@this@property@new#1{%
 	\expandafter\def\csname#1\endcsname##1{%
-		\@setObjectProperty{#1}{##1}%
+		\@object@this@property@set{#1}{##1}%
 	}%
-	\expandafter\xdef\csname \@objectMemberId{#1@@get}\endcsname{%
-		\noexpand\@nameuse{\@objectMemberId{#1}}%
+	\expandafter\xdef\csname \@object@this@MemberId{#1@@get}\endcsname{%
+		\noexpand\@nameuse{\@object@this@MemberId{#1}}%
 	}
 }
 
 % TODO добавить проверку определения обязательных свойств
-\let\@defObjectMandatoryProperty\@defObjectProperty
-\let\@defObjectOptionalProperty\@defObjectProperty
+\let\@object@newMandatoryProperty\@object@this@property@new
+\let\@object@newOptionalProperty\@object@this@property@new
 
 \NewDocumentCommand{\@property}{s m o}{
 	\IfBooleanTF{#1}{%
-		\@defObjectOptionalProperty{#2}%
+		\@object@newOptionalProperty{#2}%
 	}{%
-		\@defObjectMandatoryProperty{#2}%
+		\@object@newMandatoryProperty{#2}%
 	}
 	\IfNoValueF{#3}{%
-		\@setObjectProperty{#2}{#3}%
+		\@object@this@property@set{#2}{#3}%
 	}
 }
 
