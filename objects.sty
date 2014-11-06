@@ -31,7 +31,7 @@
 	\newcounter{\@object@this@MemberId{#1}}
 	\expandafter\def\csname#1\endcsname##1{
 		\stepcounter{\@object@this@MemberId{#1}}
-		\@object@this@property@set{#1@count}{\number\value{\@object@this@MemberId{#1}}}
+		\@object@this@property@set{#1@@count}{\number\value{\@object@this@MemberId{#1}}}
 		{
 			\@object@this@set{\@object@this@MemberItemId{#1}[\value{\@object@this@MemberId{#1}}]}
 			#2
