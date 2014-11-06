@@ -14,15 +14,15 @@
 \def\@objectMemberItemId#1[#2]{\@nameuse{@objectId}@#1@\number#2}
 
 \def\@defObject#1#2{%
-	\@namedef{#1}##1{
+	\expandafter\def\csname#1\endcsname##1{
 		{
 			\@setObjectId{\@objectMemberId{#1}}
-			\expandafter\xdef\csname \@objectMemberId{@get}\endcsname.####1{%
-				\noexpand\csname \@objectMemberId{####1@@get}\endcsname%
-			}
 			#2
 			##1
 		}
+	}
+	\expandafter\xdef\csname \@objectMemberId{#1@@get}\endcsname.##1{%
+		\noexpand\csname \@objectMemberId{#1@##1@@get}\endcsname%
 	}
 }
 \let\@object\@defObject
@@ -37,6 +37,9 @@
 			#2
 			##1
 		}
+	}
+	\expandafter\xdef\csname \@objectMemberId{#1@@get}\endcsname[##1].##2{%
+		\noexpand\csname \@objectMemberId{#1@##1@##2@@get}\endcsname%
 	}
 }
 \let\@objects\@defObjectCollection
