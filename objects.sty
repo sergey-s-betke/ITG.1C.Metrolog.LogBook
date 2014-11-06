@@ -5,13 +5,13 @@
 
 \RequirePackage{xparse}
 
-\def\@objectId{}
+\def\@object@this{}
 
-\def\@setObjectId#1{\edef\@objectId{#1}}
+\def\@setObjectId#1{\edef\@object@this{#1}}
 
-\def\@objectMemberId#1{\@nameuse{@objectId}@#1}
+\def\@objectMemberId#1{\@nameuse{@object@this}@#1}
 
-\def\@objectMemberItemId#1[#2]{\@nameuse{@objectId}@#1@\number#2}
+\def\@objectMemberItemId#1[#2]{\@nameuse{@object@this}@#1@\number#2}
 
 \def\@defObject#1#2{%
 	\expandafter\def\csname#1\endcsname##1{
