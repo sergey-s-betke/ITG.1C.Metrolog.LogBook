@@ -28,12 +28,13 @@
 \let\@object\@object@new
 
 \def\@object@newCollection#1#2{%
-	\newcounter{\@object@this@MemberId{#1}}
+	\expandafter\newcount\csname\@object@this@MemberId{#1}@cnt\endcsname
+	\@object@this@property@set{#1@@count}{0}
 	\expandafter\def\csname#1\endcsname##1{
-		\stepcounter{\@object@this@MemberId{#1}}
-		\@object@this@property@set{#1@@count}{\number\value{\@object@this@MemberId{#1}}}
+		\expandafter\advance\csname\@object@this@MemberId{#1}@cnt\endcsname by 1\relax
+		\@object@this@property@set{#1@@count}{\expandafter\number\csname\@object@this@MemberId{#1}@cnt\endcsname}
 		{
-			\@object@this@set{\@object@this@MemberItemId{#1}[\value{\@object@this@MemberId{#1}}]}
+			\@object@this@set{\@object@this@MemberItemId{#1}[\expandafter\number\csname\@object@this@MemberId{#1}@cnt\endcsname]}
 			#2
 			##1
 		}
@@ -88,8 +89,13 @@
 % #2 - current object
 % #3 - loop code
 \def\@object@forEach#1#2#3{%
-	\newcounter{#2@cnt}%
-	\forLoop{1}{}{#2@cnt}{%
+	{%
+		\edef\@counter{\string#2@cnt}%
+		\newcounter{\@counter}%
+		\forLoop{1}{2}{\@counter}{%
+			\edef#2{\noexpand#1[\number\value{\@counter}]}%
+			#3%
+		}%
 	}%
 }
 
