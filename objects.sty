@@ -81,3 +81,16 @@
 \def\object#1{%
 	\csname @#1@@get\endcsname%
 } 
+
+\RequirePackage{forloop}
+
+% #1 - collection
+% #2 - current object
+% #3 - loop code
+\def\@object@forEach#1#2#3{%
+	\newcounter{#2@cnt}%
+	\forLoop{1}{}{#2@cnt}{%
+	}%
+}
+
+\let\forEachItem\@object@forEach
