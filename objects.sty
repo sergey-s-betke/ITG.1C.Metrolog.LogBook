@@ -21,8 +21,8 @@
 			##1
 		}
 	}
-	\expandafter\xdef\csname \@object@this@MemberId{#1@@get}\endcsname.##1{%
-		\noexpand\csname \@object@this@MemberId{#1@##1@@get}\endcsname%
+	\expandafter\xdef\csname \@object@this@MemberId{#1@@*}\endcsname.##1{%
+		\noexpand\csname \@object@this@MemberId{#1@##1@@*}\endcsname%
 	}
 }
 \let\@object\@object@new
@@ -39,8 +39,8 @@
 			##1
 		}
 	}
-	\expandafter\xdef\csname \@object@this@MemberId{#1@@get}\endcsname[##1].##2{%
-		\noexpand\csname \@object@this@MemberId{#1@##1@##2@@get}\endcsname%
+	\expandafter\xdef\csname \@object@this@MemberId{#1@@*}\endcsname[##1].##2{%
+		\noexpand\csname \@object@this@MemberId{#1@##1@##2@@*}\endcsname%
 	}
 }
 \let\@objects\@object@newCollection
@@ -59,7 +59,7 @@
 	\expandafter\def\csname#1\endcsname##1{%
 		\@object@this@property@set{#1}{##1}%
 	}%
-	\expandafter\xdef\csname \@object@this@MemberId{#1@@get}\endcsname{%
+	\expandafter\xdef\csname \@object@this@MemberId{#1@@*}\endcsname{%
 		\noexpand\@nameuse{\@object@this@MemberId{#1}}%
 	}
 }
@@ -80,7 +80,7 @@
 }
 
 \def\object#1{%
-	\csname @#1@@get\endcsname%
+	\csname @#1@@*\endcsname%
 } 
 
 \RequirePackage{forloop}
@@ -98,5 +98,4 @@
 		}%
 	}%
 }
-
 \let\forEachItem\@object@forEach
