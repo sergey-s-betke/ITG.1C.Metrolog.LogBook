@@ -9,7 +9,9 @@
 
 \def\@object@this@set#1{\edef\@object@this{#1}}
 
-\def\@object@this@MemberId#1{\@nameuse{@object@this}@#1}
+\def\@object@MemberId#1#2{#1@#2}
+
+\def\@object@this@MemberId#1{\@object@MemberId{\@object@this}{#1}}
 
 \def\@object@this@MemberItemId#1[#2]{\@nameuse{@object@this}@#1@\number#2}
 
@@ -21,26 +23,26 @@
 			##1
 		}
 	}
-	\expandafter\xdef\csname \@object@this@MemberId{#1@@*}\endcsname.##1{%
-		\noexpand\csname \@object@this@MemberId{#1@##1@@*}\endcsname%
+	\expandafter\xdef\csname\@object@MemberId{\@object@this@MemberId{#1}}{@*}\endcsname.##1{%
+		\noexpand\csname\@object@MemberId{\@object@MemberId{\@object@this@MemberId{#1}}{##1}}{@*}\endcsname%
 	}
 }
 \let\@object\@object@new
 
 \def\@object@newCollection#1#2{%
-	\expandafter\newcount\csname\@object@this@MemberId{#1}@cnt\endcsname
+	\expandafter\newcount\csname\@object@MemberId{\@object@this@MemberId{#1}}{@cnt}\endcsname
 	\@object@this@property@set{#1@@count}{0}
 	\expandafter\def\csname#1\endcsname##1{
-		\expandafter\advance\csname\@object@this@MemberId{#1}@cnt\endcsname by 1\relax
-		\@object@this@property@set{#1@@count}{\expandafter\number\csname\@object@this@MemberId{#1}@cnt\endcsname}
+		\expandafter\advance\csname\@object@MemberId{\@object@this@MemberId{#1}}{@cnt}\endcsname by 1\relax
+		\@object@this@property@set{#1@@count}{\expandafter\number\csname\@object@MemberId{\@object@this@MemberId{#1}}{@cnt}\endcsname}
 		{
-			\@object@this@set{\@object@this@MemberItemId{#1}[\expandafter\number\csname\@object@this@MemberId{#1}@cnt\endcsname]}
+			\@object@this@set{\@object@this@MemberItemId{#1}[\expandafter\number\csname\@object@MemberId{\@object@this@MemberId{#1}}{@cnt}\endcsname]}
 			#2
 			##1
 		}
 	}
-	\expandafter\xdef\csname \@object@this@MemberId{#1@@*}\endcsname[##1].##2{%
-		\noexpand\csname \@object@this@MemberId{#1@##1@##2@@*}\endcsname%
+	\expandafter\xdef\csname\@object@MemberId{\@object@this@MemberId{#1}}{@*}\endcsname[##1].##2{%
+		\noexpand\csname\@object@this@MemberId{#1@##1@##2@@*}\endcsname%
 	}
 }
 \let\@objects\@object@newCollection
