@@ -55,8 +55,21 @@
 	}
 	{
 		\@object@this@set{\@object@this@member@id{#1}}
-		\@object@this@method@new{@*}[##1]{%
+		\@object@this@method@new{@item@*}[##1]{%
 			\noexpand\@object@method@call{\@object@this@item@id[##1]}{@*}%
+		}%
+		\@object@this@method@new{@member@*}.##1{%
+			\noexpand\@object@method@call{\@object@this@member@id{##1}}{@*}%
+		}%
+		\@object@method@new{\@object@this@member@id{count}}{@*}{%
+			\noexpand\@object@property@get{\@object@this}{@count}%
+		}%
+		\@object@this@method@new{@*}{%
+			\noexpand\@ifnextchar [{%
+				\noexpand\@object@method@call{\@object@this}{@item@*}%
+			}{%
+				\noexpand\@object@method@call{\@object@this}{@member@*}%
+			}%
 		}%
 	}
 }
@@ -73,6 +86,13 @@
 }
 \def\@object@this@property@set#1#2{%
 	\@object@property@set{\@object@this}{#1}{#2}%
+}
+
+\def\@object@property@get#1#2{%
+	\csname\@object@member@id{#1}{#2}\endcsname%
+}
+\def\@object@this@property@get#1{%
+	\@object@property@get{\@object@this}{#1}%
 }
 
 \def\@object@this@property@new#1{%
