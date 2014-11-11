@@ -10,13 +10,9 @@
 \def\@object@this@set#1{\edef\@object@this{#1}}
 
 \def\@object@member@id#1#2{#1@#2}
-
 \def\@object@this@member@id#1{\@object@member@id{\@object@this}{#1}}
 
-\def\@object@MemberItemId#1#2[#3]{\@object@member@id{#1}{#2}@#3}
 \def\@object@item@id#1[#2]{#1@#2}
-
-\def\@object@this@MemberItemId#1[#2]{\@object@MemberItemId{\@object@this}{#1}[#2]}
 \def\@object@this@item@id[#1]{\@object@item@id{\@object@this}[#1]}
 
 \def\@object@new#1#2{%
