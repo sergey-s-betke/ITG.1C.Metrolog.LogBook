@@ -9,21 +9,23 @@
 
 \def\@object@this@set#1{\edef\@object@this{#1}}
 
-\def\@object@MemberId#1#2{#1@#2}
+\def\@object@member@id#1#2{#1@#2}
 
-\def\@object@this@MemberId#1{\@object@MemberId{\@object@this}{#1}}
+\def\@object@this@member@id#1{\@object@member@id{\@object@this}{#1}}
 
-\def\@object@MemberItemId#1#2[#3]{\@object@MemberId{#1}{#2}@#3}
+\def\@object@MemberItemId#1#2[#3]{\@object@member@id{#1}{#2}@#3}
+\def\@object@item@id#1[#2]{#1@#2}
 
 \def\@object@this@MemberItemId#1[#2]{\@object@MemberItemId{\@object@this}{#1}[#2]}
+\def\@object@this@item@id[#1]{\@object@item@id{\@object@this}[#1]}
 
 \def\@object@new#1#2{%
 	\expandafter\def\csname#1\endcsname##1{
 		{
-			\@object@this@set{\@object@this@MemberId{#1}}
+			\@object@this@set{\@object@this@member@id{#1}}
 			#2
 			\@object@this@method@new{@*}.####1{%
-				\noexpand\@object@method@call{\@object@this@MemberId{####1}}{@*}%
+				\noexpand\@object@method@call{\@object@this@member@id{####1}}{@*}%
 			}%
 			##1
 		}
@@ -32,30 +34,38 @@
 \let\@object\@object@new
 
 \def\@object@collection@new#1#2{%
-	\expandafter\newcount\csname\@object@MemberId{\@object@this@MemberId{#1}}{@cnt}\endcsname
-	\@object@property@set{\@object@this@MemberId{#1}}{@count}{0}
+	\expandafter\newcount\csname\@object@member@id{\@object@this@member@id{#1}}{@cnt}\endcsname
+	\@object@property@set{\@object@this@member@id{#1}}{@count}{0}
 	\expandafter\def\csname#1\endcsname##1{
-		\expandafter\advance\csname\@object@MemberId{\@object@this@MemberId{#1}}{@cnt}\endcsname by 1\relax
-		\@object@property@set{\@object@this@MemberId{#1}}{@count}{\expandafter\number\csname\@object@MemberId{\@object@this@MemberId{#1}}{@cnt}\endcsname}
+		\expandafter\advance\csname\@object@member@id{\@object@this@member@id{#1}}{@cnt}\endcsname by 1\relax
 		{
-			\@object@this@set{\@object@this@MemberItemId{#1}[\expandafter\number\csname\@object@MemberId{\@object@this@MemberId{#1}}{@cnt}\endcsname]}
-			#2
-			\@object@this@method@new{@*}.####1{%
-				\noexpand\@object@method@call{\@object@this@MemberId{####1}}{@*}%
-			}%
-			##1
+			\@object@this@set{\@object@this@member@id{#1}}
+			{
+				\@object@this@property@set{@count}{\expandafter\number\csname\@object@this@member@id{@cnt}\endcsname}
+				{
+					\@object@this@set{\@object@this@item@id[\expandafter\number\csname\@object@this@member@id{@cnt}\endcsname]}
+					#2
+					\@object@this@method@new{@*}.####1{%
+						\noexpand\@object@method@call{\@object@this@member@id{####1}}{@*}%
+					}%
+					##1
+				}
+			}
 		}
 	}
-	\@object@method@new{\@object@this@MemberId{#1}}{@*}[##1]{%
-		\noexpand\@object@method@call{\@object@this@MemberItemId{#1}[##1]}{@*}%
-	}%
+	{
+		\@object@this@set{\@object@this@member@id{#1}}
+		\@object@this@method@new{@*}[##1]{%
+			\noexpand\@object@method@call{\@object@this@item@id[##1]}{@*}%
+		}%
+	}
 }
 \let\@objects\@object@collection@new
 
 \def\@object@property@set#1#2#3{%
 	% отключаю проверку переопределения из-за несовместимости со значениями по умолчанию
-	%\@ifundefined{\@object@this@MemberId{#1}}{%
-	\expandafter\xdef\csname\@object@MemberId{#1}{#2}\endcsname{#3}%
+	%\@ifundefined{\@object@this@member@id{#1}}{%
+	\expandafter\xdef\csname\@object@member@id{#1}{#2}\endcsname{#3}%
 	%}{%
 	%	\errhelp{Команда должна быть пропущена, нажмите <return> для продолжения}%
 	%	\errmessage{Переопределение значения элемента данных не допускается}%
@@ -69,26 +79,26 @@
 	\expandafter\def\csname#1\endcsname##1{%
 		\@object@this@property@set{#1}{##1}%
 	}%
-	\@object@method@new{\@object@this@MemberId{#1}}{@*}{%
-		\@object@method@call{\@object@this@MemberId{#1}}{@get}%
+	\@object@method@new{\@object@this@member@id{#1}}{@*}{%
+		\@object@method@call{\@object@this@member@id{#1}}{@get}%
 	}%
-	\@object@method@new{\@object@this@MemberId{#1}}{@get}{%
-		\noexpand\@nameuse{\@object@this@MemberId{#1}}%
+	\@object@method@new{\@object@this@member@id{#1}}{@get}{%
+		\noexpand\@nameuse{\@object@this@member@id{#1}}%
 	}%
 }
 
 \def\@object@method@new#1#2{%
-	\expandafter\xdef\csname\@object@MemberId{#1}{#2}\endcsname%
+	\expandafter\xdef\csname\@object@member@id{#1}{#2}\endcsname%
 }
 \def\@object@this@method@new#1{%
 	\@object@method@new{\@object@this}{#1}%
 }
 
 \def\@object@method@call#1#2{%
-	\csname\@object@MemberId{#1}{#2}\endcsname%
+	\csname\@object@member@id{#1}{#2}\endcsname%
 }%
 \def\@object@this@method@call#1{%
-	\csname\@object@this@MemberId{#1}\endcsname%
+	\csname\@object@this@member@id{#1}\endcsname%
 }%
 
 % TODO добавить проверку определения обязательных свойств
