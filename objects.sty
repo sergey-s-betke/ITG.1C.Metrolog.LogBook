@@ -13,19 +13,21 @@
 
 \def\@object@this@MemberId#1{\@object@MemberId{\@object@this}{#1}}
 
-\def\@object@this@MemberItemId#1[#2]{\@nameuse{@object@this}@#1@\number#2}
+\def\@object@MemberItemId#1#2[#3]{\@object@MemberId{#1}{#2}@#3}
+
+\def\@object@this@MemberItemId#1[#2]{\@object@MemberItemId{\@object@this}{#1}[#2]}
 
 \def\@object@new#1#2{%
 	\expandafter\def\csname#1\endcsname##1{
 		{
 			\@object@this@set{\@object@this@MemberId{#1}}
 			#2
+			\@object@this@method@new{@*}.####1{%
+				\noexpand\@object@method@call{\@object@this@MemberId{####1}}{@*}%
+			}%
 			##1
 		}
 	}
-	\@object@method@new{\@object@this@MemberId{#1}}{@*}.##1{%
-		\noexpand\@object@method@call{\@object@MemberId{\@object@this@MemberId{#1}}{##1}}{@*}%
-	}%
 }
 \let\@object\@object@new
 
@@ -38,11 +40,14 @@
 		{
 			\@object@this@set{\@object@this@MemberItemId{#1}[\expandafter\number\csname\@object@MemberId{\@object@this@MemberId{#1}}{@cnt}\endcsname]}
 			#2
+			\@object@this@method@new{@*}.####1{%
+				\noexpand\@object@method@call{\@object@this@MemberId{####1}}{@*}%
+			}%
 			##1
 		}
 	}
-	\@object@method@new{\@object@this@MemberId{#1}}{@*}[##1].##2{%
-		\noexpand\@object@method@call{\@object@MemberId{\@object@MemberId{\@object@this@MemberId{#1}}{##1}}{##2}}{@*}%
+	\@object@method@new{\@object@this@MemberId{#1}}{@*}[##1]{%
+		\noexpand\@object@method@call{\@object@this@MemberItemId{#1}[##1]}{@*}%
 	}%
 }
 \let\@objects\@object@collection@new
