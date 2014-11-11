@@ -29,55 +29,54 @@
 }
 \let\@object\@object@new
 
-\def\@object@newCollection#1#2{%
+\def\@object@collection@new#1#2{%
 	\expandafter\newcount\csname\@object@MemberId{\@object@this@MemberId{#1}}{@cnt}\endcsname
-	\@object@this@property@set{#1@@count}{0}
+	\@object@property@set{\@object@this@MemberId{#1}}{@count}{0}
 	\expandafter\def\csname#1\endcsname##1{
 		\expandafter\advance\csname\@object@MemberId{\@object@this@MemberId{#1}}{@cnt}\endcsname by 1\relax
-		\@object@this@property@set{#1@@count}{\expandafter\number\csname\@object@MemberId{\@object@this@MemberId{#1}}{@cnt}\endcsname}
+		\@object@property@set{\@object@this@MemberId{#1}}{@count}{\expandafter\number\csname\@object@MemberId{\@object@this@MemberId{#1}}{@cnt}\endcsname}
 		{
 			\@object@this@set{\@object@this@MemberItemId{#1}[\expandafter\number\csname\@object@MemberId{\@object@this@MemberId{#1}}{@cnt}\endcsname]}
 			#2
 			##1
 		}
 	}
-	\expandafter\xdef\csname\@object@MemberId{\@object@this@MemberId{#1}}{@*}\endcsname[##1].##2{%
-		\noexpand\csname\@object@this@MemberId{#1@##1@##2@@*}\endcsname%
-	}
+	\@object@method@new{\@object@this@MemberId{#1}}{@*}[##1].##2{%
+		\noexpand\@object@method@call{\@object@MemberId{\@object@MemberId{\@object@this@MemberId{#1}}{##1}}{##2}}{@*}%
+	}%
 }
-\let\@objects\@object@newCollection
+\let\@objects\@object@collection@new
 
-\def\@object@this@property@set#1#2{%
+\def\@object@property@set#1#2#3{%
 	% отключаю проверку переопределения из-за несовместимости со значениями по умолчанию
 	%\@ifundefined{\@object@this@MemberId{#1}}{%
-		\expandafter\xdef\csname\@object@this@MemberId{#1}\endcsname{#2}%
+	\expandafter\xdef\csname\@object@MemberId{#1}{#2}\endcsname{#3}%
 	%}{%
 	%	\errhelp{Команда должна быть пропущена, нажмите <return> для продолжения}%
 	%	\errmessage{Переопределение значения элемента данных не допускается}%
 	%}%
+}
+\def\@object@this@property@set#1#2{%
+	\@object@property@set{\@object@this}{#1}{#2}%
 }
 
 \def\@object@this@property@new#1{%
 	\expandafter\def\csname#1\endcsname##1{%
 		\@object@this@property@set{#1}{##1}%
 	}%
-	\@object@method@new{\@object@this@MemberId{#1}}{@*}{}{%
+	\@object@method@new{\@object@this@MemberId{#1}}{@*}{%
 		\@object@method@call{\@object@this@MemberId{#1}}{@get}%
 	}%
-	\@object@method@new{\@object@this@MemberId{#1}}{@get}{}{%
+	\@object@method@new{\@object@this@MemberId{#1}}{@get}{%
 		\noexpand\@nameuse{\@object@this@MemberId{#1}}%
 	}%
 }
 
-\def\@object@this@method@new#1#2#3{%
-	\expandafter\xdef\csname\@object@this@MemberId{#1}\endcsname#2{%
-		#3%
-	}%
+\def\@object@method@new#1#2{%
+	\expandafter\xdef\csname\@object@MemberId{#1}{#2}\endcsname%
 }
-\def\@object@method@new#1#2#3#4{%
-	\expandafter\xdef\csname\@object@MemberId{#1}{#2}\endcsname#3{%
-		#4%
-	}%
+\def\@object@this@method@new#1{%
+	\@object@method@new{\@object@this}{#1}%
 }
 
 \def\@object@method@call#1#2{%
