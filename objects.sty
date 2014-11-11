@@ -61,10 +61,31 @@
 	\expandafter\def\csname#1\endcsname##1{%
 		\@object@this@property@set{#1}{##1}%
 	}%
-	\expandafter\xdef\csname \@object@this@MemberId{#1@@*}\endcsname{%
+	\@object@method@new{\@object@this@MemberId{#1}}{@*}{}{%
+		\@object@method@call{\@object@this@MemberId{#1}}{@get}%
+	}%
+	\@object@method@new{\@object@this@MemberId{#1}}{@get}{}{%
 		\noexpand\@nameuse{\@object@this@MemberId{#1}}%
-	}
+	}%
 }
+
+\def\@object@this@method@new#1#2#3{%
+	\expandafter\xdef\csname\@object@this@MemberId{#1}\endcsname#2{%
+		#3%
+	}%
+}
+\def\@object@method@new#1#2#3#4{%
+	\expandafter\xdef\csname\@object@MemberId{#1}{#2}\endcsname#3{%
+		#4%
+	}%
+}
+
+\def\@object@method@call#1#2{%
+	\csname\@object@MemberId{#1}{#2}\endcsname%
+}%
+\def\@object@this@method@call#1{%
+	\csname\@object@this@MemberId{#1}\endcsname%
+}%
 
 % TODO добавить проверку определения обязательных свойств
 \let\@object@newMandatoryProperty\@object@this@property@new
