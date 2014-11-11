@@ -23,9 +23,9 @@
 			##1
 		}
 	}
-	\expandafter\xdef\csname\@object@MemberId{\@object@this@MemberId{#1}}{@*}\endcsname.##1{%
-		\noexpand\csname\@object@MemberId{\@object@MemberId{\@object@this@MemberId{#1}}{##1}}{@*}\endcsname%
-	}
+	\@object@method@new{\@object@this@MemberId{#1}}{@*}.##1{%
+		\noexpand\@object@method@call{\@object@MemberId{\@object@this@MemberId{#1}}{##1}}{@*}%
+	}%
 }
 \let\@object\@object@new
 
