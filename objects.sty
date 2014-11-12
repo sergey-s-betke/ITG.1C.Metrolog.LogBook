@@ -5,6 +5,10 @@
 
 \RequirePackage{xparse}
 
+\def\@gobble@backslashchar#1{%
+	\expandafter\@gobble\string#1%
+}
+
 \def\@object@this{}
 
 \def\@object@this@set#1{\edef\@object@this{#1}}
@@ -55,10 +59,7 @@
 			\noexpand\@object@method@call{\@object@this@item@id[##1]}{@*}%
 		}%
 		\@object@this@method@new{@member@*}.##1{%
-			\noexpand\@object@method@call{\@object@this@member@id{##1}}{@*}%
-		}%
-		\@object@method@new{\@object@this@member@id{count}}{@*}{%
-			\noexpand\@object@property@get{\@object@this}{@count}%
+			\noexpand\@object@method@call{\@object@this}{@\noexpand\@gobble@backslashchar##1}%
 		}%
 		\@object@this@method@new{@*}{%
 			\noexpand\@ifnextchar [{%
@@ -114,7 +115,7 @@
 	\csname\@object@member@id{#1}{#2}\endcsname%
 }%
 \def\@object@this@method@call#1{%
-	\csname\@object@this@member@id{#1}\endcsname%
+	\@object@method@call\@object@this#1%
 }%
 
 % TODO добавить проверку определения обязательных свойств
