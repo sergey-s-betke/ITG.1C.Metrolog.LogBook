@@ -20,17 +20,21 @@
 \def\@object@item@id#1[#2]{#1@#2}
 \def\@object@this@item@id[#1]{\@object@item@id{\@object@this}[#1]}
 
+\def\@object@new@prototype#1{%
+	\@object@this@set{#1}%
+	\@object@this@method@new{@*}.##1{%
+		\noexpand\@object@method@call{\@object@this@member@id{##1}}{@*}%
+	}%
+}
+
 \def\@object@new#1#2{%
-	\expandafter\def\csname#1\endcsname##1{
-		{
-			\@object@this@set{\@object@this@member@id{#1}}
-			#2
-			\@object@this@method@new{@*}.####1{%
-				\noexpand\@object@method@call{\@object@this@member@id{####1}}{@*}%
-			}%
-			##1
-		}
-	}
+	\expandafter\def\csname#1\endcsname##1{%
+		{%
+			\@object@new@prototype{\@object@this@member@id{#1}}%
+			#2%
+			##1%
+		}%
+	}%
 }
 \let\@object\@object@new
 
@@ -44,12 +48,9 @@
 			{
 				\@object@this@property@set{@count}{\expandafter\number\csname\@object@this@member@id{@cnt}\endcsname}
 				{
-					\@object@this@set{\@object@this@item@id[\expandafter\number\csname\@object@this@member@id{@cnt}\endcsname]}
-					#2
-					\@object@this@method@new{@*}.####1{%
-						\noexpand\@object@method@call{\@object@this@member@id{####1}}{@*}%
-					}%
-					##1
+					\@object@new@prototype{\@object@this@item@id[\expandafter\number\csname\@object@this@member@id{@cnt}\endcsname]}%
+					#2%
+					##1%
 				}
 			}
 		}
