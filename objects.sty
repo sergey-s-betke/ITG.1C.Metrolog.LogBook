@@ -25,6 +25,11 @@
 	\@object@this@method@new{@*}.##1{%
 		\noexpand\@object@method@call{\@object@this@member@id{##1}}{@*}%
 	}%
+	\@object@this@method@new{@let}##1{%
+		\def##1{%
+			\noexpand\@object@method@call{\@object@this}{@*}%
+		}%
+	}%
 }
 
 \def\@object@new#1#2{%
@@ -71,7 +76,13 @@
 				{\@object@this@member@id{@cnt}}%
 				{%
 					{%
-						\noexpand\@object@collection@cursor@set{##1}{\@object@this}{\noexpand\@object@member@id{\@object@this}{@cnt}}%
+						\noexpand\@object@method@call%
+							{\noexpand\@object@item@id%
+								{\@object@this}%
+								[\noexpand\number\noexpand\value{\noexpand\@object@member@id{\@object@this}{@cnt}}]%
+							}%
+							{@let}%
+							##1%
 						##2%
 					}%
 				}%
@@ -86,14 +97,6 @@
 	}
 }
 \let\@objects\@object@collection@new
-
-\def\@object@collection@cursor@set#1#2#3{%
-	\def#1{%
-		\@object@method@call%
-		{\@object@item@id{#2}[\number\value{#3}]}%
-		{@*}%
-	}%
-}
 
 \def\@object@property@set#1#2#3{%
 	% отключаю проверку переопределения из-за несовместимости со значениями по умолчанию
