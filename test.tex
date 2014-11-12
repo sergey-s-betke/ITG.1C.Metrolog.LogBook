@@ -14,45 +14,7 @@
 % заменяем знак умножения (x) на точку (по ГОСТ)
 \let\times\cdot
 
-%\usepackage{forloop}
-
 \makeatletter
-
-\newcounter{GSI@measurementTool@cnt}
-\newcounter{GSI@measurementTool@channel@cnt}[GSI@measurementTool@cnt]
-
-\newcommand{\measurementTool}[1]{
-	\addtocounter{GSI@measurementTool@cnt}{1}
-
-	{
-		\newcommand{\channel}[1]{
-			\addtocounter{GSI@measurementTool@channel@cnt}{1}
-			\global\@namedef{GSI@measurementTool@\number\value{GSI@measurementTool@cnt}@channel@\number\value{GSI@measurementTool@channel@cnt}}{ ##1 }
-			\global\@namedef{GSI@measurementTool@\number\value{GSI@measurementTool@cnt}@channel@cnt}{\value{GSI@measurementTool@channel@cnt}}
-		}
-
-		#1
-	}
-}
-
-\newcommand{\theChannel}[1]{
-	\@nameuse{GSI@measurementTool@1@channel@\number#1}
-}
-
-\newcommand{\foreachChannel}[1]{
-	{
-		\newcounter{index}
-		\forLoop{1}{\@nameuse{GSI@measurementTool@1@channel@cnt}}{index}{
-			#1
-		}
-	}
-}
-
-\measurementTool{
-	\channel{test133333}
-	\channel{test2}
-	\channel{test3}
-}
 
 	\newpage
 	
@@ -64,7 +26,8 @@
 	\object{Формуляр}.{Разработал}[1].{ДолжностноеЛицо}.{Фамилия}
 	\object{Формуляр}.{Разработал}[2].{ДолжностноеЛицо}.{Фамилия}
 	
-	\object{Формуляр}.{Разработал}.\count
+	\object{Формуляр}.{Разработал}.{count}
+	--- \object{Формуляр}.{Разработал}.\count
 	--- \@nameuse{@Формуляр@Разработал@@count}
 	
 	\object{Формуляр}.{Разработал}.\foreach{\Разработал}{

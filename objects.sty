@@ -7,7 +7,10 @@
 \RequirePackage{forloop}
 
 \def\@gobble@backslashchar#1{%
-	\expandafter\@gobble\string#1%
+	\expandafter\@gobble@backslashchar@@\string#1%
+}
+\def\@gobble@backslashchar@@#1{%
+	\expandafter\ifx\@backslashchar#1\else#1\fi%
 }
 
 \def\@object@this{}
@@ -161,4 +164,4 @@
 
 \def\object#1{%
 	\csname @#1@@*\endcsname%
-} 
+}
