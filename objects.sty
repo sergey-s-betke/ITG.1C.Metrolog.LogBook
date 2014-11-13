@@ -25,7 +25,7 @@
 
 \def\@object@new@prototype#1{%
 	\@object@this@set{#1}%
-	\@object@this@method@new{@*}.##1{%
+	\@object@this@method@new{@*}##1{%
 		\noexpand\@object@method@call{\noexpand\@object@member@id{\@object@this}{##1}}{@*}%
 	}%
 	\@object@this@method@new{@let}##1{%
@@ -68,7 +68,7 @@
 		\@object@this@method@new{@item@*}[##1]{%
 			\noexpand\@object@method@call{\@object@this@item@id[##1]}{@*}%
 		}%
-		\@object@this@method@new{@member@*}.##1{%
+		\@object@this@method@new{@member@*}##1{%
 			\noexpand\@object@method@call{\@object@this}{@\noexpand\@gobble@backslashchar##1}%
 		}%
 		\@object@this@method@new{@foreach}##1##2{%
