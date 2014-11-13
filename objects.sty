@@ -17,7 +17,7 @@
 
 \def\@object@this@set#1{\edef\@object@this{#1}}
 
-\def\@object@member@id#1#2{#1@#2}
+\def\@object@member@id#1#2{#1@\@gobble@backslashchar#2}
 \def\@object@this@member@id#1{\@object@member@id{\@object@this}{#1}}
 
 \def\@object@item@id#1[#2]{#1@#2}
@@ -26,7 +26,7 @@
 \def\@object@new@prototype#1{%
 	\@object@this@set{#1}%
 	\@object@this@method@new{@*}.##1{%
-		\noexpand\@object@method@call{\@object@this@member@id{##1}}{@*}%
+		\noexpand\@object@method@call{\noexpand\@object@member@id{\@object@this}{##1}}{@*}%
 	}%
 	\@object@this@method@new{@let}##1{%
 		\def##1{%
@@ -163,5 +163,5 @@
 }
 
 \def\object#1{%
-	\csname @#1@@*\endcsname%
+	\@object@method@call{\@object@this@member@id{#1}}{@*}%
 }
