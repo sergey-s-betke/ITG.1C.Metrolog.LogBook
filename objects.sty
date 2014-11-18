@@ -181,8 +181,12 @@
 
 % #1 - type name
 % #2 - instance name
+% TODO implement different instance name
 \def\@object@class@instance@new#1#2{%
-	\csname\@object@class@id#1\endcsname%
+	%\expandafter\def\csname\@gobble@backslashchar#2\endcsname{%
+	%	\@object@method@call{\@object@this@member@id{#1}}{@*}%
+	%}%
+	\csname\@object@class@id#1\endcsname% ...
 }
 
 % #1 - type name
