@@ -60,9 +60,9 @@
 }
 
 \def\@member#1{%
-	\expandafter\let%
-		\csname\@gobble@backslashchar#1\expandafter\endcsname%
+	\expandafter\def\csname\@gobble@backslashchar#1\endcsname{%
 		\csname\@object@class@id#1\endcsname%
+	}%
 }
 
 \def\object#1{%
