@@ -17,39 +17,6 @@
 \makeatletter
 
 	\newpage
-
-	\newcount\@defs@count
-	%\romannumeral\@defs@count
-	%\advance\@defs@count by 1\relax
-	%\romannumeral\@defs@count
-	\def\@defs@{}
-	\def\@defs@current{@defs@\romannumeral\@defs@count}
-	\def\@defs@all@current{@defs@all@\romannumeral\@defs@count}
-	\def\@defs@all{\csname\@defs@all@current\endcsname}
-	
-	\def\add@def#1{
-		\edef\@defs@all@prev{\@defs@all@current}
-		\advance\@defs@count by 1\relax
-		\expandafter\def\csname\@defs@current\endcsname{
-			#1
-		}
-		\expandafter\edef\csname\@defs@all@current\endcsname{
-			\noexpand\csname\@defs@all@prev\endcsname
-			\noexpand\csname\@defs@current\endcsname
-		}
-	}
-
-	\add@def{aaa}
-	\@defs@all
-	\add@def{
-		\def\aaa{aa}
-	}
-	\@defs@all
-	\add@def{bbb}
-	\@defs@all
-	\add@def{ccc}
-	\@defs@all
-	%\@defs@i \@defs@ii \@defs@iii
 				
 	\object{Формуляр}{Изделие}{Наименование}
 	\Формуляр\Изделие\Наименование
