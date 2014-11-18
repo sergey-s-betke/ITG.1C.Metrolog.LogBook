@@ -59,7 +59,7 @@
 	\@object@class@new{#1}{#1}%
 }
 
-\def\@object@class#1{%
+\def\@member#1{%
 	\expandafter\let%
 		\csname\@gobble@backslashchar#1\expandafter\endcsname%
 		\csname\@object@class@id#1\endcsname%
@@ -79,9 +79,10 @@
 	\csname\@object@class@id#1\endcsname% ...
 }
 
-% #1 - type name
-\def\const#1{%
-	\@object@class@instance@new{#1}{#1}%
+% #1 - const name
+% #2 - class name
+\def\const#1of class#2{%
+	\@object@class@instance@new{#2}{#1}%
 }
 
 
