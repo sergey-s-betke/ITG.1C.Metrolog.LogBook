@@ -29,6 +29,7 @@
 \def\@object@class@prototype#1{%
 	\@object@this@set{#1}%
 	\@object@this@method@new{@*}##1{%
+		% TODO show error if member ##1 doesn't exists
 		\noexpand\@object@method@call{\noexpand\@object@member@id{\@object@this}{##1}}{@*}%
 	}%
 	\@object@this@method@new{@let}##1{%
@@ -45,6 +46,7 @@
 % #1 - class name
 % ... #2 - instance name
 \def\@object@class@constructor#1{%
+	% TODO show error if class #1 doesn't exists
 	\csname\@object@class@id#1\endcsname% ...
 }
 
@@ -80,18 +82,19 @@
 % #2 - ignore spaces before `of class`
 % #3 - class name
 \def\@member#1#2of class#3{%
+	% TODO show error if class #3 doesn't exists
 	\expandafter\def\csname\@make@csname#1\endcsname{%
 		\@object@class@constructor{#3}{\@object@this@member@id{#1}}%
 	}%
 }
 
+% TODO remove obsolete \object csname
 \def\object#1{%
 	\@object@method@call{\@object@this@member@id{#1}}{@*}%
 }
 
 % #1 - type name
 % #2 - instance name
-% TODO implement different instance name
 \def\@object@class@instance@new#1#2{%
 	\expandafter\def\csname\@make@csname#2\endcsname{%
 		\@object@method@call{\@object@this@member@id{#2}}{@*}%
@@ -103,6 +106,7 @@
 % #2 - ignore spaces before `of class`
 % #3 - class name
 \def\const#1#2of class#3{%
+	% TODO show error if class #3 doesn't exists
 	\@object@class@instance@new{#3}{#1}%
 }
 
@@ -140,12 +144,12 @@
 			{%
 				{%
 					\noexpand\@object@method@call%
-					{\noexpand\@object@item@id%
-						{\@object@this}%
-						[\noexpand\number\noexpand\value{\noexpand\@object@member@id{\@object@this}{@cnt}}]%
-					}%
-					{@let}%
-					##1%
+						{\noexpand\@object@item@id%
+							{\@object@this}%
+							[\noexpand\number\noexpand\value{\noexpand\@object@member@id{\@object@this}{@cnt}}]%
+						}%
+						{@let}%
+						##1%
 					##2%
 				}%
 			}%
@@ -164,6 +168,7 @@
 % #2 - ignore spaces before `of class`
 % #3 - class name
 \def\@collection#1#2of class#3{%
+	% TODO show error if class #3 doesn't exists
 	\@object@collection@new{#1}{#3}% ...
 }
 
@@ -187,6 +192,7 @@
 }
 
 \def\@object@property@get#1#2{%
+	% TODO show error if property #2 doesn't exists
 	\csname\@object@member@id{#1}{#2}\endcsname%
 }
 \def\@object@this@property@get#1{%
@@ -234,6 +240,7 @@
 }
 
 \def\@object@method@call#1#2{%
+	% TODO show error if method #2 of object #1 doesn't exists
 	\csname\@object@member@id{#1}{#2}\endcsname%
 }%
 \def\@object@this@method@call#1{%
