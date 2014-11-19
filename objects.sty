@@ -5,6 +5,10 @@
 
 \RequirePackage{forloop}
 
+\def\@make@csname#1{%
+	\@gobble@backslashchar#1%
+}
+
 \def\@gobble@backslashchar#1{%
 	\expandafter\@gobble@backslashchar@@\string#1%
 }
@@ -76,7 +80,7 @@
 % #2 - ignore spaces before `of class`
 % #3 - class name
 \def\@member#1#2of class#3{%
-	\expandafter\def\csname\@gobble@backslashchar#1\endcsname{%
+	\expandafter\def\csname\@make@csname#1\endcsname{%
 		\@object@class@constructor{#3}{\@object@this@member@id{#1}}%
 	}%
 }
@@ -89,7 +93,7 @@
 % #2 - instance name
 % TODO implement different instance name
 \def\@object@class@instance@new#1#2{%
-	\expandafter\def\csname\@gobble@backslashchar#2\endcsname{%
+	\expandafter\def\csname\@make@csname#2\endcsname{%
 		\@object@method@call{\@object@this@member@id{#2}}{@*}%
 	}%
 	\@object@class@constructor{#1}{\@object@this@member@id{#2}}% ...
@@ -109,7 +113,7 @@
 	\expandafter\newcount\csname\@object@member@id{\@object@this@member@id{#1}}{@cnt}\endcsname
 	\@object@property@set{\@object@this@member@id{#1}}{@count}{0}
 	% item constructor
-	\expandafter\def\csname\@gobble@backslashchar#1\endcsname##1{
+	\expandafter\def\csname\@make@csname#1\endcsname##1{
 		\expandafter\advance\csname\@object@member@id{\@object@this@member@id{#1}}{@cnt}\endcsname by 1\relax
 		{
 			\@object@this@set{\@object@this@member@id{#1}}
@@ -191,7 +195,7 @@
 
 % TODO добавить проверку определения обязательных свойств
 \def\@object@this@property@new#1{%
-	\expandafter\def\csname#1\endcsname##1{%
+	\expandafter\def\csname\@make@csname#1\endcsname##1{%
 		\@object@this@property@set{#1}{##1}%
 	}%
 	\@object@method@new{\@object@this@member@id{#1}}{@*}{%
