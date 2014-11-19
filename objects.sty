@@ -1,9 +1,8 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{structs}[2014/11/06 v0.1 objects and properties]
+\ProvidesPackage{objects}[2014/11/06 v0.1 objects and properties]
 
 \ProcessOptions\relax
 
-\RequirePackage{xparse}
 \RequirePackage{forloop}
 
 \def\@gobble@backslashchar#1{%
@@ -172,6 +171,7 @@
 	\@object@property@get{\@object@this}{#1}%
 }
 
+% TODO добавить проверку определения обязательных свойств
 \def\@object@this@property@new#1{%
 	\expandafter\def\csname#1\endcsname##1{%
 		\@object@this@property@set{#1}{##1}%
@@ -183,6 +183,26 @@
 		\noexpand\@nameuse{\@object@this@member@id{#1}}%
 	}%
 }
+
+\let\@object@this@property@new@optional\@object@this@property@new
+	
+\def\@object@this@property@new@mandatory#1{%
+	\@object@this@property@new{#1}%
+	\@ifnextchar[%]
+		{\@object@this@property@set@@{#1}}%
+		{}%
+}
+
+\def\@object@this@property@set@@#1[#2]{%
+	\@object@this@property@set{#1}{#2}%
+}
+
+\def\@property{%
+	\@ifstar%
+	\@object@this@property@new@optional%
+	\@object@this@property@new@mandatory%
+}
+
 
 \def\@object@method@new#1#2{%
 	\expandafter\xdef\csname\@object@member@id{#1}{#2}\endcsname%
@@ -197,18 +217,3 @@
 \def\@object@this@method@call#1{%
 	\@object@method@call\@object@this#1%
 }%
-
-% TODO добавить проверку определения обязательных свойств
-\let\@object@newMandatoryProperty\@object@this@property@new
-\let\@object@newOptionalProperty\@object@this@property@new
-
-\NewDocumentCommand{\@property}{s m o}{
-	\IfBooleanTF{#1}{%
-		\@object@newOptionalProperty{#2}%
-	}{%
-		\@object@newMandatoryProperty{#2}%
-	}
-	\IfNoValueF{#3}{%
-		\@object@this@property@set{#2}{#3}%
-	}
-}
