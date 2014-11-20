@@ -29,12 +29,16 @@
 \def\@object@class@prototype#1{%
 	\@object@this@set{#1}%
 	\@object@this@method@new{@*}##1{%
-		\noexpand\@object@method@call{\noexpand\@object@member@id{\@object@this}{##1}}{@*}%
+		\noexpand\@object@member@invoke{\@object@this}{##1}%
 	}%
 	\@object@this@method@new{@let}##1{%
 		\def##1{%
 			\noexpand\@object@method@call{\@object@this}{@*}%
 		}%
+	}%
+	\@object@this@method@new{\ifexists}##1{%
+		\noexpand\@object@property@exists{\@object@this}{##1}%
+		\noexpand\if@exists%...
 	}%
 }
 
@@ -193,6 +197,13 @@
 }
 
 
+\def\@object@member@invoke#1#2{%
+	\@ifundefined{\@object@member@id{#1}{#2}}%
+		{\@object@method@call{\@object@member@id{#1}{#2}}{@*}}%
+		{\@object@method@call{#1}{#2}}%
+}%
+
+
 \def\@object@property@set#1#2#3{%
 	% отключаю проверку переопределения из-за несовместимости со значениями по умолчанию
 	%\@ifundefined{\@object@this@member@id{#1}}{%
@@ -245,6 +256,16 @@
 	\@object@this@property@new@mandatory%
 }
 
+\def\@object@property@exists#1#2{%
+	\@ifundefined{\@object@member@id{\@object@member@id{#1}{#2}}{@*}}%
+		{\let\if@exists\iffalse}%
+		{\let\if@exists\iftrue}%
+}
+
+\def\@object@this@property@exists#1{%
+	\@object@property@exists{\@object@this}{#1}%
+}
+
 
 \def\@object@method@new#1#2{%
 	\expandafter\xdef\csname\@object@member@id{#1}{#2}\endcsname%
@@ -256,8 +277,7 @@
 \def\@object@method@call#1#2{%
 	\@ifundefined{\@object@member@id{#1}{#2}}%
 		{ \PackageWarning{objects}{Method #2 doesn't exists (object id #1).} }%
-		{}%
-	\csname\@object@member@id{#1}{#2}\endcsname% ...
+		{\csname\@object@member@id{#1}{#2}\endcsname}%
 }%
 \def\@object@this@method@call#1{%
 	\@object@method@call\@object@this#1%
