@@ -113,16 +113,16 @@
 % #1 - instance name
 % #2 - item class name
 \def\@object@collection@new#1#2{%
-	\expandafter\newcount\csname\@object@member@id{\@object@this@member@id{#1}}{@cnt}\endcsname
+	\expandafter\newcounter{\@object@member@id{\@object@this@member@id{#1}}{@cnt}}%
 	\@object@property@set{\@object@this@member@id{#1}}{@count}{0}
 	% item constructor
 	\expandafter\def\csname\@make@csname#1\endcsname##1{
-		\expandafter\advance\csname\@object@member@id{\@object@this@member@id{#1}}{@cnt}\endcsname by 1\relax
+		\stepcounter{\@object@member@id{\@object@this@member@id{#1}}{@cnt}}
 		{
 			\@object@this@set{\@object@this@member@id{#1}}
 			{
-				\@object@this@property@set{@count}{\expandafter\number\csname\@object@this@member@id{@cnt}\endcsname}
-				\@object@class@constructor{#2}{\@object@this@item@id[\expandafter\number\csname\@object@this@member@id{@cnt}\endcsname]}{##1}%
+				\@object@this@property@set{@count}{\expandafter\number\value{\@object@this@member@id{@cnt}}}
+				\@object@class@constructor{#2}{\@object@this@item@id[\expandafter\number\value{\@object@this@member@id{@cnt}}]}{##1}%
 			}
 		}
 	}
@@ -135,24 +135,30 @@
 		\@object@this@method@new{@member@*}##1{%
 			\noexpand\@object@method@call{\@object@this}{@\noexpand\@gobble@backslashchar##1}%
 		}%
-		\@object@this@method@new{@foreach}##1##2{%
-			\noexpand\newcounter{\@object@this@member@id{@cnt}}%
+		\@object@this@method@new{@for}##1[##2][##3]##4{%
 			\noexpand\forLoop%
-			{1}%
-			{\noexpand\@object@property@get{\@object@this}{@count}}%
-			{\@object@this@member@id{@cnt}}%
-			{%
+				{##2}%
+				{##3}%
+				{\@object@this@member@id{@cnt}}%
 				{%
-					\noexpand\@object@method@call%
-						{\noexpand\@object@item@id%
-							{\@object@this}%
-							[\noexpand\number\noexpand\value{\noexpand\@object@member@id{\@object@this}{@cnt}}]%
-						}%
-						{@let}%
-						##1%
-					##2%
+					{%
+						\noexpand\@object@method@call%
+							{\noexpand\@object@item@id%
+								{\@object@this}%
+								[\noexpand\number\noexpand\value{\noexpand\@object@member@id{\@object@this}{@cnt}}]%
+							}%
+							{@let}%
+							##1%
+						##4%
+					}%
 				}%
-			}%
+		}%
+		\@object@this@method@new{@foreach}##1##2{%
+			\noexpand\@object@method@call{\@object@this}{@for}%
+				{##1}%
+				[1]%
+				[\noexpand\@object@property@get{\@object@this}{@count}]%
+				{##2}%
 		}%
 		\@object@this@method@new{@*}{%
 			\noexpand\@ifnextchar [{%
