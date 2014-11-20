@@ -37,8 +37,10 @@
 		}%
 	}%
 	\@object@this@method@new{\ifexists}##1{%
-		\noexpand\@object@property@exists{\@object@this}{##1}%
-		\noexpand\if@exists%...
+		\noexpand\@object@property@ifexists{\@object@this}{##1}%
+	}%
+	\@object@this@method@new{\ifdefined}##1{%
+		\noexpand\@object@property@ifdefined{\@object@this}{##1}%...
 	}%
 }
 
@@ -256,14 +258,26 @@
 	\@object@this@property@new@mandatory%
 }
 
-\def\@object@property@exists#1#2{%
+\def\@object@property@ifdefined#1#2{%
+	\@ifundefined{\@object@member@id{#1}{#2}}%
+		{\let\if@defined\iffalse}%
+		{\let\if@defined\iftrue}%
+	\if@defined%
+}
+
+\def\@object@this@property@ifdefined#1{%
+	\@object@property@defined{\@object@this}{#1}%
+}
+
+\def\@object@property@ifexists#1#2{%
 	\@ifundefined{\@object@member@id{\@object@member@id{#1}{#2}}{@*}}%
 		{\let\if@exists\iffalse}%
 		{\let\if@exists\iftrue}%
+	\if@exists%
 }
 
-\def\@object@this@property@exists#1{%
-	\@object@property@exists{\@object@this}{#1}%
+\def\@object@this@property@ifexists#1{%
+	\@object@property@ifexists{\@object@this}{#1}%
 }
 
 
