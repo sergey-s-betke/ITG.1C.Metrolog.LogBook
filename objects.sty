@@ -129,10 +129,7 @@
 	{
 		\@object@this@set{\@object@this@member@id{#1}}
 		\@object@this@method@new{@item@*}[##1]{%
-			% TODO check index
-			%\ifnum 1000>100%
-			%	\PackageWarning{objects}{Index ##1 out of collection \@object@this\space range. Last item index - \noexpand\@object@property@get{\@object@this}{@count}.}%
-			%\fi%
+			\noexpand\@object@collection@check@index{\@object@this}{##1}%
 			\noexpand\@object@method@call{\@object@this@item@id[##1]}{@*}%
 		}%
 		\@object@this@method@new{@member@*}##1{%
@@ -165,6 +162,16 @@
 			}%
 		}%
 	}
+}
+
+% #1 - collection id (\@object@this)
+% #2 - index
+\def\@object@collection@check@index#1#2{%
+	\@tempcnta=#2\relax%
+	\@tempcntb=\@object@property@get{#1}{@count}\relax%
+	\ifnum\@tempcnta>\@tempcntb%
+		\PackageError{objects}{Index #2 out of collection #1 range. Last item index - \@object@property@get{#1}{@count}.}%
+	\fi%
 }
 
 % #1 - member name
