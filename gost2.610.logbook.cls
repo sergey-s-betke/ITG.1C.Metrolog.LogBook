@@ -12,7 +12,7 @@
 \RequirePackage{xecyr}
 \RequirePackage{xstring}
 \RequirePackage{gensymb}
-\RequirePackage{numprint}
+\RequirePackage[sepfour]{numprint}
 
 \RequirePackage{longtable}
 % решаем проблемы несовместимости пакетов
@@ -223,7 +223,9 @@
 		\Формуляр\ОсновныеТехническиеДанные\Характеристика\foreach{\Характеристика}{
 			\eaddtokens\@temptokena{\Характеристика\Наименование, \Характеристика\ЕдиницаИзмерения}
 			\addtokens\@temptokena{&}
-			\eaddtokens\@temptokena{\Характеристика\Значение}
+			\addtokens\@temptokena{$\numprint}
+				\eaddtokens\@temptokena{{\Характеристика\Значение}}
+				\addtokens\@temptokena{$}
 			\addtokens\@temptokena{\\}
 		}%
 		\the\@temptokena
