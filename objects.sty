@@ -146,11 +146,7 @@
 			\noexpand\@object@collection@for{\@object@this}{##1}[##2][##3]{##4}%
 		}%
 		\@object@this@method@new{foreach}##1##2{%
-			\noexpand\@object@method@call{\@object@this}{for}%
-				{##1}%
-				[1]%
-				[\noexpand\@object@collection@count{\@object@this}]%
-				{##2}%
+			\noexpand\@object@method@call{\@object@this}{for}{##1}[][]{##2}%
 		}%
 		\@object@this@method@new{@*}{%
 			\noexpand\@ifnextchar [{%
@@ -180,9 +176,13 @@
 }
 
 \def\@object@collection@for#1#2[#3][#4]#5{%
+	\def\reserved@a{#3}%
+	\ifx\reserved@a\@empty\def\reserved@a{1}\fi%
+	\def\reserved@b{#4}%
+	\ifx\reserved@b\@empty#4\def\reserved@b{\@object@collection@count{#1}}\fi%
 	\@object@forLoop%
-		{#3}%
-		{#4}%
+		{\reserved@a}%
+		{\reserved@b}%
 		{\csname \@object@collection@index@id{#1} \endcsname}%
 		{%
 			{%
