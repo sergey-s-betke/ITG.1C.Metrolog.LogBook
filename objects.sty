@@ -3,8 +3,6 @@
 
 \ProcessOptions\relax
 
-\RequirePackage{forloop}
-
 \def\@make@csname#1{%
 	\@gobble@backslashchar#1%
 }
@@ -115,20 +113,23 @@
 	\@object@class@instance@new{#3}{#1}%
 }
 
-
 % #1 - instance name
 % #2 - item class name
 \def\@object@collection@new#1#2{%
-	\expandafter\newcounter{\@object@member@id{\@object@this@member@id{#1}}{@cnt}}%
+	\expandafter\newcount\csname \@object@collection@index@id{\@object@this@member@id{#1}} \endcsname%
 	\@object@property@set{\@object@this@member@id{#1}}{@count}{0}
 	% item constructor
 	\expandafter\def\csname\@make@csname#1\endcsname##1{
-		\stepcounter{\@object@member@id{\@object@this@member@id{#1}}{@cnt}}
+		\expandafter\advance\csname \@object@collection@index@id{\@object@this@member@id{#1}} \endcsname by 1\relax%
 		{
 			\@object@this@set{\@object@this@member@id{#1}}
 			{
-				\@object@this@property@set{@count}{\expandafter\number\value{\@object@this@member@id{@cnt}}}
-				\@object@class@constructor{#2}{\@object@this@item@id[\expandafter\number\value{\@object@this@member@id{@cnt}}]}{##1}%
+				\@object@this@property@set{@count}{\@object@this@collection@index}
+				\@object@class@constructor{#2}{%
+					\@object@this@item@id[\@object@this@collection@index]%
+				}{%
+					##1%
+				}%
 			}
 		}
 	}
@@ -142,16 +143,16 @@
 			\noexpand\@object@method@call{\@object@this}{@\noexpand\@gobble@backslashchar##1}%
 		}%
 		\@object@this@method@new{@for}##1[##2][##3]##4{%
-			\noexpand\forLoop%
+			\noexpand\@object@forLoop%
 				{##2}%
 				{##3}%
-				{\@object@this@member@id{@cnt}}%
+				{\csname \@object@collection@index@id{\@object@this} \endcsname}%
 				{%
 					{%
 						\noexpand\@object@method@call%
 							{\noexpand\@object@item@id%
 								{\@object@this}%
-								[\noexpand\number\noexpand\value{\noexpand\@object@member@id{\@object@this}{@cnt}}]%
+								[\noexpand\@object@collection@index{\@object@this}]%
 							}%
 							{@let}%
 							##1%
@@ -196,6 +197,19 @@
 \def\@objects#1{%
 	\@collection{#1} of class {#1}%
 	\@object@class@def{#1}% ...
+}
+
+\def\@object@collection@index@id#1{%
+	c@\@object@member@id{#1}{@cnt}%
+}
+\def\@object@this@collection@index@id{%
+	\@object@collection@index@id{\@object@this}%
+}
+\def\@object@collection@index#1{%
+	\expandafter\number\expandafter\the\csname \@object@collection@index@id{#1} \endcsname%
+}
+\def\@object@this@collection@index{%
+	\@object@collection@index{\@object@this}%
 }
 
 
@@ -296,3 +310,18 @@
 \def\@object@this@method@call#1{%
 	\@object@method@call\@object@this#1%
 }%
+
+
+% #1 - start index
+% #2 - stop index
+% #3 - counter (tex counter csname, not latex)
+% #4 - loop code
+\def\@object@forLoop#1#2#3#4{%
+	#3=#1%
+	\@tempcntb=#2%
+	\advance\@tempcntb by 1\relax%
+	\@whilesw{\ifnum\the#3<\the\@tempcntb}\fi{%
+		#4%
+		\advance#3 by 1\relax%
+	}%
+}
