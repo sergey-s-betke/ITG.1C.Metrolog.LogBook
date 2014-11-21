@@ -187,18 +187,12 @@
 	\todo{Абзац вставлять только в том случае, если руководство по эксплуатации указано}
 	\todo{Указать обозначение руководства по эксплуатации}
 
-	\newtoks\temptoks
-	\def\addxxx#1{\temptoks\expandafter{\the\temptoks#1}}
-	\def\addyyy#1{
-		\@temptokena\expandafter{#1}
-		\edef\uuu{\the\temptoks\the\@temptokena}
-		\temptoks\expandafter{\uuu}
+	\def\addxxx#1{
+		\@temptokena\expandafter{\the\@temptokena#1}
 	}
-	\Формуляр\ОсновныеТехническиеДанные\Характеристика\foreach{\Характеристика}{%
-		\addyyy{\Характеристика\Наименование, \Характеристика\ЕдиницаИзмерения}
-		\addxxx{&}
-		\addyyy{\Характеристика\Значение}
-		\addxxx{\\}
+	\def\addyyy#1{
+		\edef\uuu{\the\@temptokena#1}
+		\@temptokena\expandafter{\uuu}
 	}
 	\begin{longtabu}[c]
 		{|X[b]|X[-1,r,b]|}
@@ -210,8 +204,15 @@
 		Наименование параметра          & Значение                              \\\hline\endhead
 		\hline
 		\multicolumn{\the\LT@cols}{r}{Продолжение таблицы на следующей странице}\\\endfoot
-		\hline\endlastfoot
-		\the\temptoks
+		                                                                          \hline\endlastfoot
+		\@temptokena{}
+		\Формуляр\ОсновныеТехническиеДанные\Характеристика\foreach{\Характеристика}{%
+			\addyyy{\Характеристика\Наименование, \Характеристика\ЕдиницаИзмерения}
+			\addxxx{&}
+			\addyyy{\Характеристика\Значение}
+			\addxxx{\\}
+		}
+		\the\@temptokena
 	\end{longtabu}
 	
 	
