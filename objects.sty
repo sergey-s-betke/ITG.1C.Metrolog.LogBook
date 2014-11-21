@@ -143,22 +143,7 @@
 			\noexpand\@object@member@invoke{\@object@this}{##1}%
 		}%
 		\@object@this@method@new{for}##1[##2][##3]##4{%
-			\noexpand\@object@forLoop%
-				{##2}%
-				{##3}%
-				{\csname \@object@collection@index@id{\@object@this} \endcsname}%
-				{%
-					{%
-						\noexpand\@object@method@call%
-							{\noexpand\@object@item@id%
-								{\@object@this}%
-								[\noexpand\@object@collection@index{\@object@this}]%
-							}%
-							{let}%
-							##1%
-						##4%
-					}%
-				}%
+			\noexpand\@object@collection@for{\@object@this}{##1}[##2][##3]{##4}%
 		}%
 		\@object@this@method@new{foreach}##1##2{%
 			\noexpand\@object@method@call{\@object@this}{for}%
@@ -193,6 +178,22 @@
 		\PackageError{objects}{Index #2 out of collection #1 range. Last item index - \@object@collection@count{#1}.}%
 	\fi%
 }
+
+\def\@object@collection@for#1#2[#3][#4]#5{%
+	\@object@forLoop%
+		{#3}%
+		{#4}%
+		{\csname \@object@collection@index@id{#1} \endcsname}%
+		{%
+			{%
+				\@object@method@call%
+					{\@object@item@id{#1}[\@object@collection@index{#1}]}%
+					{let}%
+					#2%
+				#5%
+			}%
+		}%
+}%
 
 % #1 - member name
 % #2 - ignore spaces before `of class`
