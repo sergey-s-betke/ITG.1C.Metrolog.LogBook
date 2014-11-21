@@ -29,15 +29,15 @@
 	\@object@this@method@new{@*}##1{%
 		\noexpand\@object@member@invoke{\@object@this}{##1}%
 	}%
-	\@object@this@method@new{@let}##1{%
+	\@object@this@method@new{let}##1{%
 		\def##1{%
 			\noexpand\@object@method@call{\@object@this}{@*}%
 		}%
 	}%
-	\@object@this@method@new{\ifexists}##1{%
+	\@object@this@method@new{ifexists}##1{%
 		\noexpand\@object@property@ifexists{\@object@this}{##1}%
 	}%
-	\@object@this@method@new{\ifdefined}##1{%
+	\@object@this@method@new{ifdefined}##1{%
 		\noexpand\@object@property@ifdefined{\@object@this}{##1}%...
 	}%
 }
@@ -117,14 +117,14 @@
 % #2 - item class name
 \def\@object@collection@new#1#2{%
 	\expandafter\newcount\csname \@object@collection@index@id{\@object@this@member@id{#1}} \endcsname%
-	\@object@property@set{\@object@this@member@id{#1}}{@count}{0}
+	\@object@property@set{\@object@this@member@id{#1}}{count}{0}
 	% item constructor
 	\expandafter\def\csname\@make@csname#1\endcsname##1{
 		\expandafter\advance\csname \@object@collection@index@id{\@object@this@member@id{#1}} \endcsname by 1\relax%
 		{
 			\@object@this@set{\@object@this@member@id{#1}}
 			{
-				\@object@this@property@set{@count}{\@object@this@collection@index}
+				\@object@this@property@set{count}{\@object@this@collection@index}
 				\@object@class@constructor{#2}{%
 					\@object@this@item@id[\@object@this@collection@index]%
 				}{%
@@ -140,9 +140,9 @@
 			\noexpand\@object@method@call{\@object@this@item@id[##1]}{@*}%
 		}%
 		\@object@this@method@new{@member@*}##1{%
-			\noexpand\@object@method@call{\@object@this}{@\noexpand\@gobble@backslashchar##1}%
+			\noexpand\@object@member@invoke{\@object@this}{##1}%
 		}%
-		\@object@this@method@new{@for}##1[##2][##3]##4{%
+		\@object@this@method@new{for}##1[##2][##3]##4{%
 			\noexpand\@object@forLoop%
 				{##2}%
 				{##3}%
@@ -154,17 +154,17 @@
 								{\@object@this}%
 								[\noexpand\@object@collection@index{\@object@this}]%
 							}%
-							{@let}%
+							{let}%
 							##1%
 						##4%
 					}%
 				}%
 		}%
-		\@object@this@method@new{@foreach}##1##2{%
-			\noexpand\@object@method@call{\@object@this}{@for}%
+		\@object@this@method@new{foreach}##1##2{%
+			\noexpand\@object@method@call{\@object@this}{for}%
 				{##1}%
 				[1]%
-				[\noexpand\@object@property@get{\@object@this}{@count}]%
+				[\noexpand\@object@collection@count{\@object@this}]%
 				{##2}%
 		}%
 		\@object@this@method@new{@*}{%
@@ -177,13 +177,20 @@
 	}
 }
 
+\def\@object@collection@count#1{%
+	\@object@property@get{#1}{count}%
+}
+\def\@object@this@collection@count{%
+	\@object@collection@count{\@object@this}%
+}
+
 % #1 - collection id (\@object@this)
 % #2 - index
 \def\@object@collection@check@index#1#2{%
 	\@tempcnta=#2\relax%
-	\@tempcntb=\@object@property@get{#1}{@count}\relax%
+	\@tempcntb=\@object@collection@count{#1}\relax%
 	\ifnum\@tempcnta>\@tempcntb%
-		\PackageError{objects}{Index #2 out of collection #1 range. Last item index - \@object@property@get{#1}{@count}.}%
+		\PackageError{objects}{Index #2 out of collection #1 range. Last item index - \@object@collection@count{#1}.}%
 	\fi%
 }
 
@@ -317,8 +324,8 @@
 % #3 - counter (tex counter csname, not latex)
 % #4 - loop code
 \def\@object@forLoop#1#2#3#4{%
-	#3=#1%
-	\@tempcntb=#2%
+	\expandafter#3#1\relax%
+	\expandafter\@tempcntb#2\relax%
 	\advance\@tempcntb by 1\relax%
 	\@whilesw{\ifnum\the#3<\the\@tempcntb}\fi{%
 		#4%
