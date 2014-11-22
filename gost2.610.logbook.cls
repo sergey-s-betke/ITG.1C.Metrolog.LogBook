@@ -10,15 +10,8 @@
 \ProcessOptions\relax
 
 \RequirePackage{xecyr}
-\RequirePackage[cyremdash]{extdash}
 
 \RequirePackage{xstring}
-
-\RequirePackage[russian]{translator}
-\RequirePackage{gensymb}
-\RequirePackage[sepfour]{numprint}
-\RequirePackage{siunitx}
-\sisetup{range-phrase=\space до~} 
 
 \RequirePackage{longtable}
 % решаем проблемы несовместимости пакетов
