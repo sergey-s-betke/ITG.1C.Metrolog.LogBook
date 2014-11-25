@@ -175,30 +175,29 @@
 	\fi%
 }
 
-\newcount\@object@tempcnt
-
 % #1 - object id
 % #2 - cursor
 % #3 - start index
 % #4 - stop index
 % #5 - loop code
 \def\@object@collection@for#1#2[#3][#4]#5{%
-	\def\reserved@a{#3}%
-	\ifx\reserved@a\@empty\def\reserved@a{1}\fi%
-	\expandafter\csname \@object@collection@index@id{#1} \expandafter\endcsname\reserved@a\relax%
-	\expandafter\advance\csname \@object@collection@index@id{#1} \endcsname by -1\relax%
-	%
-	\def\reserved@b{#4}%
-	\ifx\reserved@b\@empty\def\reserved@b{\@object@collection@count{#1}}\fi%
-	\expandafter\@object@tempcnt\reserved@b\relax%
-	%
-	\@whilesw{\expandafter\ifnum\expandafter\the\csname \@object@collection@index@id{#1} \endcsname<\the\@object@tempcnt}\fi{%
-		\expandafter\advance\csname \@object@collection@index@id{#1} \endcsname by 1\relax%
-		\@object@method@call%
-			{\@object@item@id{#1}[\@object@collection@index{#1}]}%
-			{let}%
-			#2%
-		#5%
+	{%
+		\def\reserved@a{#3}%
+		\ifx\reserved@a\@empty\def\reserved@a{1}\fi%
+		\expandafter\csname \@object@collection@index@id{#1} \expandafter\endcsname\reserved@a\relax%
+		\expandafter\advance\csname \@object@collection@index@id{#1} \endcsname by -1\relax%
+		%
+		\def\reserved@b{#4}%
+		\ifx\reserved@b\@empty\def\reserved@b{\@object@collection@count{#1}}\fi%
+		%
+		\@whilesw{\expandafter\ifnum\expandafter\the\csname \@object@collection@index@id{#1} \endcsname<\reserved@b\relax}\fi{%
+			\expandafter\advance\csname \@object@collection@index@id{#1} \endcsname by 1\relax%
+			\@object@method@call%
+				{\@object@item@id{#1}[\@object@collection@index{#1}]}%
+				{let}%
+				#2%
+			#5%
+		}%
 	}%
 }%
 
