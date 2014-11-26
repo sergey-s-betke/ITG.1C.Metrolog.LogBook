@@ -135,13 +135,6 @@
 	}
 	{
 		\@object@this@set{\@object@this@member@id{#1}}
-		\@object@this@method@new{@item@*}[##1]{%
-			\noexpand\@object@collection@check@index{\@object@this}{##1}%
-			\noexpand\@object@method@call{\@object@this@item@id[##1]}{@*}%
-		}%
-		\@object@this@method@new{@member@*}##1{%
-			\noexpand\@object@member@invoke{\@object@this}{##1}%
-		}%
 		\@object@this@method@new{for}##1[##2][##3]##4{%
 			\noexpand\@object@collection@for{\@object@this}{##1}[##2][##3]{##4}%
 		}%
@@ -149,14 +142,23 @@
 			\noexpand\@object@method@call{\@object@this}{for}{##1}[][]{##2}%
 		}%
 		\@object@this@method@new{@*}{%
-			\noexpand\@ifnextchar [{%
-				\noexpand\@object@method@call{\@object@this}{@item@*}%
-			}{%
-				\noexpand\@object@method@call{\@object@this}{@member@*}%
-			}%
+			\noexpand\@object@collection@@{\@object@this}%
 		}%
 	}
 }
+
+\def\@object@collection@@#1{%
+	\@ifnextchar [{%
+		\@object@collection@item@{#1}% ...
+	}{%
+		\@object@member@invoke{#1}% ...
+	}%
+}%
+
+\def\@object@collection@item@#1[#2]{%
+	\@object@collection@check@index{#1}{#2}%
+	\@object@method@call{\@object@item@id{#1}[#2]}{@*}%
+}%
 
 \def\@object@collection@count#1{%
 	\@object@property@get{#1}{count}%
