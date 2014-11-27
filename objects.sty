@@ -299,22 +299,26 @@
 	\@object@this@property@new@mandatory%
 }
 
+\newif\if@object@property@defined@
+
 \def\@object@property@ifdefined#1#2{%
 	\@ifundefined{\@object@member@id{#1}{#2}}%
-		{\let\if@defined\iffalse}% !!! переписать на newif
-		{\let\if@defined\iftrue}%
-	\if@defined%
+		{\@object@property@defined@false}%
+		{\@object@property@defined@true}%
+	\if@object@property@defined@%
 }
 
 \def\@object@this@property@ifdefined#1{%
 	\@object@property@defined{\@object@this}{#1}%
 }
 
+\newif\if@object@property@exists@
+
 \def\@object@property@ifexists#1#2{%
 	\@ifundefined{\@object@member@id{\@object@member@id{#1}{#2}}{@*}}%
-		{\let\if@exists\iffalse}% !!! переписать на newif
-		{\let\if@exists\iftrue}%
-	\if@exists%
+		{\@object@property@exists@false}%
+		{\@object@property@exists@true}%
+	\if@object@property@exists@%
 }
 
 \def\@object@this@property@ifexists#1{%
