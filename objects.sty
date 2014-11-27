@@ -50,7 +50,7 @@
 % ... #2 - instance name
 \def\@object@class@constructor#1{%
 	\expandafter\ifx\csname\@object@class@id#1\endcsname\relax
-		\PackageError{objects}{Class \string#1 doesn't exists.}
+		\PackageError{objects}{Class \string#1 doesn't exists.} % !!! дальше код выполнять только по else
 	\fi%
 	\csname\@object@class@id#1\endcsname% ...
 }
@@ -100,8 +100,8 @@
 % #1 - type name
 % #2 - instance name
 \def\@object@class@instance@new#1#2{%
-	\expandafter\def\csname\@make@csname#2\endcsname{%
-		\@object@method@call{\@object@this@member@id{#2}}{@*}%
+	\expandafter\edef\csname\@make@csname#2\endcsname{%
+		\noexpand\@object@method@call{\@object@member@id{\@object@this}{#2}}{@*}%
 	}%
 	\@object@class@constructor{#1}{\@object@this@member@id{#2}}% ...
 }
@@ -148,15 +148,23 @@
 }
 
 \def\@object@collection@@#1{%
-	\@ifnextchar [{%
-		\@object@collection@item@{#1}% ...
-	}{%
-		\@object@member@invoke{#1}% ...
-	}%
+%	\begingroup%
+		\edef\@object@this@{#1}%
+		\futurelet\@let@token\@object@collection@@@%
+}%
+
+\def\@object@collection@@@{%
+		\ifx[\@let@token%
+			\let\@let@token\@object@collection@item@% !!! изменить макрос на нормальный
+		\else%
+			\let\@let@token\@object@member@invoke%
+		\fi%
+%	\endgroup%
+	\@let@token\@object@this@% ...
 }%
 
 \def\@object@collection@item@#1[#2]{%
-	\@object@collection@check@index{#1}{#2}%
+	\@object@collection@check@index{#1}{#2}% !!! дальше -только если всё в порядке
 	\@object@method@call{\@object@item@id{#1}[#2]}{@*}%
 }%
 
@@ -174,7 +182,7 @@
 	\@tempcntb=\@object@collection@count{#1}\relax%
 	\ifnum\@tempcnta>\@tempcntb%
 		\PackageError{objects}{Index #2 out of collection #1 range. Last item index - \@object@collection@count{#1}.}%
-	\fi%
+	\fi% !!! дальше выполнять - только по else
 }
 
 % #1 - object id
@@ -230,9 +238,11 @@
 
 
 \def\@object@member@invoke#1#2{%
-	\@ifundefined{\@object@member@id{#1}{#2}}%
-		{\@object@method@call{\@object@member@id{#1}{#2}}{@*}}%
-		{\@object@method@call{#1}{#2}}%
+	\@ifundefined{\@object@member@id{\@object@member@id{#1}{#2}}{@*}}{%
+		\@object@method@call{#1}{#2}% !!! переписать на поздний вызов метода
+	}{%
+		\@object@method@call{\@object@member@id{#1}{#2}}{@*}%
+	}%
 }%
 
 
@@ -252,8 +262,8 @@
 \def\@object@property@get#1#2{%
 	\expandafter\ifx\csname\@object@member@id{#1}{#2}\endcsname\relax
 		\PackageError{objects}{Property \string#2 doesn't exists (object id \string#1).}
-	\fi%
-	\csname\@object@member@id{#1}{#2}\endcsname%
+	\fi% !!! дальше код выполнять только по else
+	\csname \@object@member@id{#1}{#2}\endcsname%
 }
 \def\@object@this@property@get#1{%
 	\@object@property@get{\@object@this}{#1}%
@@ -265,7 +275,8 @@
 		\@object@this@property@set{#1}{##1}%
 	}%
 	\@object@method@new{\@object@this@member@id{#1}}{@*}{%
-		\noexpand\@nameuse{\@object@this@member@id{#1}}%
+		\noexpand\@nameuse{\@object@member@id{\@object@this}{#1}}%
+		%\noexpand\@object@property@get{\@object@this}{#1}% !!! выяснить, почему не работает
 	}%
 }
 
@@ -290,7 +301,7 @@
 
 \def\@object@property@ifdefined#1#2{%
 	\@ifundefined{\@object@member@id{#1}{#2}}%
-		{\let\if@defined\iffalse}%
+		{\let\if@defined\iffalse}% !!! переписать на newif
 		{\let\if@defined\iftrue}%
 	\if@defined%
 }
@@ -301,7 +312,7 @@
 
 \def\@object@property@ifexists#1#2{%
 	\@ifundefined{\@object@member@id{\@object@member@id{#1}{#2}}{@*}}%
-		{\let\if@exists\iffalse}%
+		{\let\if@exists\iffalse}% !!! переписать на newif
 		{\let\if@exists\iftrue}%
 	\if@exists%
 }
@@ -320,7 +331,7 @@
 
 \def\@object@method@call#1#2{%
 	\@ifundefined{\@object@member@id{#1}{#2}}%
-		{ \PackageWarning{objects}{Method #2 doesn't exists (object id #1).} }%
+		{ \PackageWarning{objects}{Method #2 doesn't exists (object id #1).} }%!!! на поздний вызов!!!
 		{\csname\@object@member@id{#1}{#2}\endcsname}%
 }%
 \def\@object@this@method@call#1{%
