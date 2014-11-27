@@ -117,16 +117,15 @@
 % #2 - item class name
 \def\@object@collection@new#1#2{%
 	\expandafter\newcount\csname \@object@collection@index@id{\@object@this@member@id{#1}} \endcsname%
-	\@object@property@set{\@object@this@member@id{#1}}{count}{0}
+	\expandafter\newcount\csname \@object@collection@count@id{\@object@this@member@id{#1}} \endcsname%
 	% item constructor
 	\expandafter\def\csname\@make@csname#1\endcsname##1{
-		\expandafter\advance\csname \@object@collection@index@id{\@object@this@member@id{#1}} \endcsname by 1\relax%
+		\global\advance\csname \@object@collection@count@id{\@object@this@member@id{#1}} \endcsname by 1\relax%
 		{
 			\@object@this@set{\@object@this@member@id{#1}}
 			{
-				\@object@this@property@set{count}{\@object@this@collection@index}
 				\@object@class@constructor{#2}{%
-					\@object@this@item@id[\@object@this@collection@index]%
+					\@object@this@item@id[\@object@this@collection@count]%
 				}{%
 					##1%
 				}%
@@ -143,6 +142,9 @@
 		}%
 		\@object@this@method@new{@*}{%
 			\noexpand\@object@collection@@{\@object@this}%
+		}%
+		\@object@this@method@new{count}{%
+			\noexpand\@object@collection@count{\@object@this}%
 		}%
 	}
 }
@@ -168,8 +170,27 @@
 	\@object@method@call{\@object@item@id{#1}[#2]}{@*}%
 }%
 
+\def\@object@collection@index@id#1{%
+	c@#1%
+}
+\def\@object@this@collection@index@id{%
+	\@object@collection@index@id{\@object@this}%
+}
+\def\@object@collection@index#1{%
+	\expandafter\number\expandafter\the\csname \@object@collection@index@id{#1} \endcsname%
+}
+\def\@object@this@collection@index{%
+	\@object@collection@index{\@object@this}%
+}
+
+\def\@object@collection@count@id#1{%
+	c@\@object@member@id{#1}{@count}%
+}
+\def\@object@this@collection@count@id{%
+	\@object@collection@count@id{\@object@this}%
+}
 \def\@object@collection@count#1{%
-	\@object@property@get{#1}{count}%
+	\expandafter\the\csname \@object@collection@count@id{#1} \endcsname%
 }
 \def\@object@this@collection@count{%
 	\@object@collection@count{\@object@this}%
@@ -179,7 +200,7 @@
 % #2 - index
 \def\@object@collection@check@index#1#2{%
 	\@tempcnta=#2\relax%
-	\@tempcntb=\@object@collection@count{#1}\relax%
+	\@tempcntb\csname \@object@collection@count@id{#1} \endcsname\relax%
 	\ifnum\@tempcnta>\@tempcntb%
 		\PackageError{objects}{Index #2 out of collection #1 range. Last item index - \@object@collection@count{#1}.}%
 	\fi% !!! дальше выполнять - только по else
@@ -223,18 +244,6 @@
 	\@object@class@def{#1}% ...
 }
 
-\def\@object@collection@index@id#1{%
-	c@\@object@member@id{#1}{@cnt}%
-}
-\def\@object@this@collection@index@id{%
-	\@object@collection@index@id{\@object@this}%
-}
-\def\@object@collection@index#1{%
-	\expandafter\number\expandafter\the\csname \@object@collection@index@id{#1} \endcsname%
-}
-\def\@object@this@collection@index{%
-	\@object@collection@index{\@object@this}%
-}
 
 \def\@object@member@invoke#1#2{%
 	\@ifundefined{\@object@member@id{\@object@member@id{#1}{#2}}{@*}}{%
