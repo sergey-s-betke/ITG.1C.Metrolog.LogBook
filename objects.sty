@@ -144,7 +144,10 @@
 			\noexpand\@object@method@call{\@object@this}{for}{##1}[][]{##2}%
 		}%
 		\@object@this@method@new{@*}{%
-			\noexpand\@object@collection@@{\@object@this}%
+			\noexpand\@object@member@invoke{\@object@this}%...
+		}%
+		\@object@this@method@new{[}##1]{%
+			\noexpand\@object@collection@item@{\@object@this}[##1]%
 		}%
 		\@object@this@method@new{count}{%
 			\noexpand\@object@collection@count{\@object@this}%
@@ -152,34 +155,19 @@
 	}
 }
 
-\def\@object@collection@@#1{%
-%	\begingroup%
-		\edef\@object@ptr{#1}%
-		\futurelet\@let@token\@object@collection@@@%
-}%
-
-\def\@object@collection@@@{%
-		\ifx[\@let@token%
-			\let\@object@collection@method\@object@collection@item@%
-		\else%
-			\let\@object@collection@method\@object@member@invoke%
-		\fi%
-%	\endgroup%
-	\@object@collection@method\@object@ptr% ...
-}%
-
 \def\@object@collection@item@#1[#2]{%
-	{% for restoring counters
-		\@tempcnta=#2\relax%
-		\@tempcntb\csname \@object@collection@count@id{#1} \endcsname\relax%
-		\ifnum\@tempcnta>\@tempcntb%
-			\PackageError{objects}{Index #2 out of collection #1 range. Last item index - \@object@collection@count{#1}.}\@ehd%
-			\global\let\reserved@a\relax%
-		\else%
-			\gdef\reserved@a{\@object@method@call{\@object@item@id{#1}[#2]}{@*}}%
-		\fi%
-	}%
-	\reserved@a% ...
+%	{% for restoring counters
+%		\@tempcnta=#2\relax%
+%		\@tempcntb\csname \@object@collection@count@id{#1} \endcsname\relax%
+%		\ifnum\@tempcnta>\@tempcntb%
+%			\PackageError{objects}{Index #2 out of collection #1 range. Last item index - \@object@collection@count{#1}.}\@ehd%
+%			\global\let\reserved@a\relax%
+%		\else%
+%			\gdef\reserved@a{\@object@method@call{\@object@item@id{#1}[#2]}{@*}}%
+%		\fi%
+%	}%
+%	\reserved@a% ...
+	\@object@method@call{\@object@item@id{#1}[#2]}{@*}%
 }%
 
 \def\@object@collection@count@id#1{%
