@@ -202,13 +202,19 @@
 \def\@object@collection@for#1#2[#3][#4]#5{%
 	{%
 		\def\reserved@a{#3}%
-		\ifx\reserved@a\@empty\def\reserved@a{1}\fi%
-		\expandafter\@tempcnta\reserved@a\relax%
+		\ifx\reserved@a\@empty%
+			\@tempcnta=1\relax%
+		\else%
+			\expandafter\@tempcnta #3\relax%
+		\fi%
 		\advance\@tempcnta by -1\relax%
 		%
 		\def\reserved@b{#4}%
-		\ifx\reserved@b\@empty\def\reserved@b{\@object@collection@count{#1}}\fi%
-		\expandafter\@tempcntb\reserved@b\relax%
+		\ifx\reserved@b\@empty%
+			\@tempcntb\csname \@object@collection@count@id{#1} \endcsname\relax%
+		\else%
+			\expandafter\@tempcntb\reserved@b\relax%
+		\fi%
 		%
 		\@whilesw{\ifnum\@tempcnta<\@tempcntb\relax}\fi{%
 			\advance\@tempcnta by 1\relax%
