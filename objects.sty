@@ -149,7 +149,7 @@
 
 \def\@object@collection@@#1{%
 %	\begingroup%
-		\edef\@object@this@{#1}%
+		\edef\@object@ptr{#1}%
 		\futurelet\@let@token\@object@collection@@@%
 }%
 
@@ -160,7 +160,7 @@
 			\let\@object@collection@method\@object@member@invoke%
 		\fi%
 %	\endgroup%
-	\@object@collection@method\@object@this@% ...
+	\@object@collection@method\@object@ptr% ...
 }%
 
 \def\@object@collection@item@#1[#2]{%
@@ -236,10 +236,9 @@
 	\@object@collection@index{\@object@this}%
 }
 
-
 \def\@object@member@invoke#1#2{%
 	\@ifundefined{\@object@member@id{\@object@member@id{#1}{#2}}{@*}}{%
-		\@object@method@call{#1}{#2}% !!! переписать на поздний вызов метода
+		\@object@method@call{#1}{#2}%
 	}{%
 		\@object@method@call{\@object@member@id{#1}{#2}}{@*}%
 	}%
@@ -335,7 +334,7 @@
 
 \def\@object@method@call#1#2{%
 	\@ifundefined{\@object@member@id{#1}{#2}}%
-		{ \PackageWarning{objects}{Method #2 doesn't exists (object id #1).} }%!!! на поздний вызов!!!
+		{ \PackageWarning{objects}{Method #2 doesn't exists (object id #1).} }%
 		{\csname\@object@member@id{#1}{#2}\endcsname}%
 }%
 \def\@object@this@method@call#1{%
