@@ -48,11 +48,15 @@
 
 % #1 - class name
 % ... #2 - instance name
+% ... #3 - definition code
 \def\@object@class@constructor#1{%
-	\expandafter\ifx\csname\@object@class@id#1\endcsname\relax
-		\PackageError{objects}{Class \string#1 doesn't exists.} % !!! дальше код выполнять только по else
-	\fi%
-	\csname\@object@class@id#1\endcsname% ...
+	\@ifundefined{\@object@class@id#1}{%
+		\PackageError{objects}{Class \string#1 doesn't exists.}\@ehd%
+		\def\reserved@a{\@gobbletwo}%
+	}{%
+		\expandafter\let\csname reserved@a\expandafter\endcsname\csname\@object@class@id#1\endcsname%
+	}%
+	\reserved@a%
 }
 
 
@@ -189,7 +193,7 @@
 		\@tempcnta=#2\relax%
 		\@tempcntb\csname \@object@collection@count@id{#1} \endcsname\relax%
 		\ifnum\@tempcnta>\@tempcntb%
-			\PackageError{objects}{Index #2 out of collection #1 range. Last item index - \@object@collection@count{#1}.}%
+			\PackageError{objects}{Index #2 out of collection #1 range. Last item index - \@object@collection@count{#1}.}\@ehd%
 		\fi% !!! дальше выполнять - только по else
 	}%
 }
@@ -243,7 +247,7 @@
 \def\@object@member@invoke#1#2{%
 	\@ifundefined{\@object@member@id{#1}{#2}}{%
 		\@ifundefined{\@object@member@id{\@object@member@id{#1}{#2}}{@*}}{%
-			\PackageWarning{objects}{Member \string#2 doesn't exists (object id \string#1).}%
+			\PackageError{objects}{Member \string#2 doesn't exists (object id \string#1).}\@ehd%
 		}{%
 			\@object@method@call{\@object@member@id{#1}{#2}}{@*}%
 		}%
@@ -267,8 +271,8 @@
 }
 
 \def\@object@property@get#1#2{%
-	\expandafter\ifx\csname\@object@member@id{#1}{#2}\endcsname\relax
-		\PackageError{objects}{Property \string#2 doesn't exists (object id \string#1).}
+	\expandafter\ifx\csname\@object@member@id{#1}{#2}\endcsname\relax%
+		\PackageError{objects}{Property \string#2 doesn't exists (object id \string#1).}\@ehd%
 	\else%
 		\csname \@object@member@id{#1}{#2}\endcsname%
 	\fi%
@@ -343,7 +347,7 @@
 
 \def\@object@method@call#1#2{%
 	\@ifundefined{\@object@member@id{#1}{#2}}%
-		{ \PackageWarning{objects}{Method #2 doesn't exists (object id #1).} }%
+		{ \PackageError{objects}{Method #2 doesn't exists (object id #1).}\@ehd }%
 		{\csname\@object@member@id{#1}{#2}\endcsname}%
 }%
 \def\@object@this@method@call#1{%
