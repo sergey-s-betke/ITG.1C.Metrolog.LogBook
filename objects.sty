@@ -116,7 +116,6 @@
 % #1 - instance name
 % #2 - item class name
 \def\@object@collection@new#1#2{%
-	\expandafter\newcount\csname \@object@collection@index@id{\@object@this@member@id{#1}} \endcsname%
 	\expandafter\newcount\csname \@object@collection@count@id{\@object@this@member@id{#1}} \endcsname%
 	% item constructor
 	\expandafter\def\csname\@make@csname#1\endcsname##1{
@@ -170,19 +169,6 @@
 	\@object@method@call{\@object@item@id{#1}[#2]}{@*}%
 }%
 
-\def\@object@collection@index@id#1{%
-	c@#1%
-}
-\def\@object@this@collection@index@id{%
-	\@object@collection@index@id{\@object@this}%
-}
-\def\@object@collection@index#1{%
-	\expandafter\number\expandafter\the\csname \@object@collection@index@id{#1} \endcsname%
-}
-\def\@object@this@collection@index{%
-	\@object@collection@index{\@object@this}%
-}
-
 \def\@object@collection@count@id#1{%
 	c@\@object@member@id{#1}{@count}%
 }
@@ -199,11 +185,13 @@
 % #1 - collection id (\@object@this)
 % #2 - index
 \def\@object@collection@check@index#1#2{%
-	\@tempcnta=#2\relax%
-	\@tempcntb\csname \@object@collection@count@id{#1} \endcsname\relax%
-	\ifnum\@tempcnta>\@tempcntb%
-		\PackageError{objects}{Index #2 out of collection #1 range. Last item index - \@object@collection@count{#1}.}%
-	\fi% !!! дальше выполнять - только по else
+	{% for restoring counters
+		\@tempcnta=#2\relax%
+		\@tempcntb\csname \@object@collection@count@id{#1} \endcsname\relax%
+		\ifnum\@tempcnta>\@tempcntb%
+			\PackageError{objects}{Index #2 out of collection #1 range. Last item index - \@object@collection@count{#1}.}%
+		\fi% !!! дальше выполнять - только по else
+	}%
 }
 
 % #1 - object id
@@ -215,16 +203,17 @@
 	{%
 		\def\reserved@a{#3}%
 		\ifx\reserved@a\@empty\def\reserved@a{1}\fi%
-		\expandafter\csname \@object@collection@index@id{#1} \expandafter\endcsname\reserved@a\relax%
-		\expandafter\advance\csname \@object@collection@index@id{#1} \endcsname by -1\relax%
+		\expandafter\@tempcnta\reserved@a\relax%
+		\advance\@tempcnta by -1\relax%
 		%
 		\def\reserved@b{#4}%
 		\ifx\reserved@b\@empty\def\reserved@b{\@object@collection@count{#1}}\fi%
+		\expandafter\@tempcntb\reserved@b\relax%
 		%
-		\@whilesw{\expandafter\ifnum\expandafter\the\csname \@object@collection@index@id{#1} \endcsname<\reserved@b\relax}\fi{%
-			\expandafter\advance\csname \@object@collection@index@id{#1} \endcsname by 1\relax%
+		\@whilesw{\ifnum\@tempcnta<\@tempcntb\relax}\fi{%
+			\advance\@tempcnta by 1\relax%
 			\@object@method@call%
-				{\@object@item@id{#1}[\@object@collection@index{#1}]}%
+				{\@object@item@id{#1}[\the\@tempcnta]}%
 				{let}%
 				#2%
 			#5%
