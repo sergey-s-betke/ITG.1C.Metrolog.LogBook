@@ -241,10 +241,14 @@
 
 
 \def\@object@member@invoke#1#2{%
-	\@ifundefined{\@object@member@id{\@object@member@id{#1}{#2}}{@*}}{%
-		\@object@method@call{#1}{#2}%
+	\@ifundefined{\@object@member@id{#1}{#2}}{%
+		\@ifundefined{\@object@member@id{\@object@member@id{#1}{#2}}{@*}}{%
+			\PackageWarning{objects}{Member \string#2 doesn't exists (object id \string#1).}%
+		}{%
+			\@object@method@call{\@object@member@id{#1}{#2}}{@*}%
+		}%
 	}{%
-		\@object@method@call{\@object@member@id{#1}{#2}}{@*}%
+		\@object@method@call{#1}{#2}%
 	}%
 }%
 
@@ -265,8 +269,9 @@
 \def\@object@property@get#1#2{%
 	\expandafter\ifx\csname\@object@member@id{#1}{#2}\endcsname\relax
 		\PackageError{objects}{Property \string#2 doesn't exists (object id \string#1).}
-	\fi% !!! дальше код выполнять только по else
-	\csname \@object@member@id{#1}{#2}\endcsname%
+	\else%
+		\csname \@object@member@id{#1}{#2}\endcsname%
+	\fi%
 }
 \def\@object@this@property@get#1{%
 	\@object@property@get{\@object@this}{#1}%
