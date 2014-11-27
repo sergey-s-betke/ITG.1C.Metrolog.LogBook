@@ -256,12 +256,7 @@
 
 \def\@object@property@set#1#2#3{%
 	% отключаю проверку переопределения из-за несовместимости со значениями по умолчанию
-	%\@ifundefined{\@object@this@member@id{#1}}{%
 	\expandafter\xdef\csname\@object@member@id{#1}{#2}\endcsname{#3}%
-	%}{%
-	%	\errhelp{Команда должна быть пропущена, нажмите <return> для продолжения}%
-	%	\errmessage{Переопределение значения элемента данных не допускается}%
-	%}%
 }
 \def\@object@this@property@set#1#2{%
 	\@object@property@set{\@object@this}{#1}{#2}%
