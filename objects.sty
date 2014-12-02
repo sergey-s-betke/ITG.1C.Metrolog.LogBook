@@ -79,9 +79,18 @@
 	\@object@class@new{#1}{\@object@class@id#1}%
 }
 
-\def\@object#1{%
+\def\@object@new#1{%
 	\@member{#1} of class {#1}%
 	\@object@class@def{#1}% ...
+}
+
+\let\@object@new@optional\@object@new
+\let\@object@new@mandatory\@object@new
+
+\def\@object{%
+	\@ifstar%
+		\@object@new@optional%
+		\@object@new@mandatory%
 }
 
 
