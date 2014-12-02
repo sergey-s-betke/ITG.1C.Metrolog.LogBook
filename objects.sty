@@ -84,14 +84,6 @@
 	\@object@class@def{#1}% ...
 }
 
-% #1 - member name
-% #2 - ignore spaces before `of class`
-% #3 - class name
-\def\@member#1#2of class#3{%
-	\expandafter\def\csname\@make@csname#1\endcsname{%
-		\@object@class@constructor{#3}{\@object@this@member@id{#1}}%
-	}%
-}
 
 % TODO remove obsolete \object csname
 \def\object#1{%
@@ -304,6 +296,25 @@
 	\@ifstar%
 	\@object@this@property@new@optional%
 	\@object@this@property@new@mandatory%
+}
+
+
+% #1 - member name
+% #2 - ignore spaces before `of class`
+% #3 - class name
+\def\@object@this@member@new#1#2of class#3{%
+	\expandafter\def\csname\@make@csname#1\endcsname{%
+		\@object@class@constructor{#3}{\@object@this@member@id{#1}}%
+	}%
+}
+
+\let\@object@this@member@new@optional\@object@this@member@new
+\let\@object@this@member@new@mandatory\@object@this@member@new
+
+\def\@member{%
+	\@ifstar%
+		\@object@this@member@new@optional%
+		\@object@this@member@new@mandatory%
 }
 
 \newif\if@object@member@exists@
