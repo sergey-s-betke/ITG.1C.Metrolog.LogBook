@@ -35,10 +35,7 @@
 		}%
 	}%
 	\@object@this@method@new{ifexists}##1{%
-		\noexpand\@object@property@ifexists{\@object@this}{##1}%
-	}%
-	\@object@this@method@new{ifdefined}##1{%
-		\noexpand\@object@property@ifdefined{\@object@this}{##1}%...
+		\noexpand\@object@member@ifexists{\@object@this}{##1}%
 	}%
 }
 
@@ -152,8 +149,22 @@
 		\@object@this@method@new{count}{%
 			\noexpand\@object@collection@count{\@object@this}%
 		}%
+		\@object@this@method@new{@ifexists}{%
+			\noexpand\@object@collection@ifexists{\@object@this}%
+		}%
 	}
 }
+
+\def\@object@collection@ifexists#1{%
+	{% for restoring counters
+		\@tempcntb\csname \@object@collection@count@id{#1} \endcsname\relax%
+		\ifnum\@tempcntb>0\relax%
+			\aftergroup\@object@member@exists@true%
+		\else%
+			\aftergroup\@object@member@exists@false%
+		\fi%
+	}%
+}%
 
 \def\@object@collection@item@#1[#2]{%
 	{% for restoring counters
@@ -263,10 +274,18 @@
 		\@object@this@property@set{#1}{##1}%
 	}%
 	\@object@method@new{\@object@this@member@id{#1}}{@*}{%
-		\noexpand\@nameuse{\@object@member@id{\@object@this}{#1}}%
-		%\noexpand\@object@property@get{\@object@this}{#1}% !!! выяснить, почему не работает
+		\noexpand\@object@property@get{\@object@this}{\noexpand#1}%
+	}%
+	\@object@method@new{\@object@this@member@id{#1}}{@ifexists}{%
+		\noexpand\@object@property@ifexists{\@object@this}{\noexpand#1}%
 	}%
 }
+
+\def\@object@property@ifexists#1#2{%
+	\@ifundefined{\@object@member@id{#1}{#2}}%
+		{\@object@member@exists@false}%
+		{\@object@member@exists@true}%
+}%
 
 \let\@object@this@property@new@optional\@object@this@property@new
 	
@@ -287,30 +306,21 @@
 	\@object@this@property@new@mandatory%
 }
 
-\newif\if@object@property@defined@
+\newif\if@object@member@exists@
 
-\def\@object@property@ifdefined#1#2{%
-	\@ifundefined{\@object@member@id{#1}{#2}}%
-		{\@object@property@defined@false}%
-		{\@object@property@defined@true}%
-	\if@object@property@defined@%
+\def\@object@member@ifexists#1#2{%
+	\@ifundefined{\@object@member@id{\@object@member@id{#1}{#2}}{@ifexists}}{%
+		\@ifundefined{\@object@member@id{\@object@member@id{#1}{#2}}{@*}}%
+			{\@object@member@exists@false}%
+			{\@object@member@exists@true}%
+	}{%
+		\@object@method@call{\@object@member@id{#1}{#2}}{@ifexists}%
+	}%
+	\if@object@member@exists@%
 }
 
-\def\@object@this@property@ifdefined#1{%
-	\@object@property@defined{\@object@this}{#1}%
-}
-
-\newif\if@object@property@exists@
-
-\def\@object@property@ifexists#1#2{%
-	\@ifundefined{\@object@member@id{\@object@member@id{#1}{#2}}{@*}}%
-		{\@object@property@exists@false}%
-		{\@object@property@exists@true}%
-	\if@object@property@exists@%
-}
-
-\def\@object@this@property@ifexists#1{%
-	\@object@property@ifexists{\@object@this}{#1}%
+\def\@object@this@member@ifexists#1{%
+	\@object@member@ifexists{\@object@this}{#1}%
 }
 
 
