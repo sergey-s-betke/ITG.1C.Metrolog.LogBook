@@ -211,24 +211,25 @@
 		\todo{Указать обозначение руководства по эксплуатации}
 	
 		\begin{longtabu}[c]
-			{|X[b]|X[-1,r,b]|}
+			{|X[]|X[-1,r]|} %{|X[b]|X[-1,r,b]|}
 			\caption{Основные технические данные\label{Характеристики}}             \\
 			\hline%
 			Наименование параметра          & Значение                              \\\hline\endfirsthead
 			\caption*{Продолжение таблицы}                                          \\
 			\hline%
 			Наименование параметра          & Значение                              \\\hline\endhead
-			\hline%
+			%\hline%
 			\multicolumn{\the\LT@cols}{r}{Продолжение таблицы на следующей странице}\\\endfoot
-			                                                                          \hline\endlastfoot
+			%\hline
+																					  \endlastfoot
 			\@temptokena{}
 			\Формуляр\ОсновныеТехническиеДанные\Характеристика\foreach{\Характеристика}{
-				\global\eaddtokens\@temptokena{\Характеристика\Наименование, \Характеристика\ЕдиницаИзмерения}
+				\global\eaddtokens\@temptokena{\Характеристика\Наименование, \Характеристика\Значение\ЕдиницаИзмерения}
 				\global\addtokens\@temptokena{&}
 				\global\addtokens\@temptokena{$\numprint}
-					\global\eaddtokens\@temptokena{{\Характеристика\Значение}}
+					\global\eaddtokens\@temptokena{{\Характеристика\Значение\Значение}}
 					\global\addtokens\@temptokena{$}
-				\global\addtokens\@temptokena{\\}
+				\global\addtokens\@temptokena{\\\hline}
 			}%
 			\the\@temptokena
 		\end{longtabu}
