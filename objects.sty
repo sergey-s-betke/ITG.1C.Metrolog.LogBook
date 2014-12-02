@@ -231,12 +231,19 @@
 		\@object@this@collection@new@mandatory%
 }
 
-
-\def\@objects#1{%
+\def\@objects@new#1{%
 	\@collection{#1} of class {#1}%
 	\@object@class@def{#1}% ...
 }
 
+\let\@objects@new@optional\@objects@new
+\let\@objects@new@mandatory\@objects@new
+
+\def\@objects{%
+	\@ifstar%
+		\@objects@new@optional%
+		\@objects@new@mandatory%
+}
 
 \def\@object@member@invoke#1#2{%
 	\@ifundefined{\@object@member@id{#1}{#2}}{%
