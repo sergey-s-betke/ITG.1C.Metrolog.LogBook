@@ -19,6 +19,9 @@
 \RequirePackage{afterpage}
 \RequirePackage{pdflscape}
 
+\newdimen\logbook@subparams@margin
+\logbook@subparams@margin=10mm
+
 \def\addtokens#1#2{%
 	#1\expandafter{\the#1#2}%
 }
@@ -258,7 +261,7 @@
 						%\ifexists
 						%\fi
 						\global\addtokens\@temptokena{\\\nopagebreak}
-						\global\addtokens\@temptokena{\hspace{10mm}\parbox[b]{\linewidth-10mm}}
+						\global\addtokens\@temptokena{\hspace{\logbook@subparams@margin}\parbox[b]{\linewidth-\logbook@subparams@margin}}
 						\global\eaddtokens\@temptokena{{\Характеристика\Наименование, \Характеристика\Значение\ЕдиницаИзмерения}}
 						\global\addtokens\@temptokena{&}
 						\global\addtokens\@temptokena{&}
