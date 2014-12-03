@@ -10,15 +10,14 @@
 \ProcessOptions\relax
 
 \RequirePackage{xecyr}
-
 \RequirePackage{xstring}
-
 \RequirePackage{longtable}
 % решаем проблемы несовместимости пакетов
 \let\c@table\relax
 \let\tablename\relax
-
 \RequirePackage{tabu}
+\RequirePackage{afterpage}
+\RequirePackage{pdflscape}
 
 \def\addtokens#1#2{%
 	#1\expandafter{\the#1#2}%
@@ -207,97 +206,105 @@
 		Метрологические характеристики приведены в таблице~\ref{МетрологическиеХарактеристики}.
 		\todo{Заполнить раздел <<Основные технические сведения>> сведениями об измерительных каналах и
 			нормируемых метрологических характеристиках}
-		
-		\newif\ifОтИДоВОднихЕИ
-				
-		\begin{longtabu}[c]
-			{|X[b]|X[-1,c]|X[-1,r,b]|}
-			\caption{Метрологические характеристики\label{МетрологическиеХарактеристики}} \\
-			\hline%
-			Наименование параметра          & Диапазон & Значение                      \\\hline\endfirsthead
-			\caption*{Продолжение таблицы}                                             \\
-			\hline%
-			Наименование параметра          & Диапазон & Значение                      \\\hline\endhead
-			\hline%
-			\multicolumn{\the\LT@cols}{r}{Продолжение таблицы на следующей странице}   \\\endfoot
-			%\hline
-			                                                                             \endlastfoot
-			\@temptokena{}
-			\Формуляр\ОсновныеТехническиеДанные\КаналИзмерений\foreach{\КаналИзмерений}{
-				\edef\ЕдиницаИзмерения{\КаналИзмерений\Диапазон\От\ЕдиницаИзмерения}
-				\edef\reserved@b{\КаналИзмерений\Диапазон\До\ЕдиницаИзмерения}
-				\ifx\ЕдиницаИзмерения\reserved@b \ОтИДоВОднихЕИtrue \else \ОтИДоВОднихЕИfalse \fi
-				%
-				\global\eaddtokens\@temptokena{\КаналИзмерений\Наименование \ifОтИДоВОднихЕИ, \ЕдиницаИзмерения\fi}
-				\global\addtokens\@temptokena{&}
-				\global\eaddtokens\@temptokena{От~}
-				\global\addtokens\@temptokena{$\numprint}
+	\fi
+	
+	\Формуляр\ОсновныеТехническиеДанные\ifexists\Характеристика
+		Основные технические данные приведены в таблице~\ref{Характеристики}.
+		\done\todo{Заполнить раздел <<Основные технические сведения>> характеристиками}
+	\fi
+
+	\newif\ifОтИДоВОднихЕИ
+
+	\afterpage{
+		\Формуляр\ОсновныеТехническиеДанные\ifexists\КаналИзмерений
+		\begin{landscape}
+			\begin{longtabu}[c]
+				{|X[b]|X[-1,c]|X[-1,r,b]|}
+				\caption{Метрологические характеристики\label{МетрологическиеХарактеристики}} \\
+				\hline%
+				Наименование параметра          & Диапазон & Значение                      \\\hline\endfirsthead
+				\caption*{Продолжение таблицы}                                             \\
+				\hline%
+				Наименование параметра          & Диапазон & Значение                      \\\hline\endhead
+				\hline%
+				\multicolumn{\the\LT@cols}{r}{Продолжение таблицы на следующей странице}   \\\endfoot
+				%\hline
+				\endlastfoot
+				\@temptokena{}
+				\Формуляр\ОсновныеТехническиеДанные\КаналИзмерений\foreach{\КаналИзмерений}{
+					\edef\ЕдиницаИзмерения{\КаналИзмерений\Диапазон\От\ЕдиницаИзмерения}
+					\edef\reserved@b{\КаналИзмерений\Диапазон\До\ЕдиницаИзмерения}
+					\ifx\ЕдиницаИзмерения\reserved@b \ОтИДоВОднихЕИtrue \else \ОтИДоВОднихЕИfalse \fi
+					%
+					\global\eaddtokens\@temptokena{\КаналИзмерений\Наименование \ifОтИДоВОднихЕИ, \ЕдиницаИзмерения\fi}
+					\global\addtokens\@temptokena{&}
+					\global\eaddtokens\@temptokena{От~}
+					\global\addtokens\@temptokena{$\numprint}
 					\global\eaddtokens\@temptokena{{\КаналИзмерений\Диапазон\От\Значение}}
 					\global\addtokens\@temptokena{$}
-				\ifОтИДоВОднихЕИ\else \global\eaddtokens\@temptokena{~\КаналИзмерений\Диапазон\От\ЕдиницаИзмерения} \fi					
-				\global\eaddtokens\@temptokena{ до~}
-				\global\addtokens\@temptokena{$\numprint}
+					\ifОтИДоВОднихЕИ\else \global\eaddtokens\@temptokena{~\КаналИзмерений\Диапазон\От\ЕдиницаИзмерения} \fi					
+					\global\eaddtokens\@temptokena{ до~}
+					\global\addtokens\@temptokena{$\numprint}
 					\global\eaddtokens\@temptokena{{\КаналИзмерений\Диапазон\До\Значение}}
 					\global\addtokens\@temptokena{$}
-				\ifОтИДоВОднихЕИ\else \global\eaddtokens\@temptokena{~\КаналИзмерений\Диапазон\До\ЕдиницаИзмерения} \fi					
-				\global\eaddtokens\@temptokena{~включ.}
-				\global\addtokens\@temptokena{&}
-				%
-				%\КаналИзмерений\testexists\НормируемаяМетрологическаяХарактеристика
-				%\ifexists
+					\ifОтИДоВОднихЕИ\else \global\eaddtokens\@temptokena{~\КаналИзмерений\Диапазон\До\ЕдиницаИзмерения} \fi					
+					\global\eaddtokens\@temptokena{~включ.}
+					\global\addtokens\@temptokena{&}
+					%
+					%\КаналИзмерений\testexists\НормируемаяМетрологическаяХарактеристика
+					%\ifexists
 					\КаналИзмерений\НормируемаяМетрологическаяХарактеристика\foreach{\Характеристика}{
 						%\Характеристика\testexists\ВДиапазонеИзмерений
 						%\ifexists
 						%\fi
 						\global\addtokens\@temptokena{\\\nopagebreak}
 						\global\addtokens\@temptokena{\hspace{10mm}\parbox[b]{\linewidth-10mm}}
-							\global\eaddtokens\@temptokena{{\Характеристика\Наименование, \Характеристика\Значение\ЕдиницаИзмерения}}
+						\global\eaddtokens\@temptokena{{\Характеристика\Наименование, \Характеристика\Значение\ЕдиницаИзмерения}}
 						\global\addtokens\@temptokena{&}
 						\global\addtokens\@temptokena{&}
 						\global\addtokens\@temptokena{$\numprint}
-							\global\eaddtokens\@temptokena{{\Характеристика\Значение\Значение}}
-							\global\addtokens\@temptokena{$}
+						\global\eaddtokens\@temptokena{{\Характеристика\Значение\Значение}}
+						\global\addtokens\@temptokena{$}
 					}
-				%\fi
-				%
-				\global\addtokens\@temptokena{\\}
-				\global\addtokens\@temptokena{\hline}
-			}%
-			\the\@temptokena
-		\end{longtabu}
-		\todo{При выводе единиц измерения диапазона при условии, что ЕИ начала и конца диапазона совпадает
-			выводить её один раз, непосредственно за наименованием канала}
-	\fi
-		
-	\Формуляр\ОсновныеТехническиеДанные\ifexists\Характеристика
-		Основные технические данные приведены в таблице~\ref{Характеристики}.
-		\done\todo{Заполнить раздел <<Основные технические сведения>> характеристиками}
-
-		\begin{longtabu}[c]
-			{|X[b]|X[-1,r,b]|}
-			\caption{Основные технические данные\label{Характеристики}}             \\
-			\hline%
-			Наименование параметра          & Значение                              \\\hline\endfirsthead
-			\caption*{Продолжение таблицы}                                          \\
-			\hline%
-			Наименование параметра          & Значение                              \\\hline\endhead
-			\hline%
-			\multicolumn{\the\LT@cols}{r}{Продолжение таблицы на следующей странице}\\\endfoot
-			\hline
-																					  \endlastfoot
-			\@temptokena{}
-			\Формуляр\ОсновныеТехническиеДанные\Характеристика\foreach{\Характеристика}{
-				\global\eaddtokens\@temptokena{\Характеристика\Наименование, \Характеристика\Значение\ЕдиницаИзмерения}
-				\global\addtokens\@temptokena{&}
-				\global\addtokens\@temptokena{$\numprint}
+					%\fi
+					%
+					\global\addtokens\@temptokena{\\}
+					\global\addtokens\@temptokena{\hline}
+				}%
+				\the\@temptokena
+			\end{longtabu}
+			\todo{При выводе единиц измерения диапазона при условии, что ЕИ начала и конца диапазона совпадает
+				выводить её один раз, непосредственно за наименованием канала}
+		\fi
+		\Формуляр\ОсновныеТехническиеДанные\ifexists\Характеристика
+			\begin{longtabu}[c]
+				{|X[b]|X[-1,r,b]|}
+				\caption{Основные технические данные\label{Характеристики}}             \\
+				\hline%
+				Наименование параметра          & Значение                              \\\hline\endfirsthead
+				\caption*{Продолжение таблицы}                                          \\
+				\hline%
+				Наименование параметра          & Значение                              \\\hline\endhead
+				\hline%
+				\multicolumn{\the\LT@cols}{r}{Продолжение таблицы на следующей странице}\\\endfoot
+				\hline
+				\endlastfoot
+				\@temptokena{}
+				\Формуляр\ОсновныеТехническиеДанные\Характеристика\foreach{\Характеристика}{
+					\global\eaddtokens\@temptokena{\Характеристика\Наименование, \Характеристика\Значение\ЕдиницаИзмерения}
+					\global\addtokens\@temptokena{&}
+					\global\addtokens\@temptokena{$\numprint}
 					\global\eaddtokens\@temptokena{{\Характеристика\Значение\Значение}}
 					\global\addtokens\@temptokena{$}
-				\global\addtokens\@temptokena{\\} %\hline}
-			}%
-			\the\@temptokena
-		\end{longtabu}
-	\fi
-	
+					\global\addtokens\@temptokena{\\} %\hline}
+				}%
+				\the\@temptokena
+			\end{longtabu}
+		\fi	
+		\end{landscape}
+	}
+	%\clearpage
+		
 	\Формуляр\Документация\ifexists\РЭ%
 		Более подробно~--- смотрите \Документ{\Формуляр\Документация\РЭ}.
 		\done\todo{Указать обозначение руководства по эксплуатации}
@@ -440,6 +447,8 @@
 	\section{Сведения о цене и условиях приобретения изделия}
 	
 	\todo{Заполнить раздел <<Сведения о цене и условиях приобретения изделия>>}
+
+	\clearpage
 }
 
 \AtEndDocument{

@@ -9,6 +9,8 @@
 \usepackage{objects}
 \usepackage{gost2.612}
 \usepackage{trace}
+\usepackage{afterpage}
+\usepackage{pdflscape}
 
 \setmainfont{GOST 2.304-81 type B}[
 	Path = fonts/ ,
@@ -58,6 +60,14 @@
 	-- \Формуляр\Разработал[1]\ДолжностноеЛицо\Фамилия
 	-- \Формуляр\Разработал[2]\ДолжностноеЛицо\Фамилия
 		
+	%\afterpage{
+		\begin{landscape}
+		\Формуляр\Разработал\foreach{\Разработал}{
+			!!! \Разработал\ДолжностноеЛицо\Фамилия
+		}
+		\end{landscape}
+	%}
+			
 	\object{Формуляр}{ИдентификационныеДанные}{Изделие}{Наименование}
 	-- \Формуляр\ИдентификационныеДанные\Изделие\Наименование
 
