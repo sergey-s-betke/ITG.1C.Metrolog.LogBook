@@ -241,34 +241,63 @@
 						\global\eaddtokens\@temptokena{\КаналИзмерений\Наименование \ifОтИДоВОднихЕИ, \ЕдиницаИзмерения\fi}
 						\global\addtokens\@temptokena{&}
 						\global\eaddtokens\@temptokena{От~}
-						\global\addtokens\@temptokena{$\numprint}
-						\global\eaddtokens\@temptokena{{\КаналИзмерений\Диапазон\От\Значение}}
-						\global\addtokens\@temptokena{$}
-						\ifОтИДоВОднихЕИ\else \global\eaddtokens\@temptokena{~\КаналИзмерений\Диапазон\От\ЕдиницаИзмерения} \fi					
+							\global\addtokens\@temptokena{$\numprint}
+								\global\eaddtokens\@temptokena{{\КаналИзмерений\Диапазон\От\Значение}}
+								\global\addtokens\@temptokena{$}
+							\ifОтИДоВОднихЕИ\else \global\eaddtokens\@temptokena{~\КаналИзмерений\Диапазон\От\ЕдиницаИзмерения} \fi					
 						\global\eaddtokens\@temptokena{ до~}
-						\global\addtokens\@temptokena{$\numprint}
-						\global\eaddtokens\@temptokena{{\КаналИзмерений\Диапазон\До\Значение}}
-						\global\addtokens\@temptokena{$}
-						\ifОтИДоВОднихЕИ\else \global\eaddtokens\@temptokena{~\КаналИзмерений\Диапазон\До\ЕдиницаИзмерения} \fi					
+							\global\addtokens\@temptokena{$\numprint}
+								\global\eaddtokens\@temptokena{{\КаналИзмерений\Диапазон\До\Значение}}
+								\global\addtokens\@temptokena{$}
+							\ifОтИДоВОднихЕИ\else \global\eaddtokens\@temptokena{~\КаналИзмерений\Диапазон\До\ЕдиницаИзмерения} \fi					
 						\global\eaddtokens\@temptokena{~включ.}
 						\global\addtokens\@temptokena{&}
 						%
-						%\КаналИзмерений\testexists\НормируемаяМетрологическаяХарактеристика
-						%\ifexists
-						\КаналИзмерений\НормируемаяМетрологическаяХарактеристика\foreach{\Характеристика}{
-							%\Характеристика\testexists\ВДиапазонеИзмерений
-							%\ifexists
-							%\fi
-							\global\addtokens\@temptokena{\\\nopagebreak}
-							\global\addtokens\@temptokena{\hspace{\logbook@subparams@margin}\parbox[b]{\linewidth-\logbook@subparams@margin}}
-							\global\eaddtokens\@temptokena{{\Характеристика\Наименование, \Характеристика\Значение\ЕдиницаИзмерения}}
-							\global\addtokens\@temptokena{&}
-							\global\addtokens\@temptokena{&}
-							\global\addtokens\@temptokena{$\numprint}
-							\global\eaddtokens\@temptokena{{\Характеристика\Значение\Значение}}
-							\global\addtokens\@temptokena{$}
-						}
-						%\fi
+						\КаналИзмерений\ifexists\НормируемаяМетрологическаяХарактеристика {
+							\КаналИзмерений\НормируемаяМетрологическаяХарактеристика\foreach{\Характеристика}{
+								\global\addtokens\@temptokena{\\\nopagebreak}
+								%
+								\edef\ЕдиницаИзмерения{\КаналИзмерений\Диапазон\От\ЕдиницаИзмерения}
+								\edef\reserved@b{\КаналИзмерений\Диапазон\До\ЕдиницаИзмерения}
+								\ifx\ЕдиницаИзмерения\reserved@b \ОтИДоВОднихЕИtrue \else \ОтИДоВОднихЕИfalse \fi
+								%
+								\global\addtokens\@temptokena{\hspace{\logbook@subparams@margin}\parbox[b]{\linewidth-\logbook@subparams@margin}}
+								\def\ЕдиницаИзмерения{\Характеристика\Значение\ЕдиницаИзмерения}
+								\global\eaddtokens\@temptokena{{\Характеристика\Наименование, \ЕдиницаИзмерения}}
+								\global\addtokens\@temptokena{&}
+								\Характеристика\ifexists\ВДиапазонеИзмерений {
+									%
+									\ОтИДоВОднихЕИfalse
+									\def\reserved@b{\Характеристика\ВДиапазонеИзмерений\От\ЕдиницаИзмерения}
+									\ifx\ЕдиницаИзмерения\reserved@b
+										\def\reserved@b{\Характеристика\ВДиапазонеИзмерений\До\ЕдиницаИзмерения}
+										\ifx\ЕдиницаИзмерения\reserved@b
+											\ОтИДоВОднихЕИtrue
+										\fi			
+									\fi
+									%
+									\edef\ЕдиницаИзмерения{\Характеристика\ВДиапазонеИзмерений\От\ЕдиницаИзмерения}
+									\edef\reserved@b{\Характеристика\ВДиапазонеИзмерений\До\ЕдиницаИзмерения}
+									\ifx\ЕдиницаИзмерения\reserved@b \ОтИДоВОднихЕИtrue \else \ОтИДоВОднихЕИfalse \fi
+									%
+									\global\eaddtokens\@temptokena{От~}
+										\global\addtokens\@temptokena{$\numprint}
+											\global\eaddtokens\@temptokena{{\Характеристика\ВДиапазонеИзмерений\От\Значение}}
+											\global\addtokens\@temptokena{$}
+										\ifОтИДоВОднихЕИ\else \global\eaddtokens\@temptokena{~\Характеристика\ВДиапазонеИзмерений\От\ЕдиницаИзмерения} \fi					
+									\global\eaddtokens\@temptokena{ до~}
+										\global\addtokens\@temptokena{$\numprint}
+											\global\eaddtokens\@temptokena{{\Характеристика\ВДиапазонеИзмерений\До\Значение}}
+											\global\addtokens\@temptokena{$}
+										\ifОтИДоВОднихЕИ\else \global\eaddtokens\@temptokena{~\Характеристика\ВДиапазонеИзмерений\До\ЕдиницаИзмерения} \fi					
+									\global\eaddtokens\@temptokena{~включ.}
+								}{}
+								\global\addtokens\@temptokena{&}
+								\global\addtokens\@temptokena{$\numprint}
+									\global\eaddtokens\@temptokena{{\Характеристика\Значение\Значение}}
+									\global\addtokens\@temptokena{$}
+							}
+						}{}%
 						%
 						\global\addtokens\@temptokena{\\}
 						\global\addtokens\@temptokena{\hline}
@@ -296,8 +325,8 @@
 					\global\eaddtokens\@temptokena{\Характеристика\Наименование, \Характеристика\Значение\ЕдиницаИзмерения}
 					\global\addtokens\@temptokena{&}
 					\global\addtokens\@temptokena{$\numprint}
-					\global\eaddtokens\@temptokena{{\Характеристика\Значение\Значение}}
-					\global\addtokens\@temptokena{$}
+						\global\eaddtokens\@temptokena{{\Характеристика\Значение\Значение}}
+						\global\addtokens\@temptokena{$}
 					\global\addtokens\@temptokena{\\} %\hline}
 				}%
 				\the\@temptokena
