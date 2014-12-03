@@ -36,7 +36,7 @@
 			\noexpand\@object@method@call{\@object@this}{@*}%
 		}%
 	}%
-	\@object@this@method@new{ifexists}##1##2##3{%
+	\@object@this@method@new*{ifexists}##1##2##3{%
 		\noexpand\@object@member@ifexists{\@object@this}{##1}{%
 			##2%
 		}{%
@@ -141,10 +141,10 @@
 	}
 	{
 		\@object@this@set{\@object@this@member@id{#1}}
-		\@object@this@method@new{for}##1[##2][##3]##4{%
+		\@object@this@method@new*{for}##1[##2][##3]##4{%
 			\noexpand\@object@collection@for{\@object@this}{##1}[##2][##3]{##4}%
 		}%
-		\@object@this@method@new{foreach}##1##2{%
+		\@object@this@method@new*{foreach}##1##2{%
 			\noexpand\@object@method@call{\@object@this}{for}{##1}[][]{##2}%
 		}%
 		\@object@this@method@new{@*}{%
@@ -202,7 +202,7 @@
 % #3 - start index
 % #4 - stop index
 % #5 - loop code
-\def\@object@collection@for#1#2[#3][#4]#5{%
+\long\def\@object@collection@for#1#2[#3][#4]#5{%
 	{%
 		\def\reserved@a{#3}%
 		\ifx\reserved@a\@empty%
@@ -349,7 +349,7 @@
 		\@object@this@member@new@mandatory%
 }
 
-\def\@object@member@ifexists#1#2#3#4{%
+\long\def\@object@member@ifexists#1#2#3#4{%
 	\@ifundefined{\@object@member@id{\@object@member@id{#1}{#2}}{@ifexists}}{%
 		\@ifundefined{\@object@member@id{\@object@member@id{#1}{#2}}{@*}}%
 			{\@object@member@exists@false}%
@@ -364,17 +364,19 @@
 	\fi%
 }
 
-\def\@object@this@member@ifexists#1#2#3{%
+\long\def\@object@this@member@ifexists#1#2#3{%
 	\@object@member@ifexists{\@object@this}{#1}{#2}{#3}%
 }
 
 
-\def\@object@method@new#1#2{%
-	\expandafter\xdef\csname\@object@member@id{#1}{#2}\endcsname%
+\def\@object@method@new@#1#2{%
+	\l@ngrel@x\expandafter\xdef\csname\@object@member@id{#1}{#2}\endcsname%
 }
-\def\@object@this@method@new#1{%
+\def\@object@method@new{\@star@or@long\@object@method@new@}
+\def\@object@this@method@new@#1{%
 	\@object@method@new{\@object@this}{#1}%
 }
+\def\@object@this@method@new{\@star@or@long\@object@this@method@new@}
 
 \def\@object@method@call#1#2{%
 	\@ifundefined{\@object@member@id{#1}{#2}}%
