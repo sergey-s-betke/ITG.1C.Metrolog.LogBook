@@ -211,13 +211,13 @@
 		\newif\ifОтИДоВОднихЕИ
 				
 		\begin{longtabu}[c]
-			{|X[b]|X[-1,r,b]|}
+			{|X[b]|X[-1,c]|X[-1,r,b]|}
 			\caption{Метрологические характеристики\label{МетрологическиеХарактеристики}} \\
 			\hline%
-			Наименование параметра          & Значение                                 \\\hline\endfirsthead
+			Наименование параметра          & Диапазон & Значение                      \\\hline\endfirsthead
 			\caption*{Продолжение таблицы}                                             \\
 			\hline%
-			Наименование параметра          & Значение                                 \\\hline\endhead
+			Наименование параметра          & Диапазон & Значение                      \\\hline\endhead
 			\hline%
 			\multicolumn{\the\LT@cols}{r}{Продолжение таблицы на следующей странице}   \\\endfoot
 			%\hline
@@ -229,29 +229,30 @@
 				\ifx\ЕдиницаИзмерения\reserved@b \ОтИДоВОднихЕИtrue \else \ОтИДоВОднихЕИfalse \fi
 				%
 				\global\eaddtokens\@temptokena{\КаналИзмерений\Наименование \ifОтИДоВОднихЕИ, \ЕдиницаИзмерения\fi}
-				%\global\addtokens\@temptokena{&}
-				%\global\addtokens\@temptokena{\\\nopagebreak}
-				%
-				%\global\addtokens\@temptokena{\raggedleft}
-				\global\eaddtokens\@temptokena{, \hfill от \ifОтИДоВОднихЕИ\else, \КаналИзмерений\Диапазон\От\ЕдиницаИзмерения\fi} % {от \ifОтИДоВОднихЕИ\else, \КаналИзмерений\Диапазон\От\ЕдиницаИзмерения\fi}
 				\global\addtokens\@temptokena{&}
+				\global\eaddtokens\@temptokena{От~}
 				\global\addtokens\@temptokena{$\numprint}
 					\global\eaddtokens\@temptokena{{\КаналИзмерений\Диапазон\От\Значение}}
 					\global\addtokens\@temptokena{$}
-				\global\addtokens\@temptokena{\\\nopagebreak}
-				%
-				\global\addtokens\@temptokena{\raggedleft}
-				\global\eaddtokens\@temptokena{до\ifОтИДоВОднихЕИ\else, \КаналИзмерений\Диапазон\До\ЕдиницаИзмерения\fi}
-				\global\addtokens\@temptokena{&}
+				\ifОтИДоВОднихЕИ\else \global\eaddtokens\@temptokena{~\КаналИзмерений\Диапазон\От\ЕдиницаИзмерения} \fi					
+				\global\eaddtokens\@temptokena{ до~}
 				\global\addtokens\@temptokena{$\numprint}
 					\global\eaddtokens\@temptokena{{\КаналИзмерений\Диапазон\До\Значение}}
 					\global\addtokens\@temptokena{$}
+				\ifОтИДоВОднихЕИ\else \global\eaddtokens\@temptokena{~\КаналИзмерений\Диапазон\До\ЕдиницаИзмерения} \fi					
+				\global\eaddtokens\@temptokena{~включ.}
+				\global\addtokens\@temptokena{&}
 				%
-				%\КаналИзмерений\ifexists\НормируемаяМетрологическаяХарактеристика
+				%\КаналИзмерений\testexists\НормируемаяМетрологическаяХарактеристика
+				%\ifexists
 					\КаналИзмерений\НормируемаяМетрологическаяХарактеристика\foreach{\Характеристика}{
-						\global\addtokens\@temptokena{\\}
+						%\Характеристика\testexists\ВДиапазонеИзмерений
+						%\ifexists
+						%\fi
+						\global\addtokens\@temptokena{\\\nopagebreak}
 						\global\addtokens\@temptokena{\hspace{10mm}\parbox[b]{\linewidth-10mm}}
 							\global\eaddtokens\@temptokena{{\Характеристика\Наименование, \Характеристика\Значение\ЕдиницаИзмерения}}
+						\global\addtokens\@temptokena{&}
 						\global\addtokens\@temptokena{&}
 						\global\addtokens\@temptokena{$\numprint}
 							\global\eaddtokens\@temptokena{{\Характеристика\Значение\Значение}}
@@ -280,9 +281,9 @@
 			\caption*{Продолжение таблицы}                                          \\
 			\hline%
 			Наименование параметра          & Значение                              \\\hline\endhead
-			%\hline%
+			\hline%
 			\multicolumn{\the\LT@cols}{r}{Продолжение таблицы на следующей странице}\\\endfoot
-			%\hline
+			\hline
 																					  \endlastfoot
 			\@temptokena{}
 			\Формуляр\ОсновныеТехническиеДанные\Характеристика\foreach{\Характеристика}{
@@ -291,7 +292,7 @@
 				\global\addtokens\@temptokena{$\numprint}
 					\global\eaddtokens\@temptokena{{\Характеристика\Значение\Значение}}
 					\global\addtokens\@temptokena{$}
-				\global\addtokens\@temptokena{\\\hline}
+				\global\addtokens\@temptokena{\\} %\hline}
 			}%
 			\the\@temptokena
 		\end{longtabu}
