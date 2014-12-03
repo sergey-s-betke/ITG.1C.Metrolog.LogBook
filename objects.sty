@@ -24,6 +24,9 @@
 \def\@object@item@id#1[#2]{#1@#2}
 \def\@object@this@item@id[#1]{\@object@item@id{\@object@this}[#1]}
 
+\newif\if@object@member@exists@
+\let\ifexists\if@object@member@exists@
+
 \def\@object@class@prototype#1{%
 	\@object@this@set{#1}%
 	\@object@this@method@new{@*}##1{%
@@ -35,7 +38,11 @@
 		}%
 	}%
 	\@object@this@method@new{ifexists}##1{%
-		\noexpand\@object@member@ifexists{\@object@this}{##1}%
+		\noexpand\@object@member@testExists{\@object@this}{##1}%
+		\noexpand\if@object@member@exists@%
+	}%
+	\@object@this@method@new{testexists}##1{%
+		\noexpand\@object@member@testExists{\@object@this}{##1}%
 	}%
 }
 
@@ -150,13 +157,13 @@
 		\@object@this@method@new{count}{%
 			\noexpand\@object@collection@count{\@object@this}%
 		}%
-		\@object@this@method@new{@ifexists}{%
-			\noexpand\@object@collection@ifexists{\@object@this}%
+		\@object@this@method@new{@testExists}{%
+			\noexpand\@object@collection@testExists{\@object@this}%
 		}%
 	}
 }
 
-\def\@object@collection@ifexists#1{%
+\def\@object@collection@testExists#1{%
 	{% for restoring counters
 		\@tempcntb\csname \@object@collection@count@id{#1} \endcsname\relax%
 		\ifnum\@tempcntb>0\relax%
@@ -213,7 +220,7 @@
 			\expandafter\@tempcntb\reserved@b\relax%
 		\fi%
 		%
-		\@whilesw{\ifnum\@tempcnta<\@tempcntb\relax}\fi{%
+		\@whilenum{\@tempcnta<\@tempcntb}\do{%
 			\advance\@tempcnta by 1\relax%
 			\@object@method@call%
 				{\@object@item@id{#1}[\the\@tempcnta]}%
@@ -294,12 +301,12 @@
 	\@object@method@new{\@object@this@member@id{#1}}{@*}{%
 		\noexpand\@object@property@get{\@object@this}{\noexpand#1}%
 	}%
-	\@object@method@new{\@object@this@member@id{#1}}{@ifexists}{%
-		\noexpand\@object@property@ifexists{\@object@this}{\noexpand#1}%
+	\@object@method@new{\@object@this@member@id{#1}}{@testExists}{%
+		\noexpand\@object@property@testExists{\@object@this}{\noexpand#1}%
 	}%
 }
 
-\def\@object@property@ifexists#1#2{%
+\def\@object@property@testExists#1#2{%
 	\@ifundefined{\@object@member@id{#1}{#2}}%
 		{\@object@member@exists@false}%
 		{\@object@member@exists@true}%
@@ -320,8 +327,8 @@
 
 \def\@property{%
 	\@ifstar%
-	\@object@this@property@new@optional%
-	\@object@this@property@new@mandatory%
+		\@object@this@property@new@optional%
+		\@object@this@property@new@mandatory%
 }
 
 
@@ -343,21 +350,18 @@
 		\@object@this@member@new@mandatory%
 }
 
-\newif\if@object@member@exists@
-
-\def\@object@member@ifexists#1#2{%
-	\@ifundefined{\@object@member@id{\@object@member@id{#1}{#2}}{@ifexists}}{%
+\def\@object@member@testExists#1#2{%
+	\@ifundefined{\@object@member@id{\@object@member@id{#1}{#2}}{@testExists}}{%
 		\@ifundefined{\@object@member@id{\@object@member@id{#1}{#2}}{@*}}%
 			{\@object@member@exists@false}%
 			{\@object@member@exists@true}%
 	}{%
-		\@object@method@call{\@object@member@id{#1}{#2}}{@ifexists}%
+		\@object@method@call{\@object@member@id{#1}{#2}}{@testExists}%
 	}%
-	\if@object@member@exists@%
 }
 
-\def\@object@this@member@ifexists#1{%
-	\@object@member@ifexists{\@object@this}{#1}%
+\def\@object@this@member@testExists#1{%
+	\@object@member@testExists{\@object@this}{#1}%
 }
 
 
