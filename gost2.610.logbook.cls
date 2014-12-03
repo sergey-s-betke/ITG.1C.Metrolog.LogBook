@@ -211,7 +211,7 @@
 		\newif\ifОтИДоВОднихЕИ
 				
 		\begin{longtabu}[c]
-			{|X[]|X[-1,r]|} %{|X[b]|X[-1,r,b]|}
+			{|X[b]|X[-1,r,b]|}
 			\caption{Метрологические характеристики\label{МетрологическиеХарактеристики}} \\
 			\hline%
 			Наименование параметра          & Значение                                 \\\hline\endfirsthead
@@ -236,18 +236,30 @@
 				\global\eaddtokens\@temptokena{от \ifОтИДоВОднихЕИ\else, \КаналИзмерений\Диапазон\От\ЕдиницаИзмерения\fi}
 				\global\addtokens\@temptokena{&}
 				\global\addtokens\@temptokena{$\numprint}
-				\global\eaddtokens\@temptokena{{\КаналИзмерений\Диапазон\От\Значение}}
-				\global\addtokens\@temptokena{$}
+					\global\eaddtokens\@temptokena{{\КаналИзмерений\Диапазон\От\Значение}}
+					\global\addtokens\@temptokena{$}
 				\global\addtokens\@temptokena{\\\nopagebreak}
 				%
 				\global\addtokens\@temptokena{\raggedleft}
 				\global\eaddtokens\@temptokena{до\ifОтИДоВОднихЕИ\else, \КаналИзмерений\Диапазон\До\ЕдиницаИзмерения\fi}
 				\global\addtokens\@temptokena{&}
 				\global\addtokens\@temptokena{$\numprint}
-				\global\eaddtokens\@temptokena{{\КаналИзмерений\Диапазон\До\Значение}}
-				\global\addtokens\@temptokena{$}
-				\global\addtokens\@temptokena{\\}
+					\global\eaddtokens\@temptokena{{\КаналИзмерений\Диапазон\До\Значение}}
+					\global\addtokens\@temptokena{$}
 				%
+				%\КаналИзмерений\ifexists\НормируемаяМетрологическаяХарактеристика
+					\КаналИзмерений\НормируемаяМетрологическаяХарактеристика\foreach{\Характеристика}{
+						\global\addtokens\@temptokena{\\}
+						\global\addtokens\@temptokena{\hspace{10mm}\parbox[b]{\linewidth-10mm}}
+							\global\eaddtokens\@temptokena{{\Характеристика\Наименование, \Характеристика\Значение\ЕдиницаИзмерения}}
+						\global\addtokens\@temptokena{&}
+						\global\addtokens\@temptokena{$\numprint}
+							\global\eaddtokens\@temptokena{{\Характеристика\Значение\Значение}}
+							\global\addtokens\@temptokena{$}
+					}
+				%\fi
+				%
+				\global\addtokens\@temptokena{\\}
 				\global\addtokens\@temptokena{\hline}
 			}%
 			\the\@temptokena
@@ -259,9 +271,9 @@
 	\Формуляр\ОсновныеТехническиеДанные\ifexists\Характеристика
 		Основные технические данные приведены в таблице~\ref{Характеристики}.
 		\done\todo{Заполнить раздел <<Основные технические сведения>> характеристиками}
-	
+
 		\begin{longtabu}[c]
-			{|X[]|X[-1,r]|} %{|X[b]|X[-1,r,b]|}
+			{|X[b]|X[-1,r,b]|}
 			\caption{Основные технические данные\label{Характеристики}}             \\
 			\hline%
 			Наименование параметра          & Значение                              \\\hline\endfirsthead
