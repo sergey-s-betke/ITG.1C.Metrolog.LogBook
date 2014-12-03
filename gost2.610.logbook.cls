@@ -304,34 +304,39 @@
 					}%
 					\the\@temptokena
 				\end{longtabu}
-				\todo{При выводе единиц измерения диапазона при условии, что ЕИ начала и конца диапазона совпадает
-					выводить её один раз, непосредственно за наименованием канала}
-		}{}
-		\Формуляр\ОсновныеТехническиеДанные\ifexists\Характеристика {
-			\begin{longtabu}[c]
-				{|X[b]|X[-1,r,b]|}
-				\caption{Основные технические данные\label{Характеристики}}             \\
-				\hline%
-				Наименование параметра          & Значение                              \\\hline\endfirsthead
-				\caption*{Продолжение таблицы}                                          \\
-				\hline%
-				Наименование параметра          & Значение                              \\\hline\endhead
-				\hline%
-				\multicolumn{\the\LT@cols}{r}{Продолжение таблицы на следующей странице}\\\endfoot
-				\hline
-				\endlastfoot
-				\@temptokena{}
-				\Формуляр\ОсновныеТехническиеДанные\Характеристика\foreach{\Характеристика}{
-					\global\eaddtokens\@temptokena{\Характеристика\Наименование, \Характеристика\Значение\ЕдиницаИзмерения}
-					\global\addtokens\@temptokena{&}
-					\global\addtokens\@temptokena{$\numprint}
-						\global\eaddtokens\@temptokena{{\Характеристика\Значение\Значение}}
-						\global\addtokens\@temptokena{$}
-					\global\addtokens\@temptokena{\\} %\hline}
-				}%
-				\the\@temptokena
-			\end{longtabu}
-		}{}
+				\done\todo{При выводе единиц измерения диапазона при условии, что ЕИ начала и
+					конца диапазона совпадает выводить её один раз, непосредственно за
+					наименованием канала}
+				\todo{Если ЕИ всех каналов, диапазонов и МХ совпадают - указать ЕИ для таблицы в целом}
+				\todo{Если ЕИ всех каналов и МХ совпадают - указать ЕИ для столбца Значение}
+				\todo{группировать МХ и объединять диапазоны (от, свыше и т.д.)}
+			}{}
+			\Формуляр\ОсновныеТехническиеДанные\ifexists\Характеристика {
+				\begin{longtabu}[c]
+					{|X[b]|X[-1,r,b]|}
+					\caption{Основные технические данные\label{Характеристики}}             \\
+					\hline%
+					Наименование параметра          & Значение                              \\\hline\endfirsthead
+					\caption*{Продолжение таблицы}                                          \\
+					\hline%
+					Наименование параметра          & Значение                              \\\hline\endhead
+					\hline%
+					\multicolumn{\the\LT@cols}{r}{Продолжение таблицы на следующей странице}\\\endfoot
+					\hline
+					\endlastfoot
+					\@temptokena{}
+					\Формуляр\ОсновныеТехническиеДанные\Характеристика\foreach{\Характеристика}{
+						\global\eaddtokens\@temptokena{\Характеристика\Наименование, \Характеристика\Значение\ЕдиницаИзмерения}
+						\global\addtokens\@temptokena{&}
+						\global\addtokens\@temptokena{$\numprint}
+							\global\eaddtokens\@temptokena{{\Характеристика\Значение\Значение}}
+							\global\addtokens\@temptokena{$}
+						\global\addtokens\@temptokena{\\} %\hline}
+					}%
+					\the\@temptokena
+				\end{longtabu}
+				\todo{Если ЕИ всех характеристик совпадают - указать ЕИ для таблицы}
+			}{}
 		\end{landscape}
 	}
 		
