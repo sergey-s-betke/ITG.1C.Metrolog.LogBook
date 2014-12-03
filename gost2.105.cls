@@ -4,6 +4,12 @@
 \DeclareOption{twoside}{
 	\PassOptionsToClass{\CurrentOption}{eskdtext}
 }
+\DeclareOption{landscape}{
+	\PassOptionsToClass{\CurrentOption}{eskdtext}
+}
+\DeclareOption{portrait}{
+	\PassOptionsToClass{\CurrentOption}{eskdtext}
+}
 \DeclareOption{draft}{
 	\PassOptionsToClass{\CurrentOption}{extarticle}
 }
@@ -20,7 +26,7 @@
 	\PassOptionsToPackage{\CurrentOption}{gost2.105.text}
 }
 
-\ExecuteOptions{twoside,pointsubsection}
+\ExecuteOptions{twoside,portrait,pointsubsection}
 
 \ProcessOptions\relax
 
@@ -30,9 +36,6 @@
 \RequirePackage[T2A,T1]{fontenc}
 \RequirePackage{cmap}
 \RequirePackage{xecyr}
-
-%\RequirePackage{textcomp}
-%\RequirePackage{gensymb}
 
 \LoadClass[russian,utf8,vpadding=10mm,hpadding=3mm]{eskdtext}
 
