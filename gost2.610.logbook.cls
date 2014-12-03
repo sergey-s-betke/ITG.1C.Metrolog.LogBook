@@ -229,11 +229,11 @@
 				\ifx\ЕдиницаИзмерения\reserved@b \ОтИДоВОднихЕИtrue \else \ОтИДоВОднихЕИfalse \fi
 				%
 				\global\eaddtokens\@temptokena{\КаналИзмерений\Наименование \ifОтИДоВОднихЕИ, \ЕдиницаИзмерения\fi}
-				\global\addtokens\@temptokena{&}
-				\global\addtokens\@temptokena{\\\nopagebreak}
+				%\global\addtokens\@temptokena{&}
+				%\global\addtokens\@temptokena{\\\nopagebreak}
 				%
-				\global\addtokens\@temptokena{\raggedleft}
-				\global\eaddtokens\@temptokena{от \ifОтИДоВОднихЕИ\else, \КаналИзмерений\Диапазон\От\ЕдиницаИзмерения\fi}
+				%\global\addtokens\@temptokena{\raggedleft}
+				\global\eaddtokens\@temptokena{, \hfill от \ifОтИДоВОднихЕИ\else, \КаналИзмерений\Диапазон\От\ЕдиницаИзмерения\fi} % {от \ifОтИДоВОднихЕИ\else, \КаналИзмерений\Диапазон\От\ЕдиницаИзмерения\fi}
 				\global\addtokens\@temptokena{&}
 				\global\addtokens\@temptokena{$\numprint}
 					\global\eaddtokens\@temptokena{{\КаналИзмерений\Диапазон\От\Значение}}
