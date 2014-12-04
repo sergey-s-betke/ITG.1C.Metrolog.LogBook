@@ -1,6 +1,14 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{gost2.105.text}[2014/10/29 v0.1 GOST 2.105-95 Text styles]
 
+\DeclareOption*{%
+	\PassOptionsToPackage{\CurrentOption}{eskdsect}%
+}
+
+\ExecuteOptions{pointsection}
+
+\ProcessOptions\relax
+
 \RequirePackage{ifxetex}
 \RequireXeTeX
 
@@ -22,14 +30,6 @@
 \sisetup{range-phrase=\space до~} 
 
 \RequirePackage[unicode=true]{hyperref} 
-
-\DeclareOption*{%
-	\PassOptionsToPackage{\CurrentOption}{eskdsect}%
-}
-
-\ExecuteOptions{pointsection}
-
-\ProcessOptions\relax
 
 \hypersetup{ %
 	breaklinks=true 
