@@ -2,3 +2,48 @@
 \ProvidesPackage{mi2246}[2014/12/04 v0.1 МИ 2246-93 ГСИ. Погрешности измерений. Обозначения]
 
 \ProcessOptions\relax
+
+\def\@make@csname#1{%
+	\if\relax\noexpand#1% is command?
+		\expandafter\@gobble\string#1%
+	\else%
+		#1%
+	\fi%
+}
+
+% #1 - текстовое обозначение нормируемой величины, например - \СКО, \ПГ, \ПГО
+% #2 - текстовое наименование нормируемой величины, например - "среднеквадратичное отклонение", со строчной буквы
+% #3 - символьное обозначение
+\newcommand\DeclareAccuracyNorm[3]{
+	\@namedef{AN@\@make@csname#1@abbreviation}{\@make@csname#1}
+	\@namedef{AN@\@make@csname#1@caption}{#2}
+	\@namedef{AN@\@make@csname#1@symbol}{#3}
+}
+
+\def\AN@check@exists#1{%
+	\@ifundefined{AN@#1@abbreviation}{%
+		\PackageError{mi2246}{Accuracy norm #1 doesn't defined.}\@ehd%
+	}{}%
+}
+
+% #1 - текстовое обозначение нормируемой величины, например - \СКО, \ПГ, \ПГО
+\newcommand\AccuracyNormAbbreviation[1]{%
+	\AN@check@exists{#1}%
+	\@nameuse{AN@#1@abbreviation}%
+}
+
+% #1 - текстовое обозначение нормируемой величины, например - \СКО, \ПГ, \ПГО
+\newcommand\AccuracyNormCaption[1]{%
+	\AN@check@exists{#1}%
+	\@nameuse{AN@#1@caption}%
+}
+
+% #1 - текстовое обозначение нормируемой величины, например - \СКО, \ПГ, \ПГО
+\newcommand\AccuracyNormSymbol[1]{%
+	%\AN@check@exists{#1}%
+	\@nameuse{AN@#1@symbol}%
+}
+
+
+\DeclareAccuracyNorm{ПГ}{предел допускаемой абсолютной погрешности}{\ensuremath{\Delta}}
+\DeclareAccuracyNorm{ПГО}{предел допускаемой относительной погрешности}{\ensuremath{\delta}}

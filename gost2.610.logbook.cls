@@ -11,6 +11,7 @@
 
 \RequirePackage{xecyr}
 \RequirePackage{xstring}
+\RequirePackage{mi2246}
 \RequirePackage{afterpage}
 \RequirePackage{pdflscape}
 
@@ -242,7 +243,9 @@
 								%
 								\addtabledata{\hspace{\logbook@subparams@margin}\parbox[b]{\linewidth-\logbook@subparams@margin}}
 								\def\ЕдиницаИзмерения{\Характеристика\Значение\ЕдиницаИзмерения}
-								\eaddtabledata{{\Характеристика\Наименование, \ЕдиницаИзмерения}}
+								\eaddtabledata{{\Характеристика\Наименование%
+										~\AccuracyNormSymbol{\Характеристика\МетрологическаяХарактеристика}%
+										,~\ЕдиницаИзмерения}}
 								\addtabledata{&}
 								\Характеристика\ifexists\ВДиапазонеИзмерений {
 									%
