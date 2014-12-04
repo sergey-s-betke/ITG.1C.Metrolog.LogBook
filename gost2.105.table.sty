@@ -35,29 +35,33 @@
 
 \newtabulinestyle{outer=\ESKDlineThick}
 \newtabulinestyle{inner=\ESKDlineThin}
+\tabulinestyle{inner}
 \tabulinesep=1mm
+
+\newcommand\@gost@table@tobecontinued{Продолжение таблицы на следующей странице}
+\newcommand\@gost@table@continuation{Продолжение таблицы}
 
 % #1 - caption
 % #2 - label
-\newenvironment{gost2.105.table}[2]{
+% #3 - preamble without start and finish |
+% #4 - header line without \\
+\newenvironment{gost2.105.table}[4]{
 	\begin{longtabu}[c]
-		{|[outer]X[b]|[inner]X[-1,r,b]|[outer]}
-		\caption{#1\label{#2}}             \\
+		{|[outer]#3|[outer]}
+		\caption{#1\label{#2}}                                                   \\
 		\tabucline[outer]{-}%
-		Наименование параметра          & Значение                              \\\tabucline[outer]{-}
+		#4                                                                       \\\tabucline[outer]{-}
 		\endfirsthead
-		\caption*{Продолжение таблицы}                                          \\
+		\caption*{\@gost@table@continuation}                                     \\
 		\tabucline[outer]{-}%
-		Наименование параметра          & Значение                              \\\tabucline[outer]{-}
+		#4                                                                       \\\tabucline[outer]{-}
 		\endhead
 		\tabucline[outer]{-}
-		\multicolumn{\the\LT@cols}{r}{Продолжение таблицы на следующей странице}\\
+		\multicolumn{\the\LT@cols}{r}{\@gost@table@tobecontinued}                \\
 		\endfoot
 		\tabucline[outer]{-}%
 		\endlastfoot
-		%\everyrow{\tabucline[inner]{-}}
-		\resettabledata
+		%\everyrow{\tabucline{-}}
 }{
-		\flushtabledata
 	\end{longtabu}
 }
