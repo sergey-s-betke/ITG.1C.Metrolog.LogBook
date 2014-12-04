@@ -17,14 +17,6 @@
 \newdimen\logbook@subparams@margin
 \logbook@subparams@margin=10mm
 
-\def\addtokens#1#2{%
-	#1\expandafter{\the#1#2}%
-}
-\def\eaddtokens#1#2{%
-	\edef\reserved@a{\the#1#2}%
-	#1\expandafter{\reserved@a}%
-}
-
 \newcommand{\@Формуляр@ФамилияИО}[1]{%
 	\@ФамилияИО{\Формуляр{#1}\ДолжностноеЛицо}%
 }
@@ -226,40 +218,40 @@
 					\hline%
 					\multicolumn{\the\LT@cols}{r}{Продолжение таблицы на следующей странице}   \\\endfoot
 					%\hline
-					\endlastfoot
-					\@temptokena{}
+					                                                                             \endlastfoot
+					\resettabledata
 					\Формуляр\ОсновныеТехническиеДанные\КаналИзмерений\foreach{\КаналИзмерений}{
 						\edef\ЕдиницаИзмерения{\КаналИзмерений\Диапазон\От\ЕдиницаИзмерения}
 						\edef\reserved@b{\КаналИзмерений\Диапазон\До\ЕдиницаИзмерения}
 						\ifx\ЕдиницаИзмерения\reserved@b \ОтИДоВОднихЕИtrue \else \ОтИДоВОднихЕИfalse \fi
 						%
-						\global\eaddtokens\@temptokena{\КаналИзмерений\Наименование \ifОтИДоВОднихЕИ, \ЕдиницаИзмерения\fi}
-						\global\addtokens\@temptokena{&}
-						\global\eaddtokens\@temptokena{От~}
-							\global\addtokens\@temptokena{$\numprint}
-								\global\eaddtokens\@temptokena{{\КаналИзмерений\Диапазон\От\Значение}}
-								\global\addtokens\@temptokena{$}
-							\ifОтИДоВОднихЕИ\else \global\eaddtokens\@temptokena{~\КаналИзмерений\Диапазон\От\ЕдиницаИзмерения} \fi					
-						\global\eaddtokens\@temptokena{ до~}
-							\global\addtokens\@temptokena{$\numprint}
-								\global\eaddtokens\@temptokena{{\КаналИзмерений\Диапазон\До\Значение}}
-								\global\addtokens\@temptokena{$}
-							\ifОтИДоВОднихЕИ\else \global\eaddtokens\@temptokena{~\КаналИзмерений\Диапазон\До\ЕдиницаИзмерения} \fi					
-						\global\eaddtokens\@temptokena{~включ.}
-						\global\addtokens\@temptokena{&}
+						\eaddtabledata{\КаналИзмерений\Наименование \ifОтИДоВОднихЕИ, \ЕдиницаИзмерения\fi}
+						\addtabledata{&}
+						\eaddtabledata{От~}
+							\addtabledata{$\numprint}
+								\eaddtabledata{{\КаналИзмерений\Диапазон\От\Значение}}
+								\addtabledata{$}
+							\ifОтИДоВОднихЕИ\else \eaddtabledata{~\КаналИзмерений\Диапазон\От\ЕдиницаИзмерения} \fi					
+						\eaddtabledata{ до~}
+							\addtabledata{$\numprint}
+								\eaddtabledata{{\КаналИзмерений\Диапазон\До\Значение}}
+								\addtabledata{$}
+							\ifОтИДоВОднихЕИ\else \eaddtabledata{~\КаналИзмерений\Диапазон\До\ЕдиницаИзмерения} \fi					
+						\eaddtabledata{~включ.}
+						\addtabledata{&}
 						%
 						\КаналИзмерений\ifexists\НормируемаяМетрологическаяХарактеристика {
 							\КаналИзмерений\НормируемаяМетрологическаяХарактеристика\foreach{\Характеристика}{
-								\global\addtokens\@temptokena{\\\nopagebreak}
+								\addtabledata{\\\nopagebreak}
 								%
 								\edef\ЕдиницаИзмерения{\КаналИзмерений\Диапазон\От\ЕдиницаИзмерения}
 								\edef\reserved@b{\КаналИзмерений\Диапазон\До\ЕдиницаИзмерения}
 								\ifx\ЕдиницаИзмерения\reserved@b \ОтИДоВОднихЕИtrue \else \ОтИДоВОднихЕИfalse \fi
 								%
-								\global\addtokens\@temptokena{\hspace{\logbook@subparams@margin}\parbox[b]{\linewidth-\logbook@subparams@margin}}
+								\addtabledata{\hspace{\logbook@subparams@margin}\parbox[b]{\linewidth-\logbook@subparams@margin}}
 								\def\ЕдиницаИзмерения{\Характеристика\Значение\ЕдиницаИзмерения}
-								\global\eaddtokens\@temptokena{{\Характеристика\Наименование, \ЕдиницаИзмерения}}
-								\global\addtokens\@temptokena{&}
+								\eaddtabledata{{\Характеристика\Наименование, \ЕдиницаИзмерения}}
+								\addtabledata{&}
 								\Характеристика\ifexists\ВДиапазонеИзмерений {
 									%
 									\ОтИДоВОднихЕИfalse
@@ -275,29 +267,29 @@
 									\edef\reserved@b{\Характеристика\ВДиапазонеИзмерений\До\ЕдиницаИзмерения}
 									\ifx\ЕдиницаИзмерения\reserved@b \ОтИДоВОднихЕИtrue \else \ОтИДоВОднихЕИfalse \fi
 									%
-									\global\eaddtokens\@temptokena{От~}
-										\global\addtokens\@temptokena{$\numprint}
-											\global\eaddtokens\@temptokena{{\Характеристика\ВДиапазонеИзмерений\От\Значение}}
-											\global\addtokens\@temptokena{$}
-										\ifОтИДоВОднихЕИ\else \global\eaddtokens\@temptokena{~\Характеристика\ВДиапазонеИзмерений\От\ЕдиницаИзмерения} \fi					
-									\global\eaddtokens\@temptokena{ до~}
-										\global\addtokens\@temptokena{$\numprint}
-											\global\eaddtokens\@temptokena{{\Характеристика\ВДиапазонеИзмерений\До\Значение}}
-											\global\addtokens\@temptokena{$}
-										\ifОтИДоВОднихЕИ\else \global\eaddtokens\@temptokena{~\Характеристика\ВДиапазонеИзмерений\До\ЕдиницаИзмерения} \fi					
-									\global\eaddtokens\@temptokena{~включ.}
+									\eaddtabledata{От~}
+										\addtabledata{$\numprint}
+											\eaddtabledata{{\Характеристика\ВДиапазонеИзмерений\От\Значение}}
+											\addtabledata{$}
+										\ifОтИДоВОднихЕИ\else \eaddtabledata{~\Характеристика\ВДиапазонеИзмерений\От\ЕдиницаИзмерения} \fi					
+									\eaddtabledata{ до~}
+										\addtabledata{$\numprint}
+											\eaddtabledata{{\Характеристика\ВДиапазонеИзмерений\До\Значение}}
+											\addtabledata{$}
+										\ifОтИДоВОднихЕИ\else \eaddtabledata{~\Характеристика\ВДиапазонеИзмерений\До\ЕдиницаИзмерения} \fi					
+									\eaddtabledata{~включ.}
 								}{}
-								\global\addtokens\@temptokena{&}
-								\global\addtokens\@temptokena{$\numprint}
-									\global\eaddtokens\@temptokena{{\Характеристика\Значение\Значение}}
-									\global\addtokens\@temptokena{$}
+								\addtabledata{&}
+								\addtabledata{$\numprint}
+									\eaddtabledata{{\Характеристика\Значение\Значение}}
+									\addtabledata{$}
 							}
 						}{}%
 						%
-						\global\addtokens\@temptokena{\\}
-						\global\addtokens\@temptokena{\hline}
+						\addtabledata{\\}
+						\addtabledata{\hline}
 					}%
-					\the\@temptokena
+					\flushtabledata
 				\end{longtabu}
 				\done\todo{При выводе единиц измерения диапазона при условии, что ЕИ начала и
 					конца диапазона совпадает выводить её один раз, непосредственно за
@@ -317,18 +309,18 @@
 					Наименование параметра          & Значение                              \\\hline\endhead
 					\hline%
 					\multicolumn{\the\LT@cols}{r}{Продолжение таблицы на следующей странице}\\\endfoot
-					\hline
-					\endlastfoot
-					\@temptokena{}
+					\hline%
+					                                                                          \endlastfoot
+					\resettabledata
 					\Формуляр\ОсновныеТехническиеДанные\Характеристика\foreach{\Характеристика}{
-						\global\eaddtokens\@temptokena{\Характеристика\Наименование, \Характеристика\Значение\ЕдиницаИзмерения}
-						\global\addtokens\@temptokena{&}
-						\global\addtokens\@temptokena{$\numprint}
-							\global\eaddtokens\@temptokena{{\Характеристика\Значение\Значение}}
-							\global\addtokens\@temptokena{$}
-						\global\addtokens\@temptokena{\\} %\hline}
+						\eaddtabledata{\Характеристика\Наименование, \Характеристика\Значение\ЕдиницаИзмерения}
+						\addtabledata{&}
+						\addtabledata{$\numprint}
+							\eaddtabledata{{\Характеристика\Значение\Значение}}
+							\addtabledata{$}
+						\addtabledata{\\} %\hline}
 					}%
-					\the\@temptokena
+					\flushtabledata%
 				\end{longtabu}
 				\todo{Если ЕИ всех характеристик совпадают - указать ЕИ для таблицы}
 			}{}

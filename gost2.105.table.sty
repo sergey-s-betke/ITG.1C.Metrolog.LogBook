@@ -3,8 +3,6 @@
 
 \ProcessOptions\relax
 
-\RequirePackage{gost2.105.text}
-
 \RequirePackage{longtable}
 
 \RequirePackage{tabu}
@@ -12,3 +10,24 @@
 \RequirePackage{afterpage}
 
 \RequirePackage{pdflscape}
+
+
+\newtoks\@gost@table@data
+
+\newcommand\resettabledata{%
+	\global\@gost@table@data{}%
+}
+\resettabledata
+
+\newcommand*\addtabledata[1]{%
+	\global\@gost@table@data\expandafter{\the\@gost@table@data#1}%
+}
+
+\newcommand*\eaddtabledata[1]{%
+	\edef\reserved@a{\the\@gost@table@data#1}%
+	\global\@gost@table@data\expandafter{\reserved@a}%
+}
+
+\newcommand\flushtabledata{%
+	\the\@gost@table@data%
+}
