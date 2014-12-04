@@ -11,11 +11,6 @@
 
 \RequirePackage{xecyr}
 \RequirePackage{xstring}
-\RequirePackage{longtable}
-% решаем проблемы несовместимости пакетов
-\let\c@table\relax
-\let\tablename\relax
-\RequirePackage{tabu}
 \RequirePackage{afterpage}
 \RequirePackage{pdflscape}
 

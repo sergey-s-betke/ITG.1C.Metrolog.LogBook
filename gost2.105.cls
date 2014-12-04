@@ -42,3 +42,4 @@
 \RequirePackage{gost2.104}
 \RequirePackage{gost2.105.titlesheet}
 \RequirePackage{gost2.105.text}
+\RequirePackage{gost2.105.table}
