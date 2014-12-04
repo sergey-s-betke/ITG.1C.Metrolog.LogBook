@@ -31,3 +31,33 @@
 \newcommand\flushtabledata{%
 	\the\@gost@table@data%
 }
+
+
+\newtabulinestyle{outer=\ESKDlineThick}
+\newtabulinestyle{inner=\ESKDlineThin}
+\tabulinesep=1mm
+
+% #1 - caption
+% #2 - label
+\newenvironment{gost2.105.table}[2]{
+	\begin{longtabu}[c]
+		{|[outer]X[b]|[inner]X[-1,r,b]|[outer]}
+		\caption{#1\label{#2}}             \\
+		\tabucline[outer]{-}%
+		Наименование параметра          & Значение                              \\\tabucline[outer]{-}
+		\endfirsthead
+		\caption*{Продолжение таблицы}                                          \\
+		\tabucline[outer]{-}%
+		Наименование параметра          & Значение                              \\\tabucline[outer]{-}
+		\endhead
+		\tabucline[outer]{-}
+		\multicolumn{\the\LT@cols}{r}{Продолжение таблицы на следующей странице}\\
+		\endfoot
+		\tabucline[outer]{-}%
+		\endlastfoot
+		%\everyrow{\tabucline[inner]{-}}
+		\resettabledata
+}{
+		\flushtabledata
+	\end{longtabu}
+}
