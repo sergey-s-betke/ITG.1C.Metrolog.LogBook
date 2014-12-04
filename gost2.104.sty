@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{gost2.104}[2014/10/22 v0.1 GOST 2.104-2006]
+\ProvidesPackage{gost2.104}[2014/10/22 v0.1 ГОСТ 2.104-2006 ЕСКД. Основные надписи]
 
 % исправляем "ступеньки" при стыковке линий в рамках в eskdx
 \DeclareOption{finecorners}{
@@ -45,7 +45,7 @@
 }
 
 \DeclareOption*{%
-	\PassOptionsToClass{\CurrentOption}{eskdstamp}%
+	\PassOptionsToPackage{\CurrentOption}{eskdstamp}%
 }
 
 \ExecuteOptions{finecorners}
@@ -54,7 +54,6 @@
 
 \RequirePackage[B]{gost2.304}
 	
+\RequirePackage{eskdstamp}
 % исправление к eskdx
 \DeclareRobustCommand{\No}{\ifmmode{\nfss@text{\textnumero}}\else\textnumero\fi}
-
-\RequirePackage{eskdstamp}

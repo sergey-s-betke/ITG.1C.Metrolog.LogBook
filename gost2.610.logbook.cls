@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{gost2.610.logbook}[2014/11/05 v0.1 GOST 2.610-2006 Logbook]
+\ProvidesClass{gost2.610.logbook}[2014/11/05 v0.1 ГОСТ 2.610-2006 ЕСКД. Правила выполнения эксплуатационных документов. Формуляр]
 
 \DeclareOption*{%
 	\PassOptionsToClass{\CurrentOption}{gost2.105}

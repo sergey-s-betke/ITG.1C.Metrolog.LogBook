@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{gost2.105}[2014/10/24 v0.1 GOST 2.105-95 Text Document]
+\ProvidesClass{gost2.105}[2014/10/24 v0.1 ГОСТ 2.105-95 ЕСКД. Общие требования к текстовым документам]
 
 \DeclareOption{twoside}{
 	\PassOptionsToClass{\CurrentOption}{eskdtext}
