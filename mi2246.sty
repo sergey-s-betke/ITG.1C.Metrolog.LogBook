@@ -12,12 +12,14 @@
 }
 
 % #1 - текстовое обозначение нормируемой величины, например - \СКО, \ПГ, \ПГО
-% #2 - текстовое наименование нормируемой величины, например - "среднеквадратичное отклонение", со строчной буквы
-% #3 - символьное обозначение
-\newcommand\DeclareAccuracyNorm[3]{
+% #2 - текстовое наименование метрологической характеристики, например - "среднеквадратичное отклонение", со строчной буквы
+% #3 - текстовое наименование нормируемой величины, например - "предел допускаемой абсолютной погрешности", со строчной буквы
+% #4 - символьное обозначение
+\newcommand\DeclareAccuracyNorm[4]{
 	\@namedef{AN@\@make@csname#1@abbreviation}{\@make@csname#1}
 	\@namedef{AN@\@make@csname#1@caption}{#2}
-	\@namedef{AN@\@make@csname#1@symbol}{#3}
+	\@namedef{AN@\@make@csname#1@norm@caption}{#3}
+	\@namedef{AN@\@make@csname#1@symbol}{#4}
 }
 
 \def\AN@check@exists#1{%
@@ -33,9 +35,15 @@
 }
 
 % #1 - текстовое обозначение нормируемой величины, например - \СКО, \ПГ, \ПГО
-\newcommand\AccuracyNormCaption[1]{%
+\newcommand\AccuracyCaption[1]{%
 	\AN@check@exists{#1}%
 	\@nameuse{AN@#1@caption}%
+}
+
+% #1 - текстовое обозначение нормируемой величины, например - \СКО, \ПГ, \ПГО
+\newcommand\AccuracyNormCaption[1]{%
+	\AN@check@exists{#1}%
+	\@nameuse{AN@#1@norm@caption}%
 }
 
 % #1 - текстовое обозначение нормируемой величины, например - \СКО, \ПГ, \ПГО
@@ -45,5 +53,31 @@
 }
 
 
-\DeclareAccuracyNorm{ПГ}{предел допускаемой абсолютной погрешности}{\ensuremath{\Delta}}
-\DeclareAccuracyNorm{ПГО}{предел допускаемой относительной погрешности}{\ensuremath{\delta}}
+\DeclareAccuracyNorm{ПГ}
+	{абсолютная погрешность}
+	{предел допускаемой абсолютной погрешности}
+	{\ensuremath{\Delta}} % п.2.1
+\DeclareAccuracyNorm{ПГО}
+	{относительная погрешность}
+	{предел допускаемой относительной погрешности}
+	{\ensuremath{\delta}} % п.2.1
+\DeclareAccuracyNorm{НПГ}
+	{неисключённая систематическая погрешность}
+	{предел неисключённой систематической погрешности}
+	{\ensuremath{\Theta}} % п.2.2
+\DeclareAccuracyNorm{СКО}
+	{среднее квадратическое отклонение}
+	{среднее квадратическое отклонение}
+	{\ensuremath{S}} % п.2.3
+\DeclareAccuracyNorm{РПГ}
+	{размах абсолютной погрешности}
+	{размах абсолютной погрешности}
+	{\ensuremath{R}} % п.2.3
+\DeclareAccuracyNorm{НСТБ}
+	{нестабильность}
+	{нестабильность}
+	{\ensuremath{\nu}} % п.2.5
+\DeclareAccuracyNorm{ВР}
+	{вариация}
+	{вариация}
+	{\ensuremath{V}} % п.2.5
