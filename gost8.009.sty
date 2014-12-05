@@ -1,7 +1,9 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{mi2246}[2014/12/04 v0.1 МИ 2246-93 ГСИ. Погрешности измерений. Обозначения]
+\ProvidesPackage{gost8.009}[2014/12/04 v0.1 ГОСТ 8.009-84 ГСИ. Нормируемые метрологические характеристики средств измерений]
 
 \ProcessOptions\relax
+
+\RequirePackage{xparse}
 
 \def\@make@csname#1{%
 	\if\relax\noexpand#1% is command?
@@ -20,6 +22,12 @@
 	\@namedef{AN@\@make@csname#1@caption}{#2}
 	\@namedef{AN@\@make@csname#1@norm@caption}{#3}
 	\@namedef{AN@\@make@csname#1@symbol}{#4}
+	\expandafter\DeclareDocumentCommand\csname\@make@csname#1\endcsname{d()}{%
+		\ensuremath{%
+			\@nameuse{AN@\@make@csname#1@symbol}%
+			\IfNoValueF{##1}{\left(##1\right)}%
+		}
+	}
 }
 
 \def\AN@check@exists#1{%
@@ -49,35 +57,35 @@
 % #1 - текстовое обозначение нормируемой величины, например - \СКО, \ПГ, \ПГО
 \newcommand\AccuracyNormSymbol[1]{%
 	%\AN@check@exists{#1}%
-	\@nameuse{AN@#1@symbol}%
+	\ensuremath{\@nameuse{AN@#1@symbol}}%
 }
 
 
 \DeclareAccuracyNorm{ПГ}
 	{абсолютная погрешность}
 	{предел допускаемой абсолютной погрешности}
-	{\ensuremath{\Delta}} % п.2.1
+	{\Delta} % п.2.1
 \DeclareAccuracyNorm{ПГО}
 	{относительная погрешность}
 	{предел допускаемой относительной погрешности}
-	{\ensuremath{\delta}} % п.2.1
+	{\delta} % п.2.1
 \DeclareAccuracyNorm{НПГ}
 	{неисключённая систематическая погрешность}
 	{предел неисключённой систематической погрешности}
-	{\ensuremath{\Theta}} % п.2.2
+	{\Theta} % п.2.2
 \DeclareAccuracyNorm{СКО}
 	{среднее квадратическое отклонение}
 	{среднее квадратическое отклонение}
-	{\ensuremath{S}} % п.2.3
+	{S} % п.2.3
 \DeclareAccuracyNorm{РПГ}
 	{размах абсолютной погрешности}
 	{размах абсолютной погрешности}
-	{\ensuremath{R}} % п.2.3
+	{R} % п.2.3
 \DeclareAccuracyNorm{НСТБ}
 	{нестабильность}
 	{нестабильность}
-	{\ensuremath{\nu}} % п.2.5
+	{\nu} % п.2.5
 \DeclareAccuracyNorm{ВР}
 	{вариация}
 	{вариация}
-	{\ensuremath{V}} % п.2.5
+	{V} % п.2.5
