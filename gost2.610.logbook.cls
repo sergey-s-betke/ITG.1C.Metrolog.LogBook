@@ -226,7 +226,9 @@
 						\edef\reserved@b{\КаналИзмерений\Диапазон\До\ЕдиницаИзмерения}
 						\ifx\ЕдиницаИзмерения\reserved@b \ОтИДоВОднихЕИtrue \else \ОтИДоВОднихЕИfalse \fi
 						%
-						\eaddtabledata{\КаналИзмерений\Наименование \ifОтИДоВОднихЕИ, \ЕдиницаИзмерения\fi}
+						\eaddtabledata{\КаналИзмерений\Наименование}
+						\КаналИзмерений\ifexists\Обозначение{\eaddtabledata{ $\КаналИзмерений\Обозначение$}}{}%
+						\ifОтИДоВОднихЕИ\eaddtabledata{, \ЕдиницаИзмерения}\fi
 						\addtabledata{&}
 						\eaddtabledata{От~}
 							\addtabledata{$\numprint}
@@ -249,10 +251,19 @@
 								\edef\reserved@b{\КаналИзмерений\Диапазон\До\ЕдиницаИзмерения}
 								\ifx\ЕдиницаИзмерения\reserved@b \ОтИДоВОднихЕИtrue \else \ОтИДоВОднихЕИfalse \fi
 								%
-								\addtabledata{\hspace{\logbook@subparams@margin}\parbox[b]{\linewidth-\logbook@subparams@margin}}
 								\def\ЕдиницаИзмерения{\Характеристика\Значение\ЕдиницаИзмерения}
-								\eaddtabledata{{\Характеристика\Наименование%
-										~\AccuracyNormSymbol{\Характеристика\МетрологическаяХарактеристика}%
+								\КаналИзмерений\ifexists\Обозначение{
+									\def\Обозначение{%
+										\AccuracyNormSymbol{\Характеристика\МетрологическаяХарактеристика}(\КаналИзмерений\Обозначение)%
+									}
+								}{
+									\def\Обозначение{%
+										\AccuracyNormSymbol{\Характеристика\МетрологическаяХарактеристика}%
+									}
+								}
+								\addtabledata{\hspace{\logbook@subparams@margin}\parbox[b]{\linewidth-\logbook@subparams@margin}}
+									\eaddtabledata{{\Характеристика\Наименование%
+										~\Обозначение%
 										,~\ЕдиницаИзмерения}}
 								\addtabledata{&}
 								\Характеристика\ifexists\ВДиапазонеИзмерений {
