@@ -3,6 +3,7 @@
 
 \ProcessOptions\relax
 
+\RequirePackage{amsmath}
 \RequirePackage{xparse}
 
 \def\@make@csname#1{%
@@ -14,20 +15,45 @@
 }
 
 % #1 - текстовое обозначение нормируемой величины, например - \СКО, \ПГ, \ПГО
-% #2 - текстовое наименование метрологической характеристики, например - "среднеквадратичное отклонение", со строчной буквы
-% #3 - текстовое наименование нормируемой величины, например - "предел допускаемой абсолютной погрешности", со строчной буквы
-% #4 - символьное обозначение
-\newcommand\DeclareAccuracyNorm[4]{
-	\@namedef{AN@\@make@csname#1@abbreviation}{\@make@csname#1}
-	\@namedef{AN@\@make@csname#1@caption}{#2}
-	\@namedef{AN@\@make@csname#1@norm@caption}{#3}
-	\@namedef{AN@\@make@csname#1@symbol}{#4}
-	\expandafter\DeclareDocumentCommand\csname\@make@csname#1\endcsname{d()}{%
-		\ensuremath{%
-			\@nameuse{AN@\@make@csname#1@symbol}%
-			\IfNoValueF{##1}{\left(##1\right)}%
-		}
+% #2 - текстовое наименование нормируемой величины, например - "предел допускаемой абсолютной погрешности", со строчной буквы
+% #3 - символьное обозначение
+% #4 и #5 - левая и правая скобки
+\NewDocumentCommand\DeclareAccuracyNorm{s m m m O{(} O{)} o}{
+	\@namedef{AN@\@make@csname#2@abbreviation}{\@make@csname#2}
+	\@namedef{AN@\@make@csname#2@norm@caption}{#3}
+	\expandafter\def\csname AN@\@make@csname#2\endcsname##1{%
+		#4%
+		\IfBooleanF{#1}{%
+			\IfNoValueF{##1}{\left#5##1\right#6}%
+		}%
 	}
+	\expandafter\DeclareDocumentCommand\csname\@make@csname#2\endcsname{D#5#6{#7}}{%
+		\ensuremath{%
+			\@nameuse{AN@\@make@csname#2}{##1}%
+		}%
+	}
+}
+
+\NewDocumentCommand\DeclareAccuracyStatFunc{m m m}{%
+	\DeclareAccuracyNorm{#1}{#2}{#3}[{[}][{]}]%
+}
+
+\NewDocumentCommand\DeclareAccuracySpecFunc{m m m o}{%
+	\DeclareAccuracyNorm*{#1}{#2}{%
+		#3%
+		\IfNoValueF{##1}{_{##1}}%
+		\IfNoValueF{#4}{\left(#4\right)}%
+	}[(][)]%
+}
+
+% #1 - текстовое обозначение нормируемой величины, например - \СКО
+% #2 - текстовое наименование нормируемой величины, например - "предел допускаемой абсолютной погрешности", со строчной буквы
+% #3 - обозначение ранее описанной статистической функции
+% #4 - обозначение ранее описанной метрологической характеристики
+\NewDocumentCommand\DeclareAccuracyFunc{m m m m}{
+	\DeclareAccuracyNorm*{#1}{#2}{%
+		\@nameuse{AN@\@make@csname#3}{\@nameuse{AN@\@make@csname#4}{##1}}%
+	}%
 }
 
 \def\AN@check@exists#1{%
@@ -43,12 +69,6 @@
 }
 
 % #1 - текстовое обозначение нормируемой величины, например - \СКО, \ПГ, \ПГО
-\newcommand\AccuracyCaption[1]{%
-	\AN@check@exists{#1}%
-	\@nameuse{AN@#1@caption}%
-}
-
-% #1 - текстовое обозначение нормируемой величины, например - \СКО, \ПГ, \ПГО
 \newcommand\AccuracyNormCaption[1]{%
 	\AN@check@exists{#1}%
 	\@nameuse{AN@#1@norm@caption}%
@@ -56,36 +76,57 @@
 
 % #1 - текстовое обозначение нормируемой величины, например - \СКО, \ПГ, \ПГО
 \newcommand\AccuracyNormSymbol[1]{%
-	%\AN@check@exists{#1}%
-	\ensuremath{\@nameuse{AN@#1@symbol}}%
+	\AN@check@exists{#1}%
+	\@nameuse{#1}%
 }
 
 
-\DeclareAccuracyNorm{ПГ}
-	{абсолютная погрешность}
-	{предел допускаемой абсолютной погрешности}
-	{\Delta} % п.2.1
-\DeclareAccuracyNorm{ПГО}
-	{относительная погрешность}
-	{предел допускаемой относительной погрешности}
-	{\delta} % п.2.1
+\DeclareAccuracyNorm{ФункцияПреобразования}{функция преобразования измерительного преобразователя}{f\left(x\right)}
+\DeclareAccuracyNorm{ЗначениеМеры}{значение меры}{Y}
+\DeclareAccuracyNorm{НоминальнаяФункцияПреобразования}{номинальная функция преобразования измерительного преобразователя}{f_{sf}\left(x\right)}
+\DeclareAccuracyNorm{НоминальноеЗначениеМеры}{значение меры}{Y_{sf}}
+\DeclareAccuracyNorm{П}{погрешность}{\Delta}
+\DeclareAccuracyNorm{Псист}{систематическая составляющая погрешности}{\Delta_{s}}
+\DeclareAccuracyNorm{Псл}{случайная составляющая погрешности}{\mathring{\Delta}}
+\DeclareAccuracyNorm{ПГ}{предел допускаемой погрешности}{\Delta_{p}}
+\DeclareAccuracyNorm{ПГсист}{предел допускаемой систематической составляющей погрешности}{\Delta_{sp}}
+
+\DeclareAccuracyStatFunc{М}{математическое ожидание}{M}
+\DeclareAccuracyStatFunc{СрКО}{среднее квадратическое отклонение}{\sigma}
+\DeclareAccuracyStatFunc{СКО}{предел допускаемого среднего квадратического отклонения }{\sigma_{p}}
+
+\DeclareAccuracyFunc{МПГсист}{математическое ожидание систематической составляющей погрешности}{М}{Псист}
+\DeclareAccuracyFunc{СрКОсист}{среднее квадратическое отклонение систематической составляющей погрешности}{СКО}{Псист}
+\DeclareAccuracyFunc{СрКОсл}{среднее квадратическое отклонение случайной составляющей погрешности}{СрКО}{Псл}
+\DeclareAccuracyFunc{СКОсл}{предел допускаемого среднего квадратического отклонения случайной составляющей погрешности}{СКО}{Псл}
+
+\DeclareAccuracySpecFunc{НАКФ}{нормализованная автокорреляционная функция}{r}[\tau]
+\DeclareAccuracyFunc{НАКФПГсл}{нормализованная автокорреляционная функция случайной составляющей погрешности}{НАКФ}{Псл}
+
+\DeclareAccuracySpecFunc{S}{спектральная плотность}{S}[\omega]
+\DeclareAccuracyFunc{SПГсл}{спектральная плотность случайной составляющей погрешности}{S}{Псл}
+
+\DeclareAccuracyFunc{МП}{математическое ожидание погрешности}{М}{П}
+\DeclareAccuracyFunc{СрКОП}{среднее квадратическое отклонение погрешности}{СрКО}{П}
+
+\DeclareAccuracyNorm{Пслгист}{случайная составляющая погрешности от гистерезиса}{\mathring{\Delta}_{H}}
+
+
+
+\DeclareAccuracyNorm{ПО}{относительная погрешность}{\delta}
+\DeclareAccuracyNorm{ПГО}{предел допускаемой относительной погрешности}{\delta} % п.2.1
 \DeclareAccuracyNorm{НПГ}
-	{неисключённая систематическая погрешность}
 	{предел неисключённой систематической погрешности}
 	{\Theta} % п.2.2
-\DeclareAccuracyNorm{СКО}
-	{среднее квадратическое отклонение}
-	{среднее квадратическое отклонение}
-	{S} % п.2.3
+%\DeclareAccuracyNorm{СКО}
+%	{среднее квадратическое отклонение}
+%	{S} % п.2.3
 \DeclareAccuracyNorm{РПГ}
-	{размах абсолютной погрешности}
 	{размах абсолютной погрешности}
 	{R} % п.2.3
 \DeclareAccuracyNorm{НСТБ}
 	{нестабильность}
-	{нестабильность}
 	{\nu} % п.2.5
 \DeclareAccuracyNorm{ВР}
-	{вариация}
 	{вариация}
 	{V} % п.2.5
