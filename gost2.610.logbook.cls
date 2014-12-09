@@ -16,10 +16,14 @@
 \RequirePackage{pdflscape}
 \RequirePackage{textcomp}
 \RequirePackage{makecell}
-
-\LoadClass{gost2.105}
 \RequirePackage{gost2.612}
 \RequirePackage{todo}
+
+\AtBeginDocument{%
+	\@setup@ESKDX@vars%
+}
+	
+\LoadClass{gost2.105}
 
 \newdimen\logbook@subparams@margin
 \logbook@subparams@margin=10mm
@@ -135,14 +139,15 @@
 	}{}
 }
 
-\AtBeginDocument{
+\def\@setup@ESKDX@vars{
 	\ESKDcompany{\Формуляр\Организация\Наименование}
 	\Формуляр\Организация\ifexists\Подразделение {
 		\ESKDdepartment{\Формуляр\Организация\Подразделение}
 	}{}
 	\def\Изделие{\Формуляр\Изделие}
 	\Изделие\ifexists\КодОКП {
-		\ESKDclassCode{ОКП~\StrLeft{\Изделие\КодОКП}{2}~\StrGobbleLeft{\Изделие\КодОКП}{2}}
+		%\ESKDclassCode{ОКП~\StrLeft{\Изделие\КодОКП}{2}~\StrGobbleLeft{\Изделие\КодОКП}{2}}
+		\ESKDclassCode{ОКП~\Изделие\КодОКП}
 	}{}
 	
 	\ESKDtitle{\Изделие\Наименование}
