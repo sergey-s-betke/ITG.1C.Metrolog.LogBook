@@ -38,8 +38,7 @@
 \tabulinesep=1mm
 % todo min row height=8mm % п. 4.4.5
 
-\DeclareTextCommandDefault{\@gost@table@tobecontinued}{Продолжение таблицы на следующей странице}
-\DeclareTextCommandDefault{\@gost@table@continuation}{Продолжение таблицы}
+\DeclareTextCommandDefault{\@gost@table@continuation@caption}[1]{Продолжение таблицы~\thetable}
 
 % #1 - caption
 % #2 - label
@@ -52,12 +51,11 @@
 		\tabucline[outer]{-}%
 		#4                                                                       \\\tabucline[outer]{-}
 		\endfirsthead
-		\caption*{\@gost@table@continuation}                                     \\
+		\caption*{\itshape\@gost@table@continuation@caption{#1}}                 \\
 		\tabucline[outer]{-}%
 		#4                                                                       \\\tabucline[outer]{-}
 		\endhead
 		\tabucline[outer]{-}
-		\multicolumn{\the\LT@cols}{r}{\@gost@table@tobecontinued}                \\
 		\endfoot
 		\tabucline[outer]{-}%
 		\endlastfoot
