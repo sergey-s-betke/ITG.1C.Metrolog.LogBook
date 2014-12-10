@@ -5,7 +5,7 @@
 	\PassOptionsToPackage{\CurrentOption}{eskdsect}%
 }
 
-\ExecuteOptions{pointsection}
+\ExecuteOptions{pointsubsubsection}
 
 \ProcessOptions\relax
 
@@ -29,6 +29,7 @@
 \RequirePackage{siunitx}
 \sisetup{range-phrase=\space до~} 
 
+\RequirePackage{url} 
 \RequirePackage[unicode=true]{hyperref} 
 
 \hypersetup{ %
@@ -54,12 +55,31 @@
 	\newpage
 }
 
+\renewcommand\thesubsection{%
+	\ifnum\value{subsection}=\z@%
+		\thesection%
+	\else%
+		\thesection.\arabic{subsection}%
+	\fi%}
+}
+
+\renewcommand\thesubsubsection{%
+	\ifnum\value{subsubsection}=\z@%
+		\thesubsection%
+	\else%
+		\thesubsection.\arabic{subsubsection}%
+	\fi%}
+}
+\@addtoreset{subsubsection}{section}
+
+\@addtoreset{point}{section}
+\@addtoreset{point}{subsection}
+\@addtoreset{point}{subsubsection}
 \let\paragraph\point
 \let\theparagraph\thepoint
+
 \let\subparagraph\subpoint
 \let\thesubparagraph\thesubpoint
-
-%\renewcommand{\theparagraph}{\thesubsection.\arabic{paragraph}}
 
 %\newlength{\ESKDparagraphSkipBefore}
 %\setlength{\ESKDparagraphSkipBefore}{0mm \@plus 3mm}
