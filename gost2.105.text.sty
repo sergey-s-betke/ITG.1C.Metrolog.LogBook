@@ -44,38 +44,49 @@
 }
 \urlstyle{same}  % don't use monospace font for urls
 
-\RequirePackage{eskdsect}
 \RequirePackage{eskdpara}
+
+\RequirePackage{stringstrings}
+
+\RequirePackage[indentafter]{titlesec}
 
 
 \setlength{\parskip}{0mm plus 1mm}
 
-
 \setcounter{secnumdepth}{5}
-
 
 \newlength{\betweenheadersskip}
 \setlength{\betweenheadersskip}{8mm plus 3mm minus 0mm - \baselineskip}
 
+\def\ttl@sectionclass{\ttl@useclass\ttl@section@i}
 
-\setlength{\ESKDsectionSkipBefore}{-15mm plus -4mm minus -2mm + \baselineskip}
-\setlength{\ESKDsectionSkipAfter}{15mm plus 0mm minus 2mm - \baselineskip}
+\titleclass{\section}{section}
+\titleformat{\section}
+	[hang]{\normalfont\Large\bfseries}{\thesection}{\widthof{\quad}}{}
+\titlespacing{\section}
+	{\parindent}{15mm plus 4mm minus 2mm - \baselineskip}{15mm plus 0mm minus 2mm - \baselineskip}
 
 
-\setlength{\ESKDsubsectionSkipBefore}{-15mm plus -3mm minus -1mm + \baselineskip}
-\setlength{\ESKDsubsectionSkipAfter}{15mm plus 0mm minus 3mm - \baselineskip}
+\titleclass{\subsection}{section}
+\titleformat{\subsection}
+	{\normalfont\large\bfseries}{\thesubsection}{\widthof{\quad}}{}
+\titlespacing{\subsection}
+	{\parindent}{15mm plus 3mm minus 1mm - \baselineskip}{15mm plus 0mm minus 3mm - \baselineskip}
 
 \renewcommand\thesubsection{%
-	\ifnum\value{subsection}=\z@%
-		\thesection%
-	\else%
+	\ifnum\value{subsection}=\z@
+		\thesection
+	\else
 		\thesection.\arabic{subsection}%
-	\fi%}
+	\fi
 }
 
 
-\setlength{\ESKDsubsubsectionSkipBefore}{-15mm plus -3mm minus -1mm + \baselineskip}
-\setlength{\ESKDsubsubsectionSkipAfter}{15mm plus 0mm minus 3mm - \baselineskip}
+\titleclass{\subsubsection}{section}
+\titleformat{\subsubsection}
+	{\normalfont\normalsize\bfseries}{\thesubsubsection}{\widthof{\quad}}{}
+\titlespacing{\subsubsection}
+	{\parindent}{15mm plus 3mm minus 1mm - \baselineskip}{15mm plus 0mm minus 3mm - \baselineskip}
 
 \renewcommand\thesubsubsection{%
 	\ifnum\value{subsubsection}=\z@%
@@ -86,45 +97,97 @@
 }
 \@addtoreset{subsubsection}{section}
 
+
+\titleformat{\paragraph}
+	[runin]{\normalfont\normalsize}{\theparagraph}{\widthof{\quad}}{ }[\quad]
+\titlespacing{\paragraph}
+	{\parindent}{0mm plus 2mm}{\parskip}
+
 \@addtoreset{paragraph}{section}
 \@addtoreset{paragraph}{subsection}
 \@addtoreset{paragraph}{subsubsection}
 
-\renewcommand{\ESKDparagraphAlign}{\ESKDsectAlignLeft}
-\renewcommand{\ESKDparagraphStyle}{\normalfont\normalsize}
-\setlength{\ESKDparagraphSkipBefore}{0mm plus 2mm}
-\setlength{\ESKDparagraphSkipAfter}{-0mm}
 
+\titleformat{\subparagraph}
+	[runin]{\normalfont\normalsize}{\thesubparagraph}{\widthof{\quad}}{ }[\quad]
+\titlespacing{\subparagraph}
+	{\parindent}{0mm plus 1mm}{\parskip}
 
 \@addtoreset{subparagraph}{section}
 \@addtoreset{subparagraph}{subsection}
 \@addtoreset{subparagraph}{subsubsection}
 
-\renewcommand{\ESKDsubparagraphAlign}{\ESKDsectAlignLeft}
-\renewcommand{\ESKDsubparagraphStyle}{\normalfont\normalsize}
-\setlength{\ESKDsubparagraphSkipBefore}{0mm plus 1mm}
-\setlength{\ESKDsubparagraphSkipAfter}{-0mm}
 
+% definition title's class "section" for titlesec package
 
-\def\@startsection#1#2#3#4#5#6{%
-	\if@noskipsec \leavevmode \fi
-	\par
-	\@tempskipa #4\relax
-	\@afterindenttrue
-	\ifdim \@tempskipa <\z@
-		\@tempskipa -\@tempskipa \@afterindentfalse
-	\fi
-	\if@nobreak % предыдущий абзац - "полноценный" (отдельным абзацем идёт) заголовок
-		\everypar{}%
-		\@tempskipa #5\relax
-		\ifdim \@tempskipa>\z@ % этот заголовок - так же "полноценный"
-			\vskip -\lastskip % убираем лишний отступ между заголовками (п.4.1.9 ГОСТ 2.105)
-			\vskip \betweenheadersskip
-		\fi
+% 1:name 2:level 3:indent 4:before 5:after 6:afind [7]:cap 8:title
+% The second argument of ttl@sect is the level, which
+% is empty if the star version is used. In this case
+% neither the toc nor the marks are written.
+
+\def\ttl@section@i#1[#2]#3{%
+	\def\@currentlabelname{#2}% for nameref
+	\gdef\ttl@savemark{\csname#1mark\endcsname{#3}}%
+	\let\ttl@savewrite\@empty
+	\def\ttl@savetitle{#3}%
+	\gdef\thetitle{\csname the#1\endcsname}%
+		\if@noskipsec \leavevmode \fi
+		\par
+	\ttl@labelling{#1}{#2}%
+	\ttl@startargs\ttl@section@ii{#1}{#3}%
+}
+
+% 1:left 2:right 3:before 4:after 5:afterindent 6:name 7:title
+
+\def\ttl@section@ii#1#2#3#4#5#6#7{%
+	\ttl@assign\@tempskipa#3\relax\beforetitleunit
+	\@ifundefined{ttl@ps@#6}{}%
+		{\PackageWarning{gost2.105.text}{Page style in section title class ignored}}%
+	\if@nobreak
+		\vskip -\lastskip % убираем лишний отступ между заголовками (п.4.1.9 ГОСТ 2.105)
 	\else
-		\addpenalty\@secpenalty\addvspace\@tempskipa
+		\@ifundefined{#6break}%
+			{\addpenalty{\@secpenalty}}%
+			{\csname#6break\endcsname}%
+		\addvspace{\@tempskipa}%
+		\ifdim\bottomtitlespace<\z@
+		\else
+			\begingroup
+				\@tempskipb\pagegoal
+				\@tempskipa\pagegoal
+				\ttl@addstretch  % \relax if nobottomtitle*
+				\advance\@tempskipa-\bottomtitlespace\relax % not a register
+				\pagegoal\@tempskipa
+				\def\@textbottom{\vskip\z@\@plus.0001fil}%
+				\penalty9999
+				\pagegoal\@tempskipb
+			\endgroup
+		\fi
 	\fi
-	\@ifstar
-		{\@ssect{#3}{#4}{#5}{#6}}%
-		{\@dblarg{\@sect{#1}{#2}{#3}{#4}{#5}{#6}}}%
+	\@afterindenttrue
+	\ifcase#5 \@afterindentfalse\fi
+	\ttl@assign\@tempskipb#4\relax\aftertitleunit
+	\ttl@select{#6}{#1}{#2}{#7}%
+	\ttl@finmarks
+	\@ifundefined{ttlp@#6}{}{\ttlp@write{#6}}%
+	\if@noskipsec
+		\global\@nobreakfalse
+		\everypar{%
+			\if@noskipsec
+				\global\@noskipsecfalse
+				\clubpenalty\@M
+				\hskip-\parindent
+				\begingroup
+				\@svsechd\unskip{\hspace{\@tempskipb}}%
+				\endgroup
+			\else
+				\clubpenalty\@clubpenalty\everypar{}%
+			\fi
+		}%
+	\else
+		\par\nobreak
+		\vskip\@tempskipb% \vspace{\@tempskipb}%
+		\@afterheading
+	\fi
+	\ignorespaces
 }
