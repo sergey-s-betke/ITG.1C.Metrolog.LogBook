@@ -52,6 +52,14 @@
 
 \setcounter{secnumdepth}{5}
 
+
+\setlength{\ESKDsectionSkipBefore}{-15mm plus -3mm minus -2mm + \baselineskip}
+\setlength{\ESKDsectionSkipAfter}{15mm plus 0mm minus 4mm - \baselineskip}
+
+
+\setlength{\ESKDsubsectionSkipBefore}{-15mm plus -3mm minus -2mm + \baselineskip}
+\setlength{\ESKDsubsectionSkipAfter}{15mm plus 0mm minus 4mm - \baselineskip}
+
 \renewcommand\thesubsection{%
 	\ifnum\value{subsection}=\z@%
 		\thesection%
@@ -59,6 +67,10 @@
 		\thesection.\arabic{subsection}%
 	\fi%}
 }
+
+
+\setlength{\ESKDsubsubsectionSkipBefore}{-15mm plus -3mm minus -2mm + \baselineskip}
+\setlength{\ESKDsubsubsectionSkipAfter}{15mm plus 0mm minus 4mm - \baselineskip}
 
 \renewcommand\thesubsubsection{%
 	\ifnum\value{subsubsection}=\z@%
@@ -75,7 +87,7 @@
 
 \renewcommand{\ESKDparagraphAlign}{\ESKDsectAlignLeft}
 \renewcommand{\ESKDparagraphStyle}{\normalfont\normalsize}
-\setlength{\ESKDparagraphSkipBefore}{0mm plus 3mm}
+\setlength{\ESKDparagraphSkipBefore}{0mm plus 2mm}
 \setlength{\ESKDparagraphSkipAfter}{-0mm}
 
 
@@ -85,5 +97,5 @@
 
 \renewcommand{\ESKDsubparagraphAlign}{\ESKDsectAlignLeft}
 \renewcommand{\ESKDsubparagraphStyle}{\normalfont\normalsize}
-\setlength{\ESKDsubparagraphSkipBefore}{0mm plus 2mm}
+\setlength{\ESKDsubparagraphSkipBefore}{0mm plus 1mm}
 \setlength{\ESKDsubparagraphSkipAfter}{-0mm}
