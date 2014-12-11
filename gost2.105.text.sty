@@ -18,6 +18,7 @@
 
 \RequirePackage[T2A,T1]{fontenc}
 \RequirePackage{eskdsect}
+\RequirePackage{eskdpara}
 
 \RequirePackage{amsmath,amsthm,amssymb}
 \RequirePackage{mathtext}
@@ -46,14 +47,10 @@
 \urlstyle{same}  % don't use monospace font for urls
 
 
-\renewcommand\tableofcontents{%
-	\begingroup
-		\ESKDsectAlign{section}{Center}
-		\section*{\contentsname\@mkboth{\MakeUppercase\contentsname}{\MakeUppercase\contentsname}}%
-	\endgroup
-	\@starttoc{toc}
-	\newpage
-}
+\setlength{\parskip}{0mm plus 1mm}
+
+
+\setcounter{secnumdepth}{5}
 
 \renewcommand\thesubsection{%
 	\ifnum\value{subsection}=\z@%
@@ -72,27 +69,21 @@
 }
 \@addtoreset{subsubsection}{section}
 
-\@addtoreset{point}{section}
-\@addtoreset{point}{subsection}
-\@addtoreset{point}{subsubsection}
-\let\paragraph\point
-\let\theparagraph\thepoint
+\@addtoreset{paragraph}{section}
+\@addtoreset{paragraph}{subsection}
+\@addtoreset{paragraph}{subsubsection}
 
-\let\subparagraph\subpoint
-\let\thesubparagraph\thesubpoint
+\renewcommand{\ESKDparagraphAlign}{\ESKDsectAlignLeft}
+\renewcommand{\ESKDparagraphStyle}{\normalfont\normalsize}
+\setlength{\ESKDparagraphSkipBefore}{0mm plus 3mm}
+\setlength{\ESKDparagraphSkipAfter}{-0mm}
 
-%\newlength{\ESKDparagraphSkipBefore}
-%\setlength{\ESKDparagraphSkipBefore}{0mm \@plus 3mm}
-%\newlength{\ESKDparagraphSkipAfter}
-%\setlength{\ESKDparagraphSkipAfter}{\parskip}
-%\newcommand{\ESKDparagraphStyle}{\normalfont\normalsize}
 
-%\renewcommand\paragraph{%
-%	\@startsection{paragraph}{4}%
-%		{\parindent}%
-%		{\ESKDparagraphSkipBefore}%
-%		{\ESKDparagraphSkipAfter}%
-%		{\ESKDparagraphStyle}%
-%}
+\@addtoreset{subparagraph}{section}
+\@addtoreset{subparagraph}{subsection}
+\@addtoreset{subparagraph}{subsubsection}
 
-%\c@secnumdepth=5
+\renewcommand{\ESKDsubparagraphAlign}{\ESKDsectAlignLeft}
+\renewcommand{\ESKDsubparagraphStyle}{\normalfont\normalsize}
+\setlength{\ESKDsubparagraphSkipBefore}{0mm plus 2mm}
+\setlength{\ESKDsubparagraphSkipAfter}{-0mm}

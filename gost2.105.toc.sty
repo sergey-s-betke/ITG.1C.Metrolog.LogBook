@@ -1,0 +1,16 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{gost2.105.toc}[2014/12/11 v0.1 ГОСТ 2.105-95 ЕСКД. Общие требования к текстовым документам. Содержание]
+
+\ProcessOptions\relax
+
+\renewcommand\contentsname{Содержание}
+
+\renewcommand\tableofcontents{%
+	\begingroup
+		\ESKDsectAlign{section}{Center}
+		\section*{\contentsname\@mkboth{\MakeUppercase\contentsname}{\MakeUppercase\contentsname}}%
+	\endgroup
+	\@starttoc{toc}
+	\newpage
+}
+
