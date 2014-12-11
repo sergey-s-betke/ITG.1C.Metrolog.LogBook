@@ -194,7 +194,7 @@
 \renewcommand{\ESKDtitleFontII}{\ESKDfontIII}
 \renewcommand{\ESKDtitleFontIII}{%
 	\ESKDfontIII\renewcommand{\baselinestretch}{1.50}\selectfont}
-\renewcommand{\ESKDtitleFontIV}{\ESKDfontV\bfseries}
+\renewcommand{\ESKDtitleFontIV}{\huge\selectfont\ESKDfontShape\bfseries}
 \renewcommand{\ESKDtitleFontV}{\ESKDfontV}
 \renewcommand{\ESKDtitleFontVI}{\ESKDfontV}
 \renewcommand{\ESKDtitleFontVII}{\ESKDfontIII}
@@ -202,33 +202,35 @@
 	\ESKDfontIII\renewcommand{\baselinestretch}{1.25}\selectfont}
 \renewcommand{\ESKDtitleFontX}{\ESKDfontV}
 
-\newsavebox{\ESKD@theTitleField@IV@box}
+\newlength\ESKDtitleBeforeIVskip
+\setlength\ESKDtitleBeforeIVskip{15mm plus 10mm}
 
 \renewcommand{\maketitle}{%
 	\begin{ESKDtitlePage}
-		% отрисовываем поле 4 (заголовок) в бокс с целью центрирования по вертикали на странице
-		\locbox\ESKD@theTitleField@IV@box
-		\sbox\ESKD@theTitleField@IV@box{%
+		\locbox\@tempboxa
+		\locbox\@tempboxb
+		\sbox\@tempboxa{%
+			\vbox{%
+				\ESKDtheTitleFieldI
+				\ESKDtheTitleFieldII
+				\ESKDtheTitleFieldIII
+			}%
+		}%
+		\sbox\@tempboxb{%
 			\parbox{\linewidth}{%
-				\ESKDtheTitleFieldIV%
+				\ESKDtheTitleFieldIV
 			}%
 		}
-		\newlength{\@beforeTitle}
-		\setlength{\@beforeTitle}{(\vsize-\totalheightof{\usebox\ESKD@theTitleField@IV@box}-\parskip-\baselineskip)/2}
-		\hbox{%
-			\vtop{
-				\ESKDtheTitleFieldI%
-				\ESKDtheTitleFieldII%
-				\ESKDtheTitleFieldIII%
-			}%
-			\vtop to \@beforeTitle{}%
-		}\par
-		\usebox{\ESKD@theTitleField@IV@box}\par
+		\setlength\@tempskipa{(\vsize-\totalheightof{\usebox\@tempboxb})/2-\totalheightof{\usebox\@tempboxa}}
+		\ifnum\@tempskipa<\ESKDtitleBeforeIVskip \@tempskipa=\ESKDtitleBeforeIVskip \fi
+		\usebox\@tempboxa
+		\vskip\@tempskipa
+		\usebox\@tempboxb\par
 		\ESKDtheTitleFieldV
 		\ESKDtheTitleFieldVI
 		\ESKDtheTitleFieldVII
-		\ESKDtheTitleFieldVIII%
+		\ESKDtheTitleFieldVIII
 		\vfill
-		\ESKDtheTitleFieldX%
+		\ESKDtheTitleFieldX
 	\end{ESKDtitlePage}
 }
