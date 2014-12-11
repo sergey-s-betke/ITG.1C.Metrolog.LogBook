@@ -119,20 +119,33 @@
 	\footnote{Условия хранения~--- в соответствии с ГОСТ~15150.}%
 	\todo{Ссылку на ГОСТ - в макрос, в библиографию}
 	изделия следует фиксировать в таблице~\ref{таб:Хранение}.
-	\todo{Заполнить раздел <<Хранение>>}
+	\done\todo{Заполнить раздел <<Хранение>>}
 
 	\begin{gost2.105.table}
 		{Хранение}{таб:Хранение}
-		{r|r|p{\widthof{хранения 9)}}|X} % p{\widthof{Вид хранения}}|X}
+		{r|r|c|X}
 		{
 			\multicolumn{2}{|[outer]c|}{Дата} &
-			\multirow{2}{\linewidth}{\centering Условия хранения} &
+			\multirow{2}*{\parbox{\widthof{хранения}}{\centering Условия\linebreak хранения}} &
 			\multirow{2}{\linewidth}{\centering Примечание}
 			\\\tabucline{1-2}
 			\hfill приёмки\hfill\null &
 			\hfill снятия\hfill\null &
 			&
 		}
+		\resettabledata
+		\Формуляр\Хранение\foreach{\СведенияОХранении}{%
+			\eaddtabledata{\СведенияОХранении\ДатаПриёмки}%
+			\addtabledata{&}%
+			\СведенияОХранении\ifexists\ДатаСнятия{\eaddtabledata{\СведенияОХранении\ДатаСнятия}}{}%
+			\addtabledata{&}%
+			\eaddtabledata{\СведенияОХранении\УсловияХранения}%
+			\addtabledata{&}%
+			\СведенияОХранении\ifexists\Примечание{\eaddtabledata{\СведенияОХранении\Примечание}}{}%
+			\addtabledata{\\}%
+			\addtabledata{\tabucline{-}}%
+		}%
+		\flushtabledata%
 		\Xrows{%
 			\phantom{30.08.2000} & \phantom{30.08.2000} &  &  \\\tabucline{-}%
 		}{\Формуляр@Хранение@ПустыхСтрок}
