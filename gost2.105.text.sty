@@ -17,8 +17,6 @@
 \RequirePackage[cyremdash]{extdash}
 
 \RequirePackage[T2A,T1]{fontenc}
-\RequirePackage{eskdsect}
-\RequirePackage{eskdpara}
 
 \RequirePackage{amsmath,amsthm,amssymb}
 \RequirePackage{mathtext}
@@ -46,6 +44,9 @@
 }
 \urlstyle{same}  % don't use monospace font for urls
 
+\RequirePackage{eskdsect}
+\RequirePackage{eskdpara}
+
 
 \setlength{\parskip}{0mm plus 1mm}
 
@@ -53,12 +54,16 @@
 \setcounter{secnumdepth}{5}
 
 
-\setlength{\ESKDsectionSkipBefore}{-15mm plus -3mm minus -2mm + \baselineskip}
-\setlength{\ESKDsectionSkipAfter}{15mm plus 0mm minus 4mm - \baselineskip}
+\newlength{\betweenheadersskip}
+\setlength{\betweenheadersskip}{8mm plus 3mm minus 0mm - \baselineskip}
 
 
-\setlength{\ESKDsubsectionSkipBefore}{-15mm plus -3mm minus -2mm + \baselineskip}
-\setlength{\ESKDsubsectionSkipAfter}{15mm plus 0mm minus 4mm - \baselineskip}
+\setlength{\ESKDsectionSkipBefore}{-15mm plus -4mm minus -2mm + \baselineskip}
+\setlength{\ESKDsectionSkipAfter}{15mm plus 0mm minus 2mm - \baselineskip}
+
+
+\setlength{\ESKDsubsectionSkipBefore}{-15mm plus -3mm minus -1mm + \baselineskip}
+\setlength{\ESKDsubsectionSkipAfter}{15mm plus 0mm minus 3mm - \baselineskip}
 
 \renewcommand\thesubsection{%
 	\ifnum\value{subsection}=\z@%
@@ -69,8 +74,8 @@
 }
 
 
-\setlength{\ESKDsubsubsectionSkipBefore}{-15mm plus -3mm minus -2mm + \baselineskip}
-\setlength{\ESKDsubsubsectionSkipAfter}{15mm plus 0mm minus 4mm - \baselineskip}
+\setlength{\ESKDsubsubsectionSkipBefore}{-15mm plus -3mm minus -1mm + \baselineskip}
+\setlength{\ESKDsubsubsectionSkipAfter}{15mm plus 0mm minus 3mm - \baselineskip}
 
 \renewcommand\thesubsubsection{%
 	\ifnum\value{subsubsection}=\z@%
@@ -99,3 +104,27 @@
 \renewcommand{\ESKDsubparagraphStyle}{\normalfont\normalsize}
 \setlength{\ESKDsubparagraphSkipBefore}{0mm plus 1mm}
 \setlength{\ESKDsubparagraphSkipAfter}{-0mm}
+
+
+\def\@startsection#1#2#3#4#5#6{%
+	\if@noskipsec \leavevmode \fi
+	\par
+	\@tempskipa #4\relax
+	\@afterindenttrue
+	\ifdim \@tempskipa <\z@
+		\@tempskipa -\@tempskipa \@afterindentfalse
+	\fi
+	\if@nobreak % предыдущий абзац - "полноценный" (отдельным абзацем идёт) заголовок
+		\everypar{}%
+		\@tempskipa #5\relax
+		\ifdim \@tempskipa>\z@ % этот заголовок - так же "полноценный"
+			\vskip -\lastskip % убираем лишний отступ между заголовками (п.4.1.9 ГОСТ 2.105)
+			\vskip \betweenheadersskip
+		\fi
+	\else
+		\addpenalty\@secpenalty\addvspace\@tempskipa
+	\fi
+	\@ifstar
+		{\@ssect{#3}{#4}{#5}{#6}}%
+		{\@dblarg{\@sect{#1}{#2}{#3}{#4}{#5}{#6}}}%
+}
