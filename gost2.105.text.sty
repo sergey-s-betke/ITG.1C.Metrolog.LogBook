@@ -46,8 +46,6 @@
 
 \RequirePackage{eskdpara}
 
-\RequirePackage{stringstrings}
-
 \RequirePackage[indentafter]{titlesec}
 
 
@@ -60,16 +58,37 @@
 
 \def\ttl@sectionclass{\ttl@useclass\ttl@section@i}
 
+
+\def\@sanitize@title#1{%
+	\expandafter\@trim@final@dot\expandafter{%
+		\@capitalize@#1%
+	}%
+}
+\def\@capitalize@#1{%
+	\uppercase{#1}%
+}
+\def\@trim@final@dot#1{%
+	\@trim@final@dot@{}#1.\@trim@final@dot@@
+}
+\def\@trim@final@dot@#1#2.#3\@trim@final@dot@@{%
+	\ifx\empty#2\else #1#2\fi
+	\ifx\empty#3%
+	\else
+		\@trim@final@dot@{.}#3\@trim@final@dot@@
+	\fi
+}
+
+
 \titleclass{\section}{section}
 \titleformat{\section}
-	[hang]{\normalfont\Large\bfseries}{\thesection}{\widthof{\quad}}{}
+	[hang]{\normalfont\Large\bfseries}{\thesection}{\widthof{\quad}}{\@sanitize@title}
 \titlespacing{\section}
 	{\parindent}{15mm plus 4mm minus 2mm - \baselineskip}{15mm plus 0mm minus 2mm - \baselineskip}
 
 
 \titleclass{\subsection}{section}
 \titleformat{\subsection}
-	{\normalfont\large\bfseries}{\thesubsection}{\widthof{\quad}}{}
+	{\normalfont\large\bfseries}{\thesubsection}{\widthof{\quad}}{\@sanitize@title}
 \titlespacing{\subsection}
 	{\parindent}{15mm plus 3mm minus 1mm - \baselineskip}{15mm plus 0mm minus 3mm - \baselineskip}
 
@@ -84,7 +103,7 @@
 
 \titleclass{\subsubsection}{section}
 \titleformat{\subsubsection}
-	{\normalfont\normalsize\bfseries}{\thesubsubsection}{\widthof{\quad}}{}
+	{\normalfont\normalsize\bfseries}{\thesubsubsection}{\widthof{\quad}}{\@sanitize@title}
 \titlespacing{\subsubsection}
 	{\parindent}{15mm plus 3mm minus 1mm - \baselineskip}{15mm plus 0mm minus 3mm - \baselineskip}
 
