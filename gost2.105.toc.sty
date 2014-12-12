@@ -3,6 +3,11 @@
 
 \ProcessOptions\relax
 
+\RequirePackage{titletoc}
+
+
+\setcounter{tocdepth}{3}
+
 \renewcommand\contentsname{Содержание}
 
 \renewcommand\tableofcontents{%
@@ -14,3 +19,26 @@
 	\newpage
 }
 
+\newlength{\toc@indent}
+\setlength{\toc@indent}{10mm}
+
+\titlecontents{section}
+	[\toc@indent]
+	{\nopagebreak[0]\addvspace{0mm plus 2mm}}
+	{\contentslabel{\toc@indent}}
+	{\hspace*{-\toc@indent}}
+	{\titlerule*{.}\contentspage}
+
+\titlecontents{subsection}
+	[2\toc@indent]
+	{\nopagebreak[1]\addvspace{0mm plus 1mm}}
+	{\contentslabel{\toc@indent}}
+	{\hspace*{-\toc@indent}}
+	{\titlerule*{.}\contentspage}
+
+\titlecontents{subsubsection}
+	[3.5\toc@indent]
+	{\nopagebreak[2]\addvspace{0mm}}
+	{\contentslabel{1.5\toc@indent}}
+	{\hspace*{-1.5\toc@indent}}
+	{\titlerule*{.}\contentspage}
