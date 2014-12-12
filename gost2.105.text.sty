@@ -1,6 +1,12 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{gost2.105.text}[2014/10/29 v0.1 ГОСТ 2.105-95 ЕСКД. Общие требования к текстовым документам. Текст]
 
+\newif\ifsectionpagebreak
+\sectionpagebreaktrue
+
+\DeclareOption{nosectionpagebreak}{%
+	\global\sectionpagebreakfalse
+}
 \DeclareOption*{%
 	\PassOptionsToPackage{\CurrentOption}{eskdsect}%
 }
@@ -87,7 +93,6 @@
 \setlength{\part@skip@after}{15mm plus 0mm minus 1mm - \baselineskip}
 
 \def\part@begin{%
-	\pagebreak
 	\normalfont\Large\bfseries
 	\centering
 }
@@ -97,6 +102,10 @@
 	[hang]{\part@begin}{\thepart}{\widthof{\quad}}{\@sanitize@title}
 \titlespacing{\part}
 	{\parindent}{\part@skip@before}{\part@skip@after}
+
+\def\partbreak{%
+	\pagebreak
+}
 
 
 \newlength{\section@skip@before}
@@ -111,6 +120,12 @@
 	}{\thesection}{\widthof{\quad}}{\@sanitize@title}
 \titlespacing{\section}
 	{\parindent}{\section@skip@before}{\section@skip@after}
+
+\ifsectionpagebreak
+	\def\sectionbreak{%
+		\newpage
+	}
+\fi
 
 
 \newlength{\subsection@skip@before}

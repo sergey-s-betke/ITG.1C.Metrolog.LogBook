@@ -25,6 +25,9 @@
 	\PassOptionsToClass{\CurrentOption}{eskdtext}
 	\PassOptionsToPackage{\CurrentOption}{gost2.105.text}
 }
+\DeclareOption{nosectionpagebreak}{
+	\PassOptionsToPackage{\CurrentOption}{gost2.105.text}
+}
 
 \ExecuteOptions{twoside,portrait,pointsubsection}
 

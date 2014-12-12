@@ -1,15 +1,18 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{gost2.610.logbook}[2014/11/05 v0.1 ГОСТ 2.610-2006 ЕСКД. Правила выполнения эксплуатационных документов. Формуляр]
 
-\DeclareOption*{%
+\DeclareOption{nosectionpagebreak}{
+	\PassOptionsToClass{\CurrentOption}{gost2.105}
+}
+\DeclareOption*{
 	\PassOptionsToClass{\CurrentOption}{gost2.105}
 }
 
-\ExecuteOptions{pointsubsection}
+\ExecuteOptions{pointsubsection,nosectionpagebreak}
 
 \ProcessOptions\relax
 
-\RequirePackage{xecyr}
+\LoadClass{gost2.105}
 \RequirePackage{xstring}
 \RequirePackage{gost8.009}
 \RequirePackage{afterpage}
@@ -22,8 +25,6 @@
 \AtBeginDocument{%
 	\@setup@ESKDX@vars%
 }
-
-\LoadClass{gost2.105}
 
 \newdimen\logbook@subparams@margin
 \logbook@subparams@margin=10mm
