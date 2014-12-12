@@ -80,6 +80,25 @@
 	\let\\\@centercr\@rightskip\@flushglue \rightskip\@rightskip
 }
 
+
+\newlength{\part@skip@before}
+\setlength{\part@skip@before}{15mm plus 6mm minus 1mm - \baselineskip}
+\newlength{\part@skip@after}
+\setlength{\part@skip@after}{15mm plus 0mm minus 1mm - \baselineskip}
+
+\def\part@begin{%
+	\pagebreak
+	\normalfont\Large\bfseries
+	\centering
+}
+
+\titleclass{\part}{straight}
+\titleformat{\part}
+	[hang]{\part@begin}{\thepart}{\widthof{\quad}}{\@sanitize@title}
+\titlespacing{\part}
+	{\parindent}{\part@skip@before}{\part@skip@after}
+
+
 \newlength{\section@skip@before}
 \setlength{\section@skip@before}{15mm plus 4mm minus 2mm - \baselineskip}
 \newlength{\section@skip@after}

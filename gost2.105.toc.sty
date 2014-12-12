@@ -12,10 +12,15 @@
 
 \renewcommand\tableofcontents{%
 	\begingroup
-		\ESKDsectAlign{section}{Center}
-		\section*{\contentsname\@mkboth{\MakeUppercase\contentsname}{\MakeUppercase\contentsname}}%
+		\pagebreak
+		\addvspace\part@skip@before
+		\part@begin
+		\contentsname
+		\par
+		\nopagebreak
+		\addvspace\part@skip@after
 	\endgroup
-	\@starttoc{toc}
+	\@starttoc{toc}%
 	\newpage
 }
 
