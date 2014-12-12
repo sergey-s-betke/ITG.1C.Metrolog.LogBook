@@ -13,23 +13,11 @@
 \DeclareOption{draft}{
 	\PassOptionsToClass{\CurrentOption}{extarticle}
 }
-\DeclareOption{pointsingle}{
-	\PassOptionsToClass{\CurrentOption}{eskdtext}
-	\PassOptionsToPackage{\CurrentOption}{gost2.105.text}
-}
-\DeclareOption{pointsection}{
-	\PassOptionsToClass{\CurrentOption}{eskdtext}
-	\PassOptionsToPackage{\CurrentOption}{gost2.105.text}
-}
-\DeclareOption{pointsubsection}{
-	\PassOptionsToClass{\CurrentOption}{eskdtext}
-	\PassOptionsToPackage{\CurrentOption}{gost2.105.text}
-}
 \DeclareOption{nosectionpagebreak}{
 	\PassOptionsToPackage{\CurrentOption}{gost2.105.text}
 }
 
-\ExecuteOptions{twoside,portrait,pointsubsection}
+\ExecuteOptions{twoside,portrait}
 
 \ProcessOptions\relax
 

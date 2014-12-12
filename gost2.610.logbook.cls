@@ -8,7 +8,7 @@
 	\PassOptionsToClass{\CurrentOption}{gost2.105}
 }
 
-\ExecuteOptions{pointsubsection,nosectionpagebreak}
+\ExecuteOptions{nosectionpagebreak}
 
 \ProcessOptions\relax
 
