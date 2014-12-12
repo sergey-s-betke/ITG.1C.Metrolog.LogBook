@@ -33,8 +33,8 @@
 \RequirePackage{ifxetex}
 \RequireXeTeX
 
-\RequirePackage[T2A,T1]{fontenc}
 \RequirePackage{cmap}
+\RequirePackage[T2A,T1]{fontenc}
 \RequirePackage{xecyr}
 
 \LoadClass[russian,utf8,vpadding=10mm,hpadding=3mm]{eskdtext}
