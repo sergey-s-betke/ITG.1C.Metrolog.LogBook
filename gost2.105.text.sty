@@ -28,6 +28,7 @@
 \RequirePackage{mathtext}
 \RequirePackage{unicode-math}
 
+\RequirePackage[russian]{babel}
 \RequirePackage[russian]{translator}
 \RequirePackage{hyphenat}
 \RequirePackage{gensymb}
@@ -88,24 +89,22 @@
 }
 
 
-\newlength{\part@skip@before}
-\setlength{\part@skip@before}{15mm plus 6mm minus 1mm - \baselineskip}
-\newlength{\part@skip@after}
-\setlength{\part@skip@after}{15mm plus 0mm minus 1mm - \baselineskip}
-
-\def\part@begin{%
-	\normalfont\Large\bfseries
-	\centering
+\renewcommand\appendix{%
+	\par
+	\setcounter{section}{0}%
+	%\renewcommand\thesection{\appendixname~\Asbuk{section}}%
+	\renewcommand\thesection{\Asbuk{section}}%
 }
 
-\titleclass{\part}{straight}
-\titleformat{\part}
-	[hang]{\part@begin}{\thepart}{\widthof{\quad}}{\@sanitize@title}
-\titlespacing{\part}
-	{\parindent}{\part@skip@before}{\part@skip@after}
 
-\def\partbreak{%
-	\pagebreak
+\newlength{\appendix@skip@before}
+\setlength{\appendix@skip@before}{15mm plus 6mm minus 1mm - \baselineskip}
+\newlength{\appendix@skip@after}
+\setlength{\appendix@skip@after}{15mm plus 0mm minus 1mm - \baselineskip}
+
+\def\appendix@begin{%
+	\normalfont\Large\bfseries
+	\centering
 }
 
 
@@ -121,7 +120,6 @@
 	}{\thesection}{\widthof{\quad}}{\@sanitize@title}
 \titlespacing{\section}
 	{\parindent}{\section@skip@before}{\section@skip@after}
-
 \ifsectionpagebreak
 	\def\sectionbreak{%
 		\newpage

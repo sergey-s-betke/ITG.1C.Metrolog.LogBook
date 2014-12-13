@@ -3,6 +3,7 @@
 
 \ProcessOptions\relax
 
+\RequirePackage{gost2.105.text}
 \RequirePackage{titletoc}
 
 
@@ -13,12 +14,12 @@
 \renewcommand\tableofcontents{%
 	\begingroup
 		\pagebreak
-		\addvspace\part@skip@before
-		\part@begin
+		\addvspace\appendix@skip@before
+		\appendix@begin
 		\contentsname
 		\par
 		\nopagebreak
-		\addvspace\part@skip@after
+		\addvspace\appendix@skip@after
 	\endgroup
 	\@starttoc{toc}%
 	\newpage
@@ -29,21 +30,21 @@
 
 \titlecontents{section}
 	[\toc@indent]
-	{\nopagebreak[0]\addvspace{0mm plus 2mm}}
+	{\pagebreak[3]\addvspace{0mm plus 2mm}}
 	{\contentslabel{\toc@indent}}
 	{\hspace*{-\toc@indent}}
 	{\titlerule*{.}\contentspage}
 
 \titlecontents{subsection}
 	[2\toc@indent]
-	{\nopagebreak[1]\addvspace{0mm plus 1mm}}
+	{\pagebreak[2]\addvspace{0mm}}
 	{\contentslabel{\toc@indent}}
 	{\hspace*{-\toc@indent}}
 	{\titlerule*{.}\contentspage}
 
 \titlecontents{subsubsection}
 	[3.5\toc@indent]
-	{\nopagebreak[2]\addvspace{0mm}}
+	{\pagebreak[1]\addvspace{0mm}}
 	{\contentslabel{1.5\toc@indent}}
 	{\hspace*{-1.5\toc@indent}}
 	{\titlerule*{.}\contentspage}
