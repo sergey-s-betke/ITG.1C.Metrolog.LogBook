@@ -52,18 +52,16 @@
 
 \RequirePackage{eskdpara}
 
-\RequirePackage[indentafter]{titlesec}
+\RequirePackage[loadonly,indentafter,clearempty]{titlesec}
 
 
 \setlength{\parskip}{0mm plus 1mm}
 \setlength{\parindent}{15mm} % п.2.6 ГОСТ 2.105-95
 
-\setcounter{secnumdepth}{5}
+\setcounter{secnumdepth}{6}
 
 \newlength{\betweenheadersskip}
 \setlength{\betweenheadersskip}{8mm plus 3mm minus 0mm - \baselineskip}
-
-\def\ttl@sectionclass{\ttl@useclass\ttl@section@i}
 
 
 \def\@sanitize@title#1{%
@@ -92,11 +90,12 @@
 }
 
 
+\def\ttl@appendixclass{\ttl@useclass\ttl@section@i}
+
 \renewcommand\appendix{%
 	\par
-	\setcounter{section}{0}%
-	%\renewcommand\thesection{\appendixname~\Asbuk{section}}%
-	\renewcommand\thesection{\Asbuk{section}}%
+	\setcounter{chapter}{0}%
+	\let\@chapapp\appendixname
 }
 
 
@@ -105,18 +104,34 @@
 \newlength{\appendix@skip@after}
 \setlength{\appendix@skip@after}{15mm plus 0mm minus 1mm - \baselineskip}
 
-\def\appendix@begin{%
+\def\appendix@begin{% п.4.3.7 - по центру страницы
 	\normalfont\Large\bfseries
 	\centering
 }
 
+\titleclass{\chapter}[0]{appendix}
+\newcounter{chapter}[part]
+\renewcommand\thechapter{\Asbuk{chapter}}
+\titleformat{\chapter}
+	[display]% п.4.3.7 - сам заголовок - отдельной строкой
+	{\appendix@begin}
+	{\appendixname~\thechapter}
+	{\widthof{\quad}}
+	{\@sanitize@title}
+\titlespacing{\chapter}
+	{\parindent}{\appendix@skip@before}{\appendix@skip@after}
+\let\appendixbreak\cleardoublepage % п.4.3.7 - с новой страницы
+\let\chapterbreak\appendixbreak
+
+
+\def\ttl@sectionclass{\ttl@useclass\ttl@section@i}
 
 \newlength{\section@skip@before}
 \setlength{\section@skip@before}{15mm plus 4mm minus 2mm - \baselineskip}
 \newlength{\section@skip@after}
 \setlength{\section@skip@after}{15mm plus 0mm minus 2mm - \baselineskip}
 
-\titleclass{\section}{section}
+\titleclass{\section}{section}[\chapter]
 \titleformat{\section}
 	[hang]{\normalfont\Large\bfseries
 		\@title@align@left
@@ -124,10 +139,17 @@
 \titlespacing{\section}
 	{\parindent}{\section@skip@before}{\section@skip@after}
 \ifsectionpagebreak
-	\def\sectionbreak{%
-		\newpage
-	}
+	\let\sectionbreak\newpage
 \fi
+\renewcommand\thesection{%
+	\ifnum\value{chapter}=\z@
+		\arabic{section}%
+	\else
+		\thechapter.\arabic{section}% п.4.3.10 - обозначение приложения вставляем перед обозначением раздела
+	\fi
+}
+\@addtoreset{section}{part}
+\@addtoreset{section}{chapter}
 
 
 \newlength{\subsection@skip@before}
@@ -135,7 +157,7 @@
 \newlength{\subsection@skip@after}
 \setlength{\subsection@skip@after}{15mm plus 0mm minus 3mm - \baselineskip}
 
-\titleclass{\subsection}{section}
+\titleclass{\subsection}{section}[\section]
 \titleformat{\subsection}
 	{\normalfont\large\bfseries
 		\@title@align@left
@@ -150,6 +172,8 @@
 		\thesection.\arabic{subsection}%
 	\fi
 }
+\@addtoreset{subsection}{part}
+\@addtoreset{subsection}{chapter}
 
 
 \newlength{\subsubsection@skip@before}
@@ -157,7 +181,7 @@
 \newlength{\subsubsection@skip@after}
 \setlength{\subsubsection@skip@after}{15mm plus 0mm minus 3mm - \baselineskip}
 
-\titleclass{\subsubsection}{section}
+\titleclass{\subsubsection}{section}[\subsection]
 \titleformat{\subsubsection}
 	{\normalfont\normalsize\bfseries
 		\@title@align@left
@@ -172,9 +196,12 @@
 		\thesubsection.\arabic{subsubsection}%
 	\fi%}
 }
+\@addtoreset{subsubsection}{part}
+\@addtoreset{subsubsection}{chapter}
 \@addtoreset{subsubsection}{section}
 
 
+\titleclass{\paragraph}{straight}[\subsubsection]
 \titleformat{\paragraph}
 	[runin]{\normalfont\normalsize}{\theparagraph}{\widthof{\quad}}{ }[\quad]
 \titlespacing{\paragraph}
@@ -185,11 +212,14 @@
 \@addtoreset{paragraph}{subsubsection}
 
 
+\titleclass{\subparagraph}{straight}[\paragraph]
 \titleformat{\subparagraph}
 	[runin]{\normalfont\normalsize}{\thesubparagraph}{\widthof{\quad}}{ }[\quad]
 \titlespacing{\subparagraph}
 	{\parindent}{0mm plus 1mm}{\parskip}
 
+\@addtoreset{subparagraph}{part}
+\@addtoreset{subparagraph}{chapter}
 \@addtoreset{subparagraph}{section}
 \@addtoreset{subparagraph}{subsection}
 \@addtoreset{subparagraph}{subsubsection}

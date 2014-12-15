@@ -4,6 +4,7 @@
 \ProcessOptions\relax
 
 \RequirePackage{gost2.105.text}
+\RequirePackage{titlesec}
 \RequirePackage{titletoc}
 
 
@@ -27,6 +28,19 @@
 
 \newlength{\toc@indent}
 \setlength{\toc@indent}{10mm}
+
+\newlength{\toc@indent@appendix}
+\setlength{\toc@indent@appendix}{\widthof{\appendixname~}+\toc@indent}
+
+\titlecontents{chapter}
+	[\toc@indent@appendix]
+	{\pagebreak[3]\addvspace{0mm plus 3mm}}
+	{\contentslabel{\toc@indent@appendix}}
+	{\hspace*{-\toc@indent@appendix}}
+	{\titlerule*{.}\contentspage}
+\def\ttl@tocchapter{%
+	\def\ttl@a{\protect\numberline{\chaptertitlename~\thechapter}}%
+}
 
 \titlecontents{section}
 	[\toc@indent]
