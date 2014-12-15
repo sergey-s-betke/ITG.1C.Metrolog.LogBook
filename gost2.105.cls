@@ -14,10 +14,10 @@
 	\PassOptionsToClass{\CurrentOption}{extarticle}
 }
 \DeclareOption{nosectionpagebreak}{
-	\PassOptionsToPackage{\CurrentOption}{gost2.105.text}
+	\PassOptionsToPackage{\CurrentOption}{gost2.105.titles}
 }
 \DeclareOption{sectionpagebreak}{
-	\PassOptionsToPackage{\CurrentOption}{gost2.105.text}
+	\PassOptionsToPackage{\CurrentOption}{gost2.105.titles}
 }
 
 \ExecuteOptions{twoside,portrait}
@@ -36,5 +36,6 @@
 \RequirePackage{gost2.104}
 \RequirePackage{gost2.105.titlesheet}
 \RequirePackage{gost2.105.toc}
+\RequirePackage{gost2.105.titles}
 \RequirePackage{gost2.105.text}
 \RequirePackage{gost2.105.table}
