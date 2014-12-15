@@ -12,7 +12,6 @@
 
 \ProcessOptions\relax
 
-\LoadClass{gost2.105}
 \RequirePackage{xstring}
 \RequirePackage{gost8.009}
 \RequirePackage{afterpage}
@@ -25,6 +24,8 @@
 \AtBeginDocument{%
 	\@setup@ESKDX@vars%
 }
+
+\LoadClass{gost2.105}
 
 \newdimen\logbook@subparams@margin
 \logbook@subparams@margin=10mm
