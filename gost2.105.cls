@@ -16,6 +16,9 @@
 \DeclareOption{nosectionpagebreak}{
 	\PassOptionsToPackage{\CurrentOption}{gost2.105.text}
 }
+\DeclareOption{sectionpagebreak}{
+	\PassOptionsToPackage{\CurrentOption}{gost2.105.text}
+}
 
 \ExecuteOptions{twoside,portrait}
 
