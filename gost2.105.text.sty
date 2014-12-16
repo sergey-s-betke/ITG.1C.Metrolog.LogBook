@@ -1,0 +1,44 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{gost2.105.text}[2014/10/29 v0.1 ГОСТ 2.105-95 ЕСКД. Общие требования к текстовым документам. Текст]
+
+\ExecuteOptions{}
+
+\ProcessOptions\relax
+
+\RequirePackage{ifxetex}
+\RequireXeTeX
+
+\RequirePackage{xecyr}
+
+\RequirePackage[cyremdash]{extdash}
+
+\RequirePackage[T2A,T1]{fontenc}
+
+\RequirePackage{amsmath,amsthm,amssymb}
+\RequirePackage{mathtext}
+\RequirePackage{unicode-math}
+
+\RequirePackage[russian]{babel}
+\RequirePackage[russian]{translator}
+\RequirePackage{hyphenat}
+\RequirePackage{gensymb}
+\RequirePackage[sepfour]{numprint}
+\RequirePackage{siunitx}
+\sisetup{range-phrase=\space до~} 
+
+\RequirePackage{url} 
+\RequirePackage[unicode=true]{hyperref} 
+
+\hypersetup{ %
+	breaklinks=true 
+	,bookmarks=true 
+	,colorlinks=false 
+	,pdfborder={0 0 0}
+}
+\urlstyle{same}  % don't use monospace font for urls
+
+\RequirePackage{eskdpara}
+
+
+\setlength{\parskip}{0mm plus 1mm}
+\setlength{\parindent}{15mm} % п.2.6 ГОСТ 2.105-95
