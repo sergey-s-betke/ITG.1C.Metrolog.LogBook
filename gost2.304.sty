@@ -1,90 +1,316 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{gost2.304}[2014/10/22 v0.1 ГОСТ 2.304-81 ЕСКД. Шрифты чертежные]
 
-\RequirePackage{ifxetex}
-\RequireXeTeX
-
-\RequirePackage[T2A,T1]{fontenc}
-\RequirePackage{xecyr}
-
-% Enable loading of OpenType fonts
-\usepackage[cm-default]{fontspec}
-\defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\newif\if@gostfontA
+\newif\if@gostfontB
 
 % подключаем чертёжные шрифты типа A
 \DeclareOption{A}{
-	\newfontfamily\gostfontA{GOST 2.304-81 type A}[
-		Path = fonts/ ,
-		Extension = .ttf ,
-		% UprightFont = * ,
-		BoldFont = * ,
-		BoldFeatures = { FakeBold = 1.5 } ,
-		ItalicFont = * Italic ,
-		BoldItalicFont = * Italic ,
-		BoldItalicFeatures = { FakeBold = 1.5 } ,
-		% SlantedFont = * Italic ,
-		% BoldSlantedFont = * Bold Italic,
-		% SmallCapsFont = *
-		Kerning = On
-	]
-	\let\gostA\gostfontA
-	\let\gostfont\gostfontA
-	\setmainfont{GOST 2.304-81 type A}[
-		Path = fonts/ ,
-		Extension = .ttf ,
-		% UprightFont = * ,
-		BoldFont = * ,
-		BoldFeatures = { FakeBold = 1.5 } ,
-		ItalicFont = * Italic ,
-		BoldItalicFont = * Italic,
-		BoldItalicFeatures = { FakeBold = 1.5 } ,
-		% SlantedFont = * Italic ,
-		% BoldSlantedFont = * Bold Italic,
-		% SmallCapsFont = *
-		Kerning = On
-	]
+	\@gostfontAtrue
+	\@gostfontBfalse
 }
 
 % подключаем чертёжные шрифты типа B
 \DeclareOption{B}{
-	\newfontfamily\gostfontB{GOST 2.304-81 type B}[
-		Path = fonts/ ,
-		Extension = .ttf ,
-		% UprightFont = * ,
-		BoldFont = * ,
-		BoldFeatures = { FakeBold = 1.5 } ,
-		ItalicFont = * Italic ,
-		BoldItalicFont = * Italic ,
-		BoldItalicFeatures = { FakeBold = 1.5 } ,
-		% SlantedFont = * Italic ,
-		% BoldSlantedFont = * Bold Italic,
-		% SmallCapsFont = *
-		Kerning = On
-	]
-	\let\gostB\gostfontB
-	\let\gostfont\gostfontB
-	\setmainfont{GOST 2.304-81 type B}[
-		Path = fonts/ ,
-		Extension = .ttf ,
-		% UprightFont = * ,
-		BoldFont = * ,
-		BoldFeatures = { FakeBold = 1.5 } ,
-		ItalicFont = * Italic ,
-		BoldItalicFont = * Italic ,
-		BoldItalicFeatures = { FakeBold = 1.5 } ,
-		% SlantedFont = * Italic ,
-		% BoldSlantedFont = * Bold Italic,
-		% SmallCapsFont = *
-		Kerning = On
-	]
+	\@gostfontAfalse
+	\@gostfontBtrue
 }
 
-\ExecuteOptions{B}
+\newcount\@gostfont@normalsize@number
+\newcount\@gostfont@small@number
+\newcount\@gostfont@footnotesize@number
+\newcount\@gostfont@scriptsize@number
+\newcount\@gostfont@tiny@number
+\newcount\@gostfont@large@number
+\newcount\@gostfont@Large@number
+\newcount\@gostfont@LARGE@number
+\newcount\@gostfont@huge@number
+\newcount\@gostfont@Huge@number
+
+% размер основного шрифта h
+\DeclareOption{2mm}{
+	\@gostfont@normalsize@number=0\relax
+	\@gostfont@small@number=\@gostfont@normalsize@number
+	%\advance \@gostfont@small@number by -1\relax
+	\@gostfont@footnotesize@number=\@gostfont@small@number
+	\@gostfont@scriptsize@number=\@gostfont@small@number
+	%\advance \@gostfont@scriptsize@number by -1\relax
+	\@gostfont@tiny@number=\@gostfont@small@number
+	%\advance \@gostfont@tiny@number by -2\relax
+	\@gostfont@large@number=\@gostfont@normalsize@number
+	\advance \@gostfont@large@number by 1\relax
+	\@gostfont@Large@number=\@gostfont@large@number
+	\advance \@gostfont@Large@number by 1\relax
+	\@gostfont@LARGE@number=\@gostfont@Large@number
+	\advance \@gostfont@LARGE@number by 1\relax
+	\@gostfont@huge@number=\@gostfont@LARGE@number
+	\advance \@gostfont@huge@number by 1\relax
+	\@gostfont@Huge@number=\@gostfont@huge@number
+	\advance \@gostfont@Huge@number by 1\relax
+}
+\DeclareOption{3mm}{
+	\@gostfont@normalsize@number=1\relax
+	\@gostfont@small@number=\@gostfont@normalsize@number
+	\advance \@gostfont@small@number by -1\relax
+	\@gostfont@footnotesize@number=\@gostfont@small@number
+	\@gostfont@scriptsize@number=\@gostfont@small@number
+	%\advance \@gostfont@scriptsize@number by -1\relax
+	\@gostfont@tiny@number=\@gostfont@small@number
+	%\advance \@gostfont@tiny@number by -2\relax
+	\@gostfont@large@number=\@gostfont@normalsize@number
+	\advance \@gostfont@large@number by 1\relax
+	\@gostfont@Large@number=\@gostfont@large@number
+	\advance \@gostfont@Large@number by 1\relax
+	\@gostfont@LARGE@number=\@gostfont@Large@number
+	\advance \@gostfont@LARGE@number by 1\relax
+	\@gostfont@huge@number=\@gostfont@LARGE@number
+	\advance \@gostfont@huge@number by 1\relax
+	\@gostfont@Huge@number=\@gostfont@huge@number
+	\advance \@gostfont@Huge@number by 1\relax
+}
+\DeclareOption{5mm}{
+	\@gostfont@normalsize@number=2\relax
+	\@gostfont@small@number=\@gostfont@normalsize@number
+	\advance \@gostfont@small@number by -1\relax
+	\@gostfont@footnotesize@number=\@gostfont@small@number
+	\@gostfont@scriptsize@number=\@gostfont@small@number
+	\advance \@gostfont@scriptsize@number by -1\relax
+	\@gostfont@tiny@number=\@gostfont@small@number
+	\advance \@gostfont@tiny@number by -1\relax
+	\@gostfont@large@number=\@gostfont@normalsize@number
+	\advance \@gostfont@large@number by 1\relax
+	\@gostfont@Large@number=\@gostfont@large@number
+	\advance \@gostfont@Large@number by 1\relax
+	\@gostfont@LARGE@number=\@gostfont@Large@number
+	\advance \@gostfont@LARGE@number by 1\relax
+	\@gostfont@huge@number=\@gostfont@LARGE@number
+	\advance \@gostfont@huge@number by 1\relax
+	\@gostfont@Huge@number=\@gostfont@huge@number
+	\advance \@gostfont@Huge@number by 1\relax
+}
+\DeclareOption{7mm}{
+	\@gostfont@normalsize@number=3\relax
+	\@gostfont@small@number=\@gostfont@normalsize@number
+	\advance \@gostfont@small@number by -1\relax
+	\@gostfont@footnotesize@number=\@gostfont@small@number
+	\@gostfont@scriptsize@number=\@gostfont@small@number
+	\advance \@gostfont@scriptsize@number by -1\relax
+	\@gostfont@tiny@number=\@gostfont@small@number
+	\advance \@gostfont@tiny@number by -2\relax
+	\@gostfont@large@number=\@gostfont@normalsize@number
+	\advance \@gostfont@large@number by 1\relax
+	\@gostfont@Large@number=\@gostfont@large@number
+	\advance \@gostfont@Large@number by 1\relax
+	\@gostfont@LARGE@number=\@gostfont@Large@number
+	\advance \@gostfont@LARGE@number by 1\relax
+	\@gostfont@huge@number=\@gostfont@LARGE@number
+	\advance \@gostfont@huge@number by 1\relax
+	\@gostfont@Huge@number=\@gostfont@huge@number
+	\advance \@gostfont@Huge@number by 1\relax
+}
+\DeclareOption{10mm}{
+	\@gostfont@normalsize@number=4\relax
+	\@gostfont@small@number=\@gostfont@normalsize@number
+	\advance \@gostfont@small@number by -1\relax
+	\@gostfont@footnotesize@number=\@gostfont@small@number
+	\@gostfont@scriptsize@number=\@gostfont@small@number
+	\advance \@gostfont@scriptsize@number by -1\relax
+	\@gostfont@tiny@number=\@gostfont@small@number
+	\advance \@gostfont@tiny@number by -2\relax
+	\@gostfont@large@number=\@gostfont@normalsize@number
+	\advance \@gostfont@large@number by 1\relax
+	\@gostfont@Large@number=\@gostfont@large@number
+	\advance \@gostfont@Large@number by 1\relax
+	\@gostfont@LARGE@number=\@gostfont@Large@number
+	\advance \@gostfont@LARGE@number by 1\relax
+	\@gostfont@huge@number=\@gostfont@LARGE@number
+	\advance \@gostfont@huge@number by 1\relax
+	\@gostfont@Huge@number=\@gostfont@huge@number
+	%\advance \@gostfont@Huge@number by 1\relax
+}
+\DeclareOption{14mm}{
+	\@gostfont@normalsize@number=5\relax
+	\@gostfont@small@number=\@gostfont@normalsize@number
+	\advance \@gostfont@small@number by -1\relax
+	\@gostfont@footnotesize@number=\@gostfont@small@number
+	\@gostfont@scriptsize@number=\@gostfont@small@number
+	\advance \@gostfont@scriptsize@number by -1\relax
+	\@gostfont@tiny@number=\@gostfont@small@number
+	\advance \@gostfont@tiny@number by -2\relax
+	\@gostfont@large@number=\@gostfont@normalsize@number
+	\advance \@gostfont@large@number by 1\relax
+	\@gostfont@Large@number=\@gostfont@large@number
+	\advance \@gostfont@Large@number by 1\relax
+	\@gostfont@LARGE@number=\@gostfont@Large@number
+	\advance \@gostfont@LARGE@number by 1\relax
+	\@gostfont@huge@number=\@gostfont@LARGE@number
+	%\advance \@gostfont@huge@number by 1\relax
+	\@gostfont@Huge@number=\@gostfont@huge@number
+	%\advance \@gostfont@Huge@number by 1\relax
+}
+\DeclareOption{20mm}{
+	\@gostfont@normalsize@number=6\relax
+	\@gostfont@small@number=\@gostfont@normalsize@number
+	\advance \@gostfont@small@number by -1\relax
+	\@gostfont@footnotesize@number=\@gostfont@small@number
+	\@gostfont@scriptsize@number=\@gostfont@small@number
+	\advance \@gostfont@scriptsize@number by -1\relax
+	\@gostfont@tiny@number=\@gostfont@small@number
+	\advance \@gostfont@tiny@number by -2\relax
+	\@gostfont@large@number=\@gostfont@normalsize@number
+	\advance \@gostfont@large@number by 1\relax
+	\@gostfont@Large@number=\@gostfont@large@number
+	\advance \@gostfont@Large@number by 1\relax
+	\@gostfont@LARGE@number=\@gostfont@Large@number
+	%\advance \@gostfont@LARGE@number by 1\relax
+	\@gostfont@huge@number=\@gostfont@LARGE@number
+	%\advance \@gostfont@huge@number by 1\relax
+	\@gostfont@Huge@number=\@gostfont@huge@number
+	%\advance \@gostfont@Huge@number by 1\relax
+}
+
+\PassOptionsToPackage{T2A}{fontenc}
+\PassOptionsToPackage{T1}{fontenc}
+
+\ExecuteOptions{B,5mm}
 
 \ProcessOptions\relax
 
-\RequirePackage{cmap}
-\RequirePackage[T2A,T1]{fontenc}
 
-%\let\ESKDfontShape\gostfont
-%\ESKD@docfont
+\RequirePackage{ifxetex}
+\RequireXeTeX
+
+\RequirePackage{cmap}
+\RequirePackage{fontenc}
+\RequirePackage{xecyr}
+
+\RequirePackage{xparse}
+
+\RequirePackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX} %,Scale=MatchLowercase}
+
+\newcommand{\@gostfont@declare}[2]{%
+	#1{GOST 2.304-81 type #2}[
+		Path = fonts/ ,
+		Extension = .ttf ,
+		%UprightFont = * ,
+		BoldFont = * ,
+		BoldFeatures = { FakeBold = 1.5 } ,
+		ItalicFont = * Italic ,
+		BoldItalicFont = * Italic ,
+		BoldItalicFeatures = { FakeBold = 1.5 } ,
+		% SlantedFont = * Italic ,
+		% BoldSlantedFont = * Bold Italic,
+		% SmallCapsFont = *
+		% Kerning = On % not avaliable for ttf fonts
+		Scale = 1.47 % подобрал экспериментально для соответствия размеров в мм
+	]%
+}
+
+% ряд размеров шрифтов h по ГОСТ 2.304
+% применяемые размеры шрифта h=2,5; 3,5; 5,0; 7,0; 10,0; 14,0; 20,0; 28,0; 40,0 мм
+% п.3.3 ГОСТ 2.105-95 - высота шрифта не менее 2,5 мм
+\newcommand\@gost@font@size@map[1]{%
+	\ifcase #1 2,5mm\or 3,5mm\or 5,0mm\or 7,0mm\or 10mm\or 14mm\or 20mm\or 28mm\or 40mm\fi%
+}
+
+\def\normalsize{%
+	\@gost@font@size{\@gost@font@size@map\@gostfont@normalsize@number}%
+	\selectfont
+	%\abovedisplayskip 11\p@ \@plus3\p@ \@minus6\p@
+	%\abovedisplayshortskip \z@ \@plus3\p@
+	%\belowdisplayshortskip 6.5\p@ \@plus3.5\p@ \@minus3\p@
+	%\belowdisplayskip \abovedisplayskip
+	%\let\@listi\@listI
+}
+\def\small{%
+	\@gost@font@size{\@gost@font@size@map\@gostfont@small@number}%
+	\selectfont
+	%\@setfontsize\small\@xpt\@xiipt
+	%\abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+	%\abovedisplayshortskip \z@ \@plus3\p@
+	%\belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+	%\def\@listi{%
+	%	\leftmargin\leftmargini
+	%	\topsep 6\p@ \@plus2\p@ \@minus2\p@
+	%	\parsep 3\p@ \@plus2\p@ \@minus\p@
+	%	\itemsep \parsep
+	%}%
+	%\belowdisplayskip \abovedisplayskip
+}
+\def\footnotesize{%
+	\@gost@font@size{\@gost@font@size@map\@gostfont@footnotesize@number}%
+	\selectfont
+	%\@setfontsize\footnotesize\@ixpt{11}%
+	%\abovedisplayskip 8\p@ \@plus2\p@ \@minus4\p@
+	%\abovedisplayshortskip \z@ \@plus\p@
+	%\belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
+	%\def\@listi{\leftmargin\leftmargini
+	%	\topsep 4\p@ \@plus2\p@ \@minus2\p@
+	%	\parsep 2\p@ \@plus\p@ \@minus\p@
+	%	\itemsep \parsep}%
+	%\belowdisplayskip \abovedisplayskip
+}
+\def\scriptsize{%
+	\@gost@font@size{\@gost@font@size@map\@gostfont@scriptsize@number}%
+	\selectfont
+}
+\def\tiny{%
+	\@gost@font@size{\@gost@font@size@map\@gostfont@tiny@number}%
+	\selectfont
+}
+\def\large{%
+	\@gost@font@size{\@gost@font@size@map\@gostfont@large@number}%
+	\selectfont
+}
+\def\Large{%
+	\@gost@font@size{\@gost@font@size@map\@gostfont@Large@number}%
+	\selectfont
+}
+\def\LARGE{%
+	\@gost@font@size{\@gost@font@size@map\@gostfont@LARGE@number}%
+	\selectfont
+}
+\def\huge{%
+	\@gost@font@size{\@gost@font@size@map\@gostfont@huge@number}%
+	\selectfont
+}
+\def\Huge{%
+	\@gost@font@size{\@gost@font@size@map\@gostfont@Huge@number}%
+	\selectfont
+}
+
+
+\if@gostfontA
+	\NewDocumentCommand\@gost@font@size{m o}{
+		\IfNoValueTF{#2}{%
+			% расстояние между строками b = 22/14*h
+			\@tempdimc=#1\relax
+			\multiply \@tempdimc by 22\relax
+			\divide \@tempdimc by 14\relax
+			\fontsize{#1}{\@tempdimc}%
+		}{%
+			\fontsize{#1}{#2}%
+		}%
+	}
+	\@gostfont@declare{\newfontfamily\gostfontB}{B}
+	\@gostfont@declare{\setmainfont}{B}
+	\let\gostfont\gostfontA
+\fi
+
+\if@gostfontB
+	\NewDocumentCommand\@gost@font@size{m o}{
+		\IfNoValueTF{#2}{%
+			% расстояние между строками b = 17/10*h
+			\@tempdimc=#1\relax
+			\multiply \@tempdimc by 17\relax
+			\divide \@tempdimc by 10\relax
+			\fontsize{#1}{\@tempdimc}%
+		}{%
+			\fontsize{#1}{#2}%
+		}%
+	}
+	\@gostfont@declare{\newfontfamily\gostfontB}{B}
+	\@gostfont@declare{\setmainfont}{B}
+	\let\gostfont\gostfontB
+\fi

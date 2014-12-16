@@ -3,31 +3,13 @@
 % !TeX spellcheck = ru_RU
 % !TeX program = xelatex
 
-%\usepackage[B]{gost2.304}
-\usepackage[T2A,T1]{fontenc}
-\usepackage{xecyr}
+\usepackage[B]{gost2.304}
 \usepackage{objects}
 \usepackage{gost2.612}
 \usepackage{trace}
 \usepackage{afterpage}
 \usepackage{pdflscape}
 \usepackage{numprint}
-
-\setmainfont{GOST 2.304-81 type B}[
-	Path = fonts/ ,
-	Extension = .ttf ,
-	% UprightFont = * ,
-	BoldFont = * ,
-	BoldFeatures = { FakeBold = 1.5 } ,
-	ItalicFont = * Italic ,
-	BoldItalicFont = * Italic ,
-	BoldItalicFeatures = { FakeBold = 1.5 } ,
-	% SlantedFont = * Italic ,
-	% BoldSlantedFont = * Bold Italic,
-	% SmallCapsFont = *
-	Kerning = On
-]
-	
 
 \input{data}
 
@@ -38,7 +20,7 @@
 	
 
 \begin{document}
-
+	
 	\makeatletter
 
 	\Формуляр\Изделие\Обозначение
@@ -86,7 +68,7 @@
 		--\Разработал\ДолжностноеЛицо\Фамилия--
 	}
 
-	\Формуляр\Изделие\Характеристика\foreach{\Характеристика}{%
+	\Формуляр\Изделие\Характеристики\foreach{\Характеристика}{%
 		--\Характеристика\Наименование, \Характеристика\Значение\ЕдиницаИзмерения --
 		$\numprint{\Характеристика\Значение\Значение}$
 	}
