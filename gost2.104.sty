@@ -1,8 +1,78 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{gost2.104}[2014/10/22 v0.1 ГОСТ 2.104-2006 ЕСКД. Основные надписи]
 
+\newif\if@gost@finecorners
+
 % исправляем "ступеньки" при стыковке линий в рамках в eskdx
 \DeclareOption{finecorners}{
+	\@gost@finecornerstrue
+}
+
+\DeclareOption*{
+	\PassOptionsToPackage{\CurrentOption}{eskdstamp}
+}
+
+\PassOptionsToPackage{B}{gost2.304}
+	
+\ExecuteOptions{finecorners}
+
+\ProcessOptions\relax
+
+\RequirePackage{gost2.304}
+\RequirePackage{eskdfont}
+
+\renewcommand{\ESKDfontIIsize}{\@gost@font@size{1,8mm}}
+\renewcommand{\ESKDfontIIIsize}{\@gost@font@size{2,5mm}}
+\renewcommand{\ESKDfontVsize}{\@gost@font@size{5mm}}
+\renewcommand{\ESKDfontVIIsize}{\@gost@font@size{7mm}}
+\renewcommand{\ESKDfontXsize}{\@gost@font@size{10mm}}
+
+\renewcommand{\ESKDfontII}{%
+	%\ESKDfontSetBaseLineStretch
+	\gostfont\ESKDfontIIsize\selectfont\ESKDfontShape
+}
+\renewcommand{\ESKDfontIII}{%
+	%\ESKDfontSetBaseLineStretch
+	\gostfont\ESKDfontIIIsize\selectfont\ESKDfontShape
+}
+\renewcommand{\ESKDfontV}{%
+	%\ESKDfontSetBaseLineStretch
+	\gostfont\ESKDfontVsize\selectfont\ESKDfontShape
+}
+\renewcommand{\ESKDfontVII}{%
+	%\ESKDfontSetBaseLineStretch
+	\gostfont\ESKDfontVIIsize\selectfont\ESKDfontShape
+}
+\renewcommand{\ESKDfontX}{%
+	%\ESKDfontSetBaseLineStretch
+	\gostfont\ESKDfontXsize\selectfont\ESKDfontShape
+}
+	
+\RequirePackage{eskdstamp}
+% исправление к eskdx
+\DeclareRobustCommand{\No}{\ifmmode{\nfss@text{\textnumero}}\else\textnumero\fi}
+
+\RequirePackage{xparse}
+
+\NewDocumentCommand{\@eskd@font}{
+	O{2,5mm}   % #1 - font h
+	O{\slshape}% #2 - font shape
+}{%
+	\gostfont\@gost@font@size{#1}\selectfont#2%
+}
+
+\NewDocumentCommand{\@eskd@frame@field@title}{
+	m          % #1 - title box width
+	O{5mm}     % #2 - title box height
+	O{c}       % #3 - title horizontal alignment (default - center)
+	O{\@eskd@font}
+	           % #4 - title font
+	m          % #5 - title
+}{%
+	\parbox[b][#2][c]{#1}{#4\makebox[\linewidth][#3]{#5}\strut}%
+}
+
+\if@gost@finecorners
 	\AtBeginDocument{%
 		%
 		\savebox{\ESKD@frame@box}{%
@@ -20,6 +90,16 @@
 		\savebox{\ESKD@columns@xix@box}{%
 			\setlength{\unitlength}{1mm}%
 			\begin{picture}(0,0)(0,0)
+				% измеряем высоту и глубину надписей для определения их положения в полях основной надписи
+				%\locbox\@tempboxa
+				%\sbox\@tempboxa{\makebox[25mm]{\ESKDfontIII\ESKDcolumnXXIIname}}%
+				%\setlength\@tempskipa{(5mm-\totalheightof{\copy\@tempboxa})/2+\depthof{\copy\@tempboxa}}%
+				%\setlength\@tempskipb{7mm+\@tempskipa}%
+				%\divide \@tempskipa by \unitlength
+				%\divide \@tempskipb by \unitlength
+				%\@tempcnta=\@tempskipa
+				%\@tempcntb=\@tempskipb
+				%
 				\linethickness{\ESKDlineThick}
 				\put(-0.5\ESKDltu{\ESKDlineThick},12){\line(1,0){145}}
 				\put(0,7){\line(1,0){145}}
@@ -30,30 +110,16 @@
 				\put(110,0){\line(0,1){12}}
 				\put(145,0.5\ESKDltu{\ESKDlineThick}){\line(0,1){12}}
 				\put(0.5\ESKDltu{\ESKDlineThick},0){\line(1,0){145}}
-				\put(0, 8.3){\makebox[25mm]{\ESKDfontIII\ESKDcolumnXIXname}}
+				\put(0, 7){\@eskd@frame@field@title{25mm}{\ESKDcolumnXIXname}}
 				\put(0, 2.3){\makebox[25mm]{\ESKDfontIII\ESKDtheColumnXIX}}
-				\put(25, 8.3){\makebox[35mm]{\ESKDfontIII\ESKDcolumnXXname}}
-				\put(60, 8.3){\makebox[25mm]{\ESKDfontIII\ESKDcolumnXXIname}}
+				\put(25, 7){\@eskd@frame@field@title{35mm}{\ESKDcolumnXXname}}
+				\put(60, 7){\@eskd@frame@field@title{25mm}{\ESKDcolumnXXIname}}
 				\put(60, 2.3){\makebox[25mm]{\ESKDfontIII\ESKDtheColumnXXI}}
-				\put(85, 8.3){\makebox[25mm]{\ESKDfontIII\ESKDcolumnXXIIname}}
+				\put(85, 7){\@eskd@frame@field@title{25mm}{\ESKDcolumnXXIIname}}
 				\put(85, 2.3){\makebox[25mm]{\ESKDfontIII\ESKDtheColumnXXII}}
-				\put(110, 8.3){\makebox[35mm]{\ESKDfontIII\ESKDcolumnXXIIIname}}
+				\put(110, 7){\@eskd@frame@field@title{35mm}{\ESKDcolumnXXIIIname}}
 			\end{picture}%
 		}
 		\fi
 	}
-}
-
-\DeclareOption*{%
-	\PassOptionsToPackage{\CurrentOption}{eskdstamp}%
-}
-
-\ExecuteOptions{finecorners}
-
-\ProcessOptions\relax
-
-\RequirePackage[B]{gost2.304}
-	
-\RequirePackage{eskdstamp}
-% исправление к eskdx
-\DeclareRobustCommand{\No}{\ifmmode{\nfss@text{\textnumero}}\else\textnumero\fi}
+\fi
