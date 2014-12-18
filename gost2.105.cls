@@ -25,13 +25,19 @@
 \DeclareOption{gostfontB}{
 	\PassOptionsToPackage{B}{gost2.304}
 }
+\DeclareOption{3mm}{
+	\PassOptionsToPackage{\CurrentOption}{gost2.304}
+}
+\DeclareOption{5mm}{
+	\PassOptionsToPackage{\CurrentOption}{gost2.304}
+}
 
-\ExecuteOptions{twoside,portrait,gostfontB}
+\ExecuteOptions{twoside,portrait,gostfontB,3mm}
 
 \ProcessOptions\relax
 
 
-\LoadClass[russian,utf8,vpadding=10mm,hpadding=3mm]{eskdtext}
+\LoadClass[russian,utf8,vpadding=10mm,hpadding=2mm]{eskdtext}
 
 \RequirePackage{gost2.304}
 \RequirePackage{gost2.104}
