@@ -259,32 +259,34 @@ l	\@gostfont@fontsize[\small]{\@gostfont@fontsize@map\@gostfont@small@number}%
 }
 \@onlypreamble\@gostfont@setupsizes
 
-\def\@gostfont@name{ГОСТ 2.304-81}
+\def\@gostfont@name{Mipgost} %{ГОСТ 2.304-81}
 
 {
 	% определение действительного масштаба для шрифтов
 	\def\@gostfont@features@#1{
 		Path = fonts/,
 		Extension = .ttf,
-		UprightFont = GOST 2.304-81 type A,
+		UprightFont = *,
 		OpticalSize = 0,
 		Scale = #1,
 		Mapping = tex-text,
-		BoldFont = GOST 2.304-81 type B,
+		BoldFont = *,
 		BoldFeatures = {
-			OpticalSize = 0,
+			FakeBold = 1.4,
+			OpticalSize = 0
 		},
-		SlantedFont = GOST 2.304-81 type A,
+		SlantedFont = *,
 		SlantedFeatures = {
 			FakeSlant = 0.258819, % cos(75 градусов)
-			OpticalSize = 0,
+			OpticalSize = 0
 		},
-		BoldSlantedFont = GOST 2.304-81 type B,
+		BoldSlantedFont = *,
 		BoldSlantedFeatures = {
+			FakeBold = 1.4,
 			FakeSlant = 0.258819,
-			OpticalSize = 0,
-		}
-		% Kerning = On % not avaliable for ttf fonts
+			OpticalSize = 0
+		},
+		%Kerning = On % not avaliable for ttf fonts
 	}
 	%
 	\def\normalsize{%
