@@ -1,20 +1,7 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{gost2.304}[2014/10/22 v0.1 ГОСТ 2.304-81 ЕСКД. Шрифты чертежные]
+\ProvidesPackage{gost2.304}[2014/12/20 v0.2 ГОСТ 2.304-81 ЕСКД. Шрифты чертежные]
 
-\newif\if@gostfontA
-\newif\if@gostfontB
-
-% подключаем чертёжные шрифты типа A
-\DeclareOption{A}{
-	\@gostfontAtrue
-	\@gostfontBfalse
-}
-
-% подключаем чертёжные шрифты типа B
-\DeclareOption{B}{
-	\@gostfontAfalse
-	\@gostfontBtrue
-}
+% используем шрифты A и Б, последний - для "утолщённых" начертаний
 
 \newcount\@gostfont@normalsize@number
 \newcount\@gostfont@small@number
@@ -27,8 +14,11 @@
 \newcount\@gostfont@huge@number
 \newcount\@gostfont@Huge@number
 
+\newif\if@gostfont@setupmainfont
+
 % размер основного шрифта h
 \DeclareOption{2mm}{
+	\@gostfont@setupmainfonttrue
 	\@gostfont@normalsize@number=0\relax
 	\@gostfont@small@number=\@gostfont@normalsize@number
 	%\advance \@gostfont@small@number by -1\relax
@@ -49,6 +39,7 @@
 	\advance \@gostfont@Huge@number by 1\relax
 }
 \DeclareOption{3mm}{
+	\@gostfont@setupmainfonttrue
 	\@gostfont@normalsize@number=1\relax
 	\@gostfont@small@number=\@gostfont@normalsize@number
 	\advance \@gostfont@small@number by -1\relax
@@ -69,6 +60,7 @@
 	\advance \@gostfont@Huge@number by 1\relax
 }
 \DeclareOption{5mm}{
+	\@gostfont@setupmainfonttrue
 	\@gostfont@normalsize@number=2\relax
 	\@gostfont@small@number=\@gostfont@normalsize@number
 	\advance \@gostfont@small@number by -1\relax
@@ -89,6 +81,7 @@
 	\advance \@gostfont@Huge@number by 1\relax
 }
 \DeclareOption{7mm}{
+	\@gostfont@setupmainfonttrue
 	\@gostfont@normalsize@number=3\relax
 	\@gostfont@small@number=\@gostfont@normalsize@number
 	\advance \@gostfont@small@number by -1\relax
@@ -109,6 +102,7 @@
 	\advance \@gostfont@Huge@number by 1\relax
 }
 \DeclareOption{10mm}{
+	\@gostfont@setupmainfonttrue
 	\@gostfont@normalsize@number=4\relax
 	\@gostfont@small@number=\@gostfont@normalsize@number
 	\advance \@gostfont@small@number by -1\relax
@@ -129,6 +123,7 @@
 	%\advance \@gostfont@Huge@number by 1\relax
 }
 \DeclareOption{14mm}{
+	\@gostfont@setupmainfonttrue
 	\@gostfont@normalsize@number=5\relax
 	\@gostfont@small@number=\@gostfont@normalsize@number
 	\advance \@gostfont@small@number by -1\relax
@@ -149,6 +144,7 @@
 	%\advance \@gostfont@Huge@number by 1\relax
 }
 \DeclareOption{20mm}{
+	\@gostfont@setupmainfonttrue
 	\@gostfont@normalsize@number=6\relax
 	\@gostfont@small@number=\@gostfont@normalsize@number
 	\advance \@gostfont@small@number by -1\relax
@@ -172,7 +168,7 @@
 \PassOptionsToPackage{T2A}{fontenc}
 \PassOptionsToPackage{T1}{fontenc}
 
-\ExecuteOptions{B,3mm}
+\ExecuteOptions{}
 
 \ProcessOptions\relax
 
@@ -183,39 +179,20 @@
 \RequirePackage{cmap}
 \RequirePackage{fontenc}
 \RequirePackage{xecyr}
-
 \RequirePackage{xparse}
-
 \RequirePackage{fontspec}
-\defaultfontfeatures{Ligatures=TeX}
-
-\newcommand{\@gostfont@declare}[2]{%
-	#1{GOST 2.304-81 type #2}[
-		Path = fonts/ ,
-		Extension = .ttf ,
-		%UprightFont = * ,
-		BoldFont = * ,
-		BoldFeatures = { FakeBold = 1.5 } ,
-		ItalicFont = * Italic ,
-		BoldItalicFont = * Italic ,
-		BoldItalicFeatures = { FakeBold = 1.5 } ,
-		% SlantedFont = * Italic ,
-		% BoldSlantedFont = * Bold Italic,
-		% SmallCapsFont = *
-		% Kerning = On % not avaliable for ttf fonts
-		Scale = 1.47 % подобрал экспериментально для соответствия размеров в мм
-	]%
-}
+\RequirePackage{expl3}
 
 % ряд размеров шрифтов h по ГОСТ 2.304
 % применяемые размеры шрифта h=2,5; 3,5; 5,0; 7,0; 10,0; 14,0; 20,0; 28,0; 40,0 мм
 % п.3.3 ГОСТ 2.105-95 - высота шрифта не менее 2,5 мм
-\newcommand\@gost@font@size@map[1]{%
+\newcommand\@gostfont@fontsize@map[1]{%
 	\ifcase #1 2,5mm\or 3,5mm\or 5,0mm\or 7,0mm\or 10mm\or 14mm\or 20mm\or 28mm\or 40mm\fi%
 }
 
+\def\@gostfont@setupsizes{
 \def\normalsize{%
-	\@gost@font@size{\@gost@font@size@map\@gostfont@normalsize@number}%
+	\@gostfont@fontsize[\normalsize]{\@gostfont@fontsize@map\@gostfont@normalsize@number}%
 	\selectfont
 	%\abovedisplayskip 11\p@ \@plus3\p@ \@minus6\p@
 	%\abovedisplayshortskip \z@ \@plus3\p@
@@ -224,7 +201,7 @@
 	%\let\@listi\@listI
 }
 \def\small{%
-	\@gost@font@size{\@gost@font@size@map\@gostfont@small@number}%
+l	\@gostfont@fontsize[\small]{\@gostfont@fontsize@map\@gostfont@small@number}%
 	\selectfont
 	%\@setfontsize\small\@xpt\@xiipt
 	%\abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
@@ -239,7 +216,7 @@
 	%\belowdisplayskip \abovedisplayskip
 }
 \def\footnotesize{%
-	\@gost@font@size{\@gost@font@size@map\@gostfont@footnotesize@number}%
+	\@gostfont@fontsize[\footnotesize]{\@gostfont@fontsize@map\@gostfont@footnotesize@number}%
 	\selectfont
 	%\@setfontsize\footnotesize\@ixpt{11}%
 	%\abovedisplayskip 8\p@ \@plus2\p@ \@minus4\p@
@@ -252,65 +229,123 @@
 	%\belowdisplayskip \abovedisplayskip
 }
 \def\scriptsize{%
-	\@gost@font@size{\@gost@font@size@map\@gostfont@scriptsize@number}%
+	\@gostfont@fontsize[\scriptsize]{\@gostfont@fontsize@map\@gostfont@scriptsize@number}%
 	\selectfont
 }
 \def\tiny{%
-	\@gost@font@size{\@gost@font@size@map\@gostfont@tiny@number}%
+	\@gostfont@fontsize[\tiny]{\@gostfont@fontsize@map\@gostfont@tiny@number}%
 	\selectfont
 }
 \def\large{%
-	\@gost@font@size{\@gost@font@size@map\@gostfont@large@number}%
+	\@gostfont@fontsize[\large]{\@gostfont@fontsize@map\@gostfont@large@number}%
 	\selectfont
 }
 \def\Large{%
-	\@gost@font@size{\@gost@font@size@map\@gostfont@Large@number}%
+	\@gostfont@fontsize[\Large]{\@gostfont@fontsize@map\@gostfont@Large@number}%
 	\selectfont
 }
 \def\LARGE{%
-	\@gost@font@size{\@gost@font@size@map\@gostfont@LARGE@number}%
+	\@gostfont@fontsize[\LARGE]{\@gostfont@fontsize@map\@gostfont@LARGE@number}%
 	\selectfont
 }
 \def\huge{%
-	\@gost@font@size{\@gost@font@size@map\@gostfont@huge@number}%
+	\@gostfont@fontsize[\huge]{\@gostfont@fontsize@map\@gostfont@huge@number}%
 	\selectfont
 }
 \def\Huge{%
-	\@gost@font@size{\@gost@font@size@map\@gostfont@Huge@number}%
+	\@gostfont@fontsize[\Huge]{\@gostfont@fontsize@map\@gostfont@Huge@number}%
 	\selectfont
 }
+}
+\@onlypreamble\@gostfont@setupsizes
 
+\def\@gostfont@name{ГОСТ 2.304-81}
 
-\if@gostfontA
-	\NewDocumentCommand\@gost@font@size{m o}{
-		\IfNoValueTF{#2}{%
-			% расстояние между строками b = 22/14*h
-			\@tempdimc=#1\relax
-			\multiply \@tempdimc by 22\relax
-			\divide \@tempdimc by 14\relax
-			\fontsize{#1}{\@tempdimc}%
-		}{%
-			\fontsize{#1}{#2}%
-		}%
+{
+	% определение действительного масштаба для шрифтов
+	\def\@gostfont@features@#1{
+		Path = fonts/,
+		Extension = .ttf,
+		UprightFont = GOST 2.304-81 type A,
+		OpticalSize = 0,
+		Scale = #1,
+		Mapping = tex-text,
+		BoldFont = GOST 2.304-81 type B,
+		BoldFeatures = {
+			OpticalSize = 0,
+		},
+		SlantedFont = GOST 2.304-81 type A,
+		SlantedFeatures = {
+			FakeSlant = 0.258819, % cos(75 градусов)
+			OpticalSize = 0,
+		},
+		BoldSlantedFont = GOST 2.304-81 type B,
+		BoldSlantedFeatures = {
+			FakeSlant = 0.258819,
+			OpticalSize = 0,
+		}
+		% Kerning = On % not avaliable for ttf fonts
 	}
-	\@gostfont@declare{\newfontfamily\gostfontB}{B}
-	\@gostfont@declare{\setmainfont}{B}
-	\let\gostfont\gostfontA
-\fi
-
-\if@gostfontB
-	\NewDocumentCommand\@gost@font@size{m o}{
-		\IfNoValueTF{#2}{%
-			% расстояние между строками b = 17/10*h
-			\@tempdimc=#1\relax
-			\multiply \@tempdimc by 17\relax
-			\divide \@tempdimc by 10\relax
-			\fontsize{#1}{\@tempdimc}%
-		}{%
-			\fontsize{#1}{#2}%
-		}%
+	%
+	\def\normalsize{%
+		\fontsize{14mm}{22mm}\selectfont
 	}
-	\@gostfont@declare{\newfontfamily\gostfontB}{B}
-	\@gostfont@declare{\setmainfont}{B}
-	\let\gostfont\gostfontB
-\fi
+	%
+	\@tempdima=100pt\relax
+	\fontspec\@gostfont@name[\@gostfont@features@{1}]%
+	\fontsize{\@tempdima}{\@tempdima}\selectfont
+	\settoheight\@tempdimc{H}%
+	\ExplSyntaxOn
+	\tl_gset:Nx \l__fontspec_scale_tl {
+		\fp_eval:n {
+			\dim_to_fp:n { \@tempdima } /
+			\dim_to_fp:n { \@tempdimc }
+		}
+	}
+%	\cs_new:Nn \__fontspec_calc_scale:n
+%	{
+%		\group_begin:
+%		\rmfamily
+%		\__fontspec_set_font_dimen:NnN \l__fontspec_tmpa_dim {#1} \font
+%		\__fontspec_set_font_dimen:NnN \l__fontspec_tmpb_dim {#1} \l_fontspec_font
+%		\tl_gset:Nx \l__fontspec_scale_tl
+%		{
+%			\fp_eval:n { \dim_to_fp:n {\l__fontspec_tmpa_dim} /
+%				\dim_to_fp:n {\l__fontspec_tmpb_dim} }
+%		}
+%		\__fontspec_info:n {set-scale}
+%		\group_end:
+%	}
+	\xdef\@gostfont@features{\@gostfont@features@{\l__fontspec_scale_tl}}
+	\ExplSyntaxOff
+
+	\fontspec\@gostfont@name[\@gostfont@features]
+}
+
+\newfontfamily\gostfont\@gostfont@name[\@gostfont@features]
+
+\NewDocumentCommand\@gostfont@fontsize{o m o}{
+	\IfNoValueTF{#3}{%
+		% расстояние между строками b = 22/14*h
+		\@tempdimc=#2\relax
+		\multiply \@tempdimc by 22\relax
+		\divide \@tempdimc by 14\relax
+		% расстояние между строками b = 17/10*h
+		%\multiply \@tempdimc by 17\relax
+		%\divide \@tempdimc by 10\relax
+	}{%
+		\@tempdimc=#3\relax
+	}%
+	\IfNoValueTF{#1}{%
+		\fontsize{#2}{\@tempdimc}%
+	}{%
+		\@setfontsize{#1}{#2}{\@tempdimc}%
+	}%
+}
+
+\AtBeginDocument{
+	\@gostfont@setupsizes
+	\if@gostfont@setupmainfont
+		\setmainfont\@gostfont@name[\@gostfont@features]%
+	\fi
+}

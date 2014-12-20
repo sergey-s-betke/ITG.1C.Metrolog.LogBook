@@ -19,12 +19,6 @@
 \DeclareOption{sectionpagebreak}{
 	\PassOptionsToPackage{\CurrentOption}{gost2.105.titles}
 }
-\DeclareOption{gostfontA}{
-	\PassOptionsToPackage{A}{gost2.304}
-}
-\DeclareOption{gostfontB}{
-	\PassOptionsToPackage{B}{gost2.304}
-}
 \DeclareOption{3mm}{
 	\PassOptionsToPackage{\CurrentOption}{gost2.304}
 }
@@ -32,14 +26,15 @@
 	\PassOptionsToPackage{\CurrentOption}{gost2.304}
 }
 
-\ExecuteOptions{twoside,portrait,gostfontB,3mm}
+\ExecuteOptions{twoside,portrait,3mm}
 
 \ProcessOptions\relax
 
 
+\RequirePackage{gost2.304}
+
 \LoadClass[russian,utf8,vpadding=10mm,hpadding=2mm]{eskdtext}
 
-\RequirePackage{gost2.304}
 \RequirePackage{gost2.104}
 \RequirePackage{gost2.105.titlesheet}
 \RequirePackage{gost2.105.toc}
@@ -47,4 +42,4 @@
 \RequirePackage{gost2.105.text}
 \RequirePackage{gost2.105.table}
 
-\renewcommand{\ESKD@docfont}{\@gost@font@normalsize}
+\renewcommand{\ESKD@docfont}{\gostfont\normalsize}

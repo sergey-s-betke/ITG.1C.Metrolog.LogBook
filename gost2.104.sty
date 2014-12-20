@@ -12,8 +12,6 @@
 	\PassOptionsToPackage{\CurrentOption}{eskdstamp}
 }
 
-\PassOptionsToPackage{B}{gost2.304}
-	
 \ExecuteOptions{finecorners}
 
 \ProcessOptions\relax
@@ -21,11 +19,11 @@
 \RequirePackage{gost2.304}
 \RequirePackage{eskdfont}
 
-\renewcommand{\ESKDfontIIsize}{\@gost@font@size{1,8mm}}
-\renewcommand{\ESKDfontIIIsize}{\@gost@font@size{2,5mm}}
-\renewcommand{\ESKDfontVsize}{\@gost@font@size{5mm}}
-\renewcommand{\ESKDfontVIIsize}{\@gost@font@size{7mm}}
-\renewcommand{\ESKDfontXsize}{\@gost@font@size{10mm}}
+\renewcommand{\ESKDfontIIsize}{\@gostfont@fontsize{1,8mm}}
+\renewcommand{\ESKDfontIIIsize}{\@gostfont@fontsize{2,5mm}}
+\renewcommand{\ESKDfontVsize}{\@gostfont@fontsize{5mm}}
+\renewcommand{\ESKDfontVIIsize}{\@gostfont@fontsize{7mm}}
+\renewcommand{\ESKDfontXsize}{\@gostfont@fontsize{10mm}}
 
 \renewcommand{\ESKDfontII}{%
 	%\ESKDfontSetBaseLineStretch
@@ -58,7 +56,7 @@
 	O{2,5mm}   % #1 - font h
 	O{\slshape}% #2 - font shape
 }{%
-	\gostfont\@gost@font@size{#1}\selectfont#2%
+	\gostfont\@gostfont@fontsize{#1}\selectfont#2%
 }
 
 \NewDocumentCommand{\@eskd@frame@field@title}{
