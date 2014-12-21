@@ -19,22 +19,20 @@
 \DeclareOption{sectionpagebreak}{
 	\PassOptionsToPackage{\CurrentOption}{gost2.105.titles}
 }
-\DeclareOption{3mm}{
-	\PassOptionsToPackage{\CurrentOption}{gost2.304}
-}
-\DeclareOption{5mm}{
-	\PassOptionsToPackage{\CurrentOption}{gost2.304}
-}
+%\DeclareOption{mainfontsize}{
+%	\PassOptionsToPackage{\CurrentOption}{gost2.304}
+%}
 
-\ExecuteOptions{twoside,portrait,3mm}
+\PassOptionsToPackage{ mainfontsize=3.5mm }{gost2.304}
+
+\ExecuteOptions{ twoside, portrait }
 
 \ProcessOptions\relax
 
 
-\RequirePackage{gost2.304}
-
 \LoadClass[russian,utf8,vpadding=10mm,hpadding=2mm]{eskdtext}
 
+\RequirePackage{gost2.304}
 \RequirePackage{gost2.104}
 \RequirePackage{gost2.105.titlesheet}
 \RequirePackage{gost2.105.toc}

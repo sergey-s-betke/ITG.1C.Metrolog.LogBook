@@ -1,176 +1,26 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{gost2.304}[2014/12/20 v0.2 ГОСТ 2.304-81 ЕСКД. Шрифты чертежные]
-
 % используем шрифты A и Б, последний - для "утолщённых" начертаний
 
+\RequirePackage{expl3}
+\RequirePackage{xkeyval}
+
 \newcount\@gostfont@normalsize@number
-\newcount\@gostfont@small@number
-\newcount\@gostfont@footnotesize@number
-\newcount\@gostfont@scriptsize@number
-\newcount\@gostfont@tiny@number
-\newcount\@gostfont@large@number
-\newcount\@gostfont@Large@number
-\newcount\@gostfont@LARGE@number
-\newcount\@gostfont@huge@number
-\newcount\@gostfont@Huge@number
 
-\newif\if@gostfont@setupmainfont
-
-% размер основного шрифта h
-\DeclareOption{2mm}{
-	\@gostfont@setupmainfonttrue
-	\@gostfont@normalsize@number=0\relax
-	\@gostfont@small@number=\@gostfont@normalsize@number
-	%\advance \@gostfont@small@number by -1\relax
-	\@gostfont@footnotesize@number=\@gostfont@small@number
-	\@gostfont@scriptsize@number=\@gostfont@small@number
-	%\advance \@gostfont@scriptsize@number by -1\relax
-	\@gostfont@tiny@number=\@gostfont@small@number
-	%\advance \@gostfont@tiny@number by -2\relax
-	\@gostfont@large@number=\@gostfont@normalsize@number
-	\advance \@gostfont@large@number by 1\relax
-	\@gostfont@Large@number=\@gostfont@large@number
-	\advance \@gostfont@Large@number by 1\relax
-	\@gostfont@LARGE@number=\@gostfont@Large@number
-	\advance \@gostfont@LARGE@number by 1\relax
-	\@gostfont@huge@number=\@gostfont@LARGE@number
-	\advance \@gostfont@huge@number by 1\relax
-	\@gostfont@Huge@number=\@gostfont@huge@number
-	\advance \@gostfont@Huge@number by 1\relax
-}
-\DeclareOption{3mm}{
-	\@gostfont@setupmainfonttrue
-	\@gostfont@normalsize@number=1\relax
-	\@gostfont@small@number=\@gostfont@normalsize@number
-	\advance \@gostfont@small@number by -1\relax
-	\@gostfont@footnotesize@number=\@gostfont@small@number
-	\@gostfont@scriptsize@number=\@gostfont@small@number
-	%\advance \@gostfont@scriptsize@number by -1\relax
-	\@gostfont@tiny@number=\@gostfont@small@number
-	%\advance \@gostfont@tiny@number by -2\relax
-	\@gostfont@large@number=\@gostfont@normalsize@number
-	\advance \@gostfont@large@number by 1\relax
-	\@gostfont@Large@number=\@gostfont@large@number
-	\advance \@gostfont@Large@number by 1\relax
-	\@gostfont@LARGE@number=\@gostfont@Large@number
-	\advance \@gostfont@LARGE@number by 1\relax
-	\@gostfont@huge@number=\@gostfont@LARGE@number
-	\advance \@gostfont@huge@number by 1\relax
-	\@gostfont@Huge@number=\@gostfont@huge@number
-	\advance \@gostfont@Huge@number by 1\relax
-}
-\DeclareOption{5mm}{
-	\@gostfont@setupmainfonttrue
-	\@gostfont@normalsize@number=2\relax
-	\@gostfont@small@number=\@gostfont@normalsize@number
-	\advance \@gostfont@small@number by -1\relax
-	\@gostfont@footnotesize@number=\@gostfont@small@number
-	\@gostfont@scriptsize@number=\@gostfont@small@number
-	\advance \@gostfont@scriptsize@number by -1\relax
-	\@gostfont@tiny@number=\@gostfont@small@number
-	\advance \@gostfont@tiny@number by -1\relax
-	\@gostfont@large@number=\@gostfont@normalsize@number
-	\advance \@gostfont@large@number by 1\relax
-	\@gostfont@Large@number=\@gostfont@large@number
-	\advance \@gostfont@Large@number by 1\relax
-	\@gostfont@LARGE@number=\@gostfont@Large@number
-	\advance \@gostfont@LARGE@number by 1\relax
-	\@gostfont@huge@number=\@gostfont@LARGE@number
-	\advance \@gostfont@huge@number by 1\relax
-	\@gostfont@Huge@number=\@gostfont@huge@number
-	\advance \@gostfont@Huge@number by 1\relax
-}
-\DeclareOption{7mm}{
-	\@gostfont@setupmainfonttrue
-	\@gostfont@normalsize@number=3\relax
-	\@gostfont@small@number=\@gostfont@normalsize@number
-	\advance \@gostfont@small@number by -1\relax
-	\@gostfont@footnotesize@number=\@gostfont@small@number
-	\@gostfont@scriptsize@number=\@gostfont@small@number
-	\advance \@gostfont@scriptsize@number by -1\relax
-	\@gostfont@tiny@number=\@gostfont@small@number
-	\advance \@gostfont@tiny@number by -2\relax
-	\@gostfont@large@number=\@gostfont@normalsize@number
-	\advance \@gostfont@large@number by 1\relax
-	\@gostfont@Large@number=\@gostfont@large@number
-	\advance \@gostfont@Large@number by 1\relax
-	\@gostfont@LARGE@number=\@gostfont@Large@number
-	\advance \@gostfont@LARGE@number by 1\relax
-	\@gostfont@huge@number=\@gostfont@LARGE@number
-	\advance \@gostfont@huge@number by 1\relax
-	\@gostfont@Huge@number=\@gostfont@huge@number
-	\advance \@gostfont@Huge@number by 1\relax
-}
-\DeclareOption{10mm}{
-	\@gostfont@setupmainfonttrue
-	\@gostfont@normalsize@number=4\relax
-	\@gostfont@small@number=\@gostfont@normalsize@number
-	\advance \@gostfont@small@number by -1\relax
-	\@gostfont@footnotesize@number=\@gostfont@small@number
-	\@gostfont@scriptsize@number=\@gostfont@small@number
-	\advance \@gostfont@scriptsize@number by -1\relax
-	\@gostfont@tiny@number=\@gostfont@small@number
-	\advance \@gostfont@tiny@number by -2\relax
-	\@gostfont@large@number=\@gostfont@normalsize@number
-	\advance \@gostfont@large@number by 1\relax
-	\@gostfont@Large@number=\@gostfont@large@number
-	\advance \@gostfont@Large@number by 1\relax
-	\@gostfont@LARGE@number=\@gostfont@Large@number
-	\advance \@gostfont@LARGE@number by 1\relax
-	\@gostfont@huge@number=\@gostfont@LARGE@number
-	\advance \@gostfont@huge@number by 1\relax
-	\@gostfont@Huge@number=\@gostfont@huge@number
-	%\advance \@gostfont@Huge@number by 1\relax
-}
-\DeclareOption{14mm}{
-	\@gostfont@setupmainfonttrue
-	\@gostfont@normalsize@number=5\relax
-	\@gostfont@small@number=\@gostfont@normalsize@number
-	\advance \@gostfont@small@number by -1\relax
-	\@gostfont@footnotesize@number=\@gostfont@small@number
-	\@gostfont@scriptsize@number=\@gostfont@small@number
-	\advance \@gostfont@scriptsize@number by -1\relax
-	\@gostfont@tiny@number=\@gostfont@small@number
-	\advance \@gostfont@tiny@number by -2\relax
-	\@gostfont@large@number=\@gostfont@normalsize@number
-	\advance \@gostfont@large@number by 1\relax
-	\@gostfont@Large@number=\@gostfont@large@number
-	\advance \@gostfont@Large@number by 1\relax
-	\@gostfont@LARGE@number=\@gostfont@Large@number
-	\advance \@gostfont@LARGE@number by 1\relax
-	\@gostfont@huge@number=\@gostfont@LARGE@number
-	%\advance \@gostfont@huge@number by 1\relax
-	\@gostfont@Huge@number=\@gostfont@huge@number
-	%\advance \@gostfont@Huge@number by 1\relax
-}
-\DeclareOption{20mm}{
-	\@gostfont@setupmainfonttrue
-	\@gostfont@normalsize@number=6\relax
-	\@gostfont@small@number=\@gostfont@normalsize@number
-	\advance \@gostfont@small@number by -1\relax
-	\@gostfont@footnotesize@number=\@gostfont@small@number
-	\@gostfont@scriptsize@number=\@gostfont@small@number
-	\advance \@gostfont@scriptsize@number by -1\relax
-	\@gostfont@tiny@number=\@gostfont@small@number
-	\advance \@gostfont@tiny@number by -2\relax
-	\@gostfont@large@number=\@gostfont@normalsize@number
-	\advance \@gostfont@large@number by 1\relax
-	\@gostfont@Large@number=\@gostfont@large@number
-	\advance \@gostfont@Large@number by 1\relax
-	\@gostfont@LARGE@number=\@gostfont@Large@number
-	%\advance \@gostfont@LARGE@number by 1\relax
-	\@gostfont@huge@number=\@gostfont@LARGE@number
-	%\advance \@gostfont@huge@number by 1\relax
-	\@gostfont@Huge@number=\@gostfont@huge@number
-	%\advance \@gostfont@Huge@number by 1\relax
+\define@choicekey{\@currname.\@currext}{mainfontsize}
+	[ \@mainfontsize \@normalsize@number ]
+	{ 2.5mm, 3.5mm, 5mm, 7mm, 10mm, 14mm, 20mm }
+{%
+	\@gostfont@normalsize@number=\@normalsize@number\relax
+	\advance \@gostfont@normalsize@number by 1\relax
 }
 
 \PassOptionsToPackage{T2A}{fontenc}
 \PassOptionsToPackage{T1}{fontenc}
 
-\ExecuteOptions{}
+\ExecuteOptionsX{}
 
-\ProcessOptions\relax
+\ProcessOptionsX\relax
 
 
 \RequirePackage{ifxetex}
@@ -181,81 +31,232 @@
 \RequirePackage{xecyr}
 \RequirePackage{xparse}
 \RequirePackage{fontspec}
-\RequirePackage{expl3}
 
 % ряд размеров шрифтов h по ГОСТ 2.304
 % применяемые размеры шрифта h=2,5; 3,5; 5,0; 7,0; 10,0; 14,0; 20,0; 28,0; 40,0 мм
 % п.3.3 ГОСТ 2.105-95 - высота шрифта не менее 2,5 мм
+% ввожу в ряд 1.8mm только ради формул (индексов, прочего)
 \newcommand\@gostfont@fontsize@map[1]{%
-	\ifcase #1 2,5mm\or 3,5mm\or 5,0mm\or 7,0mm\or 10mm\or 14mm\or 20mm\or 28mm\or 40mm\fi%
+	\ifcase #1 1,8mm\or 2,5mm\or 3,5mm\or 5,0mm\or 7,0mm\or 10mm\or 14mm\or 20mm\or 28mm\or 40mm\fi%
 }
 
-\def\@gostfont@setupsizes{
-\def\normalsize{%
-	\@gostfont@fontsize[\normalsize]{\@gostfont@fontsize@map\@gostfont@normalsize@number}%
-	\selectfont
-	%\abovedisplayskip 11\p@ \@plus3\p@ \@minus6\p@
-	%\abovedisplayshortskip \z@ \@plus3\p@
-	%\belowdisplayshortskip 6.5\p@ \@plus3.5\p@ \@minus3\p@
-	%\belowdisplayskip \abovedisplayskip
-	%\let\@listi\@listI
-}
-\def\small{%
-l	\@gostfont@fontsize[\small]{\@gostfont@fontsize@map\@gostfont@small@number}%
-	\selectfont
-	%\@setfontsize\small\@xpt\@xiipt
-	%\abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
-	%\abovedisplayshortskip \z@ \@plus3\p@
-	%\belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
-	%\def\@listi{%
-	%	\leftmargin\leftmargini
-	%	\topsep 6\p@ \@plus2\p@ \@minus2\p@
-	%	\parsep 3\p@ \@plus2\p@ \@minus\p@
-	%	\itemsep \parsep
-	%}%
-	%\belowdisplayskip \abovedisplayskip
-}
-\def\footnotesize{%
-	\@gostfont@fontsize[\footnotesize]{\@gostfont@fontsize@map\@gostfont@footnotesize@number}%
-	\selectfont
-	%\@setfontsize\footnotesize\@ixpt{11}%
-	%\abovedisplayskip 8\p@ \@plus2\p@ \@minus4\p@
-	%\abovedisplayshortskip \z@ \@plus\p@
-	%\belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
-	%\def\@listi{\leftmargin\leftmargini
-	%	\topsep 4\p@ \@plus2\p@ \@minus2\p@
-	%	\parsep 2\p@ \@plus\p@ \@minus\p@
-	%	\itemsep \parsep}%
-	%\belowdisplayskip \abovedisplayskip
-}
-\def\scriptsize{%
-	\@gostfont@fontsize[\scriptsize]{\@gostfont@fontsize@map\@gostfont@scriptsize@number}%
-	\selectfont
-}
-\def\tiny{%
-	\@gostfont@fontsize[\tiny]{\@gostfont@fontsize@map\@gostfont@tiny@number}%
-	\selectfont
-}
-\def\large{%
-	\@gostfont@fontsize[\large]{\@gostfont@fontsize@map\@gostfont@large@number}%
-	\selectfont
-}
-\def\Large{%
-	\@gostfont@fontsize[\Large]{\@gostfont@fontsize@map\@gostfont@Large@number}%
-	\selectfont
-}
-\def\LARGE{%
-	\@gostfont@fontsize[\LARGE]{\@gostfont@fontsize@map\@gostfont@LARGE@number}%
-	\selectfont
-}
-\def\huge{%
-	\@gostfont@fontsize[\huge]{\@gostfont@fontsize@map\@gostfont@huge@number}%
-	\selectfont
-}
-\def\Huge{%
-	\@gostfont@fontsize[\Huge]{\@gostfont@fontsize@map\@gostfont@Huge@number}%
-	\selectfont
-}
+\def\@gostfont@setupsizes{%
+	\newcount\@gostfont@small@number
+	\newcount\@gostfont@footnotesize@number
+	\newcount\@gostfont@scriptsize@number
+	\newcount\@gostfont@tiny@number
+	\newcount\@gostfont@large@number
+	\newcount\@gostfont@Large@number
+	\newcount\@gostfont@LARGE@number
+	\newcount\@gostfont@huge@number
+	\newcount\@gostfont@Huge@number
+	%
+	\ifcase \@gostfont@normalsize@number
+		% 1,8mm
+	\or
+		% 2,5mm
+		\@gostfont@small@number=\@gostfont@normalsize@number
+		%\advance \@gostfont@small@number by -1\relax
+		\@gostfont@footnotesize@number=\@gostfont@small@number
+		\@gostfont@scriptsize@number=\@gostfont@small@number
+		\advance \@gostfont@scriptsize@number by -1\relax
+		\@gostfont@tiny@number=\@gostfont@small@number
+		\advance \@gostfont@tiny@number by -1\relax
+		\@gostfont@large@number=\@gostfont@normalsize@number
+		\advance \@gostfont@large@number by 1\relax
+		\@gostfont@Large@number=\@gostfont@large@number
+		\advance \@gostfont@Large@number by 1\relax
+		\@gostfont@LARGE@number=\@gostfont@Large@number
+		\advance \@gostfont@LARGE@number by 1\relax
+		\@gostfont@huge@number=\@gostfont@LARGE@number
+		\advance \@gostfont@huge@number by 1\relax
+		\@gostfont@Huge@number=\@gostfont@huge@number
+		\advance \@gostfont@Huge@number by 1\relax
+	\or
+		% 3,5mm
+		\@gostfont@small@number=\@gostfont@normalsize@number
+		\advance \@gostfont@small@number by -1\relax
+		\@gostfont@footnotesize@number=\@gostfont@small@number
+		\@gostfont@scriptsize@number=\@gostfont@small@number
+		\advance \@gostfont@scriptsize@number by -1\relax
+		\@gostfont@tiny@number=\@gostfont@small@number
+		\advance \@gostfont@tiny@number by -1\relax
+		\@gostfont@large@number=\@gostfont@normalsize@number
+		\advance \@gostfont@large@number by 1\relax
+		\@gostfont@Large@number=\@gostfont@large@number
+		\advance \@gostfont@Large@number by 1\relax
+		\@gostfont@LARGE@number=\@gostfont@Large@number
+		\advance \@gostfont@LARGE@number by 1\relax
+		\@gostfont@huge@number=\@gostfont@LARGE@number
+		\advance \@gostfont@huge@number by 1\relax
+		\@gostfont@Huge@number=\@gostfont@huge@number
+		\advance \@gostfont@Huge@number by 1\relax
+	\or
+		% 5,0mm
+		\@gostfont@small@number=\@gostfont@normalsize@number
+		\advance \@gostfont@small@number by -1\relax
+		\@gostfont@footnotesize@number=\@gostfont@small@number
+		\@gostfont@scriptsize@number=\@gostfont@small@number
+		\advance \@gostfont@scriptsize@number by -1\relax
+		\@gostfont@tiny@number=\@gostfont@small@number
+		\advance \@gostfont@tiny@number by -1\relax
+		\@gostfont@large@number=\@gostfont@normalsize@number
+		\advance \@gostfont@large@number by 1\relax
+		\@gostfont@Large@number=\@gostfont@large@number
+		\advance \@gostfont@Large@number by 1\relax
+		\@gostfont@LARGE@number=\@gostfont@Large@number
+		\advance \@gostfont@LARGE@number by 1\relax
+		\@gostfont@huge@number=\@gostfont@LARGE@number
+		\advance \@gostfont@huge@number by 1\relax
+		\@gostfont@Huge@number=\@gostfont@huge@number
+		\advance \@gostfont@Huge@number by 1\relax
+	\or
+		% 7,0mm
+		\@gostfont@small@number=\@gostfont@normalsize@number
+		\advance \@gostfont@small@number by -1\relax
+		\@gostfont@footnotesize@number=\@gostfont@small@number
+		\@gostfont@scriptsize@number=\@gostfont@small@number
+		\advance \@gostfont@scriptsize@number by -1\relax
+		\@gostfont@tiny@number=\@gostfont@small@number
+		\advance \@gostfont@tiny@number by -2\relax
+		\@gostfont@large@number=\@gostfont@normalsize@number
+		\advance \@gostfont@large@number by 1\relax
+		\@gostfont@Large@number=\@gostfont@large@number
+		\advance \@gostfont@Large@number by 1\relax
+		\@gostfont@LARGE@number=\@gostfont@Large@number
+		\advance \@gostfont@LARGE@number by 1\relax
+		\@gostfont@huge@number=\@gostfont@LARGE@number
+		\advance \@gostfont@huge@number by 1\relax
+		\@gostfont@Huge@number=\@gostfont@huge@number
+		\advance \@gostfont@Huge@number by 1\relax
+	\or
+		% 10mm
+		\@gostfont@small@number=\@gostfont@normalsize@number
+		\advance \@gostfont@small@number by -1\relax
+		\@gostfont@footnotesize@number=\@gostfont@small@number
+		\@gostfont@scriptsize@number=\@gostfont@small@number
+		\advance \@gostfont@scriptsize@number by -1\relax
+		\@gostfont@tiny@number=\@gostfont@small@number
+		\advance \@gostfont@tiny@number by -2\relax
+		\@gostfont@large@number=\@gostfont@normalsize@number
+		\advance \@gostfont@large@number by 1\relax
+		\@gostfont@Large@number=\@gostfont@large@number
+		\advance \@gostfont@Large@number by 1\relax
+		\@gostfont@LARGE@number=\@gostfont@Large@number
+		\advance \@gostfont@LARGE@number by 1\relax
+		\@gostfont@huge@number=\@gostfont@LARGE@number
+		\advance \@gostfont@huge@number by 1\relax
+		\@gostfont@Huge@number=\@gostfont@huge@number
+		%\advance \@gostfont@Huge@number by 1\relax
+	\or
+		% 14mm
+		\@gostfont@small@number=\@gostfont@normalsize@number
+		\advance \@gostfont@small@number by -1\relax
+		\@gostfont@footnotesize@number=\@gostfont@small@number
+		\@gostfont@scriptsize@number=\@gostfont@small@number
+		\advance \@gostfont@scriptsize@number by -1\relax
+		\@gostfont@tiny@number=\@gostfont@small@number
+		\advance \@gostfont@tiny@number by -2\relax
+		\@gostfont@large@number=\@gostfont@normalsize@number
+		\advance \@gostfont@large@number by 1\relax
+		\@gostfont@Large@number=\@gostfont@large@number
+		\advance \@gostfont@Large@number by 1\relax
+		\@gostfont@LARGE@number=\@gostfont@Large@number
+		\advance \@gostfont@LARGE@number by 1\relax
+		\@gostfont@huge@number=\@gostfont@LARGE@number
+		%\advance \@gostfont@huge@number by 1\relax
+		\@gostfont@Huge@number=\@gostfont@huge@number
+		%\advance \@gostfont@Huge@number by 1\relax
+	\or
+		% 20mm
+		\@gostfont@small@number=\@gostfont@normalsize@number
+		\advance \@gostfont@small@number by -1\relax
+		\@gostfont@footnotesize@number=\@gostfont@small@number
+		\@gostfont@scriptsize@number=\@gostfont@small@number
+		\advance \@gostfont@scriptsize@number by -1\relax
+		\@gostfont@tiny@number=\@gostfont@small@number
+		\advance \@gostfont@tiny@number by -2\relax
+		\@gostfont@large@number=\@gostfont@normalsize@number
+		\advance \@gostfont@large@number by 1\relax
+		\@gostfont@Large@number=\@gostfont@large@number
+		\advance \@gostfont@Large@number by 1\relax
+		\@gostfont@LARGE@number=\@gostfont@Large@number
+		%\advance \@gostfont@LARGE@number by 1\relax
+		\@gostfont@huge@number=\@gostfont@LARGE@number
+		%\advance \@gostfont@huge@number by 1\relax
+		\@gostfont@Huge@number=\@gostfont@huge@number
+		%\advance \@gostfont@Huge@number by 1\relax
+	%\or
+		% 28mm
+	%\or
+		% 40mm
+	\fi
+	%
+	\def\normalsize{%
+		\@gostfont@fontsize[\normalsize]{\@gostfont@fontsize@map\@gostfont@normalsize@number}%
+		\selectfont
+		%\abovedisplayskip 11\p@ \@plus3\p@ \@minus6\p@
+		%\abovedisplayshortskip \z@ \@plus3\p@
+		%\belowdisplayshortskip 6.5\p@ \@plus3.5\p@ \@minus3\p@
+		%\belowdisplayskip \abovedisplayskip
+		%\let\@listi\@listI
+	}
+	\def\small{%
+		\@gostfont@fontsize[\small]{\@gostfont@fontsize@map\@gostfont@small@number}%
+		\selectfont
+		%\@setfontsize\small\@xpt\@xiipt
+		%\abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+		%\abovedisplayshortskip \z@ \@plus3\p@
+		%\belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+		%\def\@listi{%
+		%	\leftmargin\leftmargini
+		%	\topsep 6\p@ \@plus2\p@ \@minus2\p@
+		%	\parsep 3\p@ \@plus2\p@ \@minus\p@
+		%	\itemsep \parsep
+		%}%
+		%\belowdisplayskip \abovedisplayskip
+	}
+	\def\footnotesize{%
+		\@gostfont@fontsize[\footnotesize]{\@gostfont@fontsize@map\@gostfont@footnotesize@number}%
+		\selectfont
+		%\@setfontsize\footnotesize\@ixpt{11}%
+		%\abovedisplayskip 8\p@ \@plus2\p@ \@minus4\p@
+		%\abovedisplayshortskip \z@ \@plus\p@
+		%\belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
+		%\def\@listi{\leftmargin\leftmargini
+		%	\topsep 4\p@ \@plus2\p@ \@minus2\p@
+		%	\parsep 2\p@ \@plus\p@ \@minus\p@
+		%	\itemsep \parsep}%
+		%\belowdisplayskip \abovedisplayskip
+	}
+	\def\scriptsize{%
+		\@gostfont@fontsize[\scriptsize]{\@gostfont@fontsize@map\@gostfont@scriptsize@number}%
+		\selectfont
+	}
+	\def\tiny{%
+		\@gostfont@fontsize[\tiny]{\@gostfont@fontsize@map\@gostfont@tiny@number}%
+		\selectfont
+	}
+	\def\large{%
+		\@gostfont@fontsize[\large]{\@gostfont@fontsize@map\@gostfont@large@number}%
+		\selectfont
+	}
+	\def\Large{%
+		\@gostfont@fontsize[\Large]{\@gostfont@fontsize@map\@gostfont@Large@number}%
+		\selectfont
+	}
+	\def\LARGE{%
+		\@gostfont@fontsize[\LARGE]{\@gostfont@fontsize@map\@gostfont@LARGE@number}%
+		\selectfont
+	}
+	\def\huge{%
+		\@gostfont@fontsize[\huge]{\@gostfont@fontsize@map\@gostfont@huge@number}%
+		\selectfont
+	}
+	\def\Huge{%
+		\@gostfont@fontsize[\Huge]{\@gostfont@fontsize@map\@gostfont@Huge@number}%
+		\selectfont
+	}
 }
 \@onlypreamble\@gostfont@setupsizes
 
@@ -304,20 +305,6 @@ l	\@gostfont@fontsize[\small]{\@gostfont@fontsize@map\@gostfont@small@number}%
 			\dim_to_fp:n { \@tempdimc }
 		}
 	}
-%	\cs_new:Nn \__fontspec_calc_scale:n
-%	{
-%		\group_begin:
-%		\rmfamily
-%		\__fontspec_set_font_dimen:NnN \l__fontspec_tmpa_dim {#1} \font
-%		\__fontspec_set_font_dimen:NnN \l__fontspec_tmpb_dim {#1} \l_fontspec_font
-%		\tl_gset:Nx \l__fontspec_scale_tl
-%		{
-%			\fp_eval:n { \dim_to_fp:n {\l__fontspec_tmpa_dim} /
-%				\dim_to_fp:n {\l__fontspec_tmpb_dim} }
-%		}
-%		\__fontspec_info:n {set-scale}
-%		\group_end:
-%	}
 	\xdef\@gostfont@features{\@gostfont@features@{\l__fontspec_scale_tl}}
 	\ExplSyntaxOff
 
@@ -346,8 +333,9 @@ l	\@gostfont@fontsize[\small]{\@gostfont@fontsize@map\@gostfont@small@number}%
 }
 
 \AtBeginDocument{
-	\@gostfont@setupsizes
-	\if@gostfont@setupmainfont
+	\key@ifundefined{gost2.304.sty}{mainfontsize}{}{%
+		\@gostfont@setupsizes
 		\setmainfont\@gostfont@name[\@gostfont@features]%
-	\fi
+		\normalfont\normalsize
+	}
 }
