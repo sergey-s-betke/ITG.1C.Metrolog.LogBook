@@ -107,7 +107,7 @@
 
 \NewDocumentCommand{\signatureStampBox}{s o m m m}{%
 	\IfBooleanTF{#1}{%
-		\parbox[t]{\linewidth}{\signatureStamp*[#2]{#3}{#4}{#5}}%
+		\signatureStamp*[#2]{#3}{#4}{#5}%
 	}{%
 		\parbox[t]{\@signatureStampBoxW}{\signatureStamp[#2]{#3}{#4}{#5}}%
 	}%

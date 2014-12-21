@@ -72,7 +72,6 @@
 	\ifx\ESKD@title@approving@sheet\@undefined
 		\expandafter%
 		\ifx\csname ESKD@title@agreed@name@1\endcsname\relax\else
-			\raggedright%
 			\signatureStampBox* %
 				[\ESKDagreedName]%
 				{\@nameuse{ESKD@title@agreed@post@1}}%
@@ -89,7 +88,6 @@
 	\ifx\ESKD@title@approving@sheet\@undefined
 		\expandafter%
 		\ifx\csname ESKD@title@approved@name@1\endcsname\relax\else
-			\raggedleft%
 			\signatureStampBox* %
 				[\ESKDapprovingName]%
 				{\@nameuse{ESKD@title@approved@post@1}}%
@@ -144,7 +142,6 @@
 		\loop
 			\ifnum \ESKD@tmpcnta < \ESKD@title@agreed@cnt
 			\advance \ESKD@tmpcnta 1
-			\raggedright%
 			\signatureStampBox*%
 				[\@header]%
 				{\@nameuse{ESKD@title@agreed@post@\number\ESKD@tmpcnta}}%
@@ -162,7 +159,6 @@
 		\loop
 			\ifnum \ESKD@tmpcnta < \ESKD@title@designed@cnt
 			\advance \ESKD@tmpcnta 1
-			\raggedleft%
 			\signatureStampBox*%
 				[]%
 				{\@nameuse{ESKD@title@designed@post@\number\ESKD@tmpcnta}}%
