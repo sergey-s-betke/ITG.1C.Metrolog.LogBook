@@ -78,7 +78,7 @@
 \setlength{\appendix@skip@after}{15mm plus 0mm minus 1mm - \baselineskip}
 
 \def\appendix@begin{% п.4.3.7 - по центру страницы
-	\normalfont\Large\bfseries
+	\normalfont\large\bf
 	\centering
 }
 
@@ -106,7 +106,7 @@
 
 \titleclass{\section}{section}[\chapter]
 \titleformat{\section}
-	[hang]{\normalfont\Large\bfseries
+	[hang]{\normalfont\large\bf
 		\@title@align@left
 	}{\thesection}{\widthof{\quad}}{\@sanitize@title}
 \titlespacing{\section}
@@ -132,7 +132,7 @@
 
 \titleclass{\subsection}{section}[\section]
 \titleformat{\subsection}
-	{\normalfont\large\bfseries
+	{\normalfont\normalsize\bf
 		\@title@align@left
 	}{\thesubsection}{\widthof{\quad}}{\@sanitize@title}
 \titlespacing{\subsection}
@@ -156,7 +156,7 @@
 
 \titleclass{\subsubsection}{section}[\subsection]
 \titleformat{\subsubsection}
-	{\normalfont\normalsize\bfseries
+	{\normalfont\normalsize\bf
 		\@title@align@left
 	}{\thesubsubsection}{\widthof{\quad}}{\@sanitize@title}
 \titlespacing{\subsubsection}
@@ -176,7 +176,7 @@
 
 \titleclass{\paragraph}{straight}[\subsubsection]
 \titleformat{\paragraph}
-	[runin]{\normalfont\normalsize}{\theparagraph}{\widthof{\quad}}{ }[\quad]
+	[runin]{\normalfont\normalsize\upshape}{\theparagraph}{\widthof{\quad}}{ }[\quad]
 \titlespacing{\paragraph}
 	{\parindent}{0mm plus 2mm}{\parskip}
 
@@ -187,7 +187,7 @@
 
 \titleclass{\subparagraph}{straight}[\paragraph]
 \titleformat{\subparagraph}
-	[runin]{\normalfont\normalsize}{\thesubparagraph}{\widthof{\quad}}{ }[\quad]
+	[runin]{\normalfont\normalsize\upshape}{\thesubparagraph}{\widthof{\quad}}{ }[\quad]
 \titlespacing{\subparagraph}
 	{\parindent}{0mm plus 1mm}{\parskip}
 
