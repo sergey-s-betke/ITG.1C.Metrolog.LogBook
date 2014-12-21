@@ -34,17 +34,14 @@
 \renewcommand{\ESKD@title@split@field}[2]{%
 	\par%
 	\noindent%
-	\hbox{%
-		\vtop{%
-			\hsize=.45\linewidth%
-			#1%
-		}%
-		\hspace{.1\linewidth}%
-		\vtop{%
-			\hsize=.45\linewidth%
-			#2%
-		}%
-	}\par%
+	\parbox[t]{.45\linewidth}{%
+		#1%
+	}%
+	\hfill%
+	\parbox[t]{.45\linewidth}{%
+		#2%
+	}%
+	\par%
 }
 
 \renewcommand{\ESKDtheTitleFieldI}{%
@@ -76,8 +73,8 @@
 		\expandafter%
 		\ifx\csname ESKD@title@agreed@name@1\endcsname\relax\else
 			\raggedright%
-			\signatureStampBox %
-				{\ESKDagreedName}%
+			\signatureStampBox* %
+				[\ESKDagreedName]%
 				{\@nameuse{ESKD@title@agreed@post@1}}%
 				{\@nameuse{ESKD@title@agreed@name@1}}%
 				{}
@@ -93,8 +90,8 @@
 		\expandafter%
 		\ifx\csname ESKD@title@approved@name@1\endcsname\relax\else
 			\raggedleft%
-			\signatureStampBox %
-				{\ESKDapprovingName}%
+			\signatureStampBox* %
+				[\ESKDapprovingName]%
 				{\@nameuse{ESKD@title@approved@post@1}}%
 				{\@nameuse{ESKD@title@approved@name@1}}%
 				{}%
@@ -122,9 +119,9 @@
 }
 
 \renewcommand{\ESKDtheTitleFieldV}{%
-	\begin{center}%
-		\ESKDtitleFontV%
-	\end{center}
+%	\begin{center}%
+%		\ESKDtitleFontV%
+%	\end{center}
 }
 
 \renewcommand{\ESKDtheTitleFieldVI}{%
@@ -148,12 +145,12 @@
 			\ifnum \ESKD@tmpcnta < \ESKD@title@agreed@cnt
 			\advance \ESKD@tmpcnta 1
 			\raggedright%
-			\signatureStampBox%
-				{\@header}%
+			\signatureStampBox*%
+				[\@header]%
 				{\@nameuse{ESKD@title@agreed@post@\number\ESKD@tmpcnta}}%
 				{\@nameuse{ESKD@title@agreed@name@\number\ESKD@tmpcnta}}%
 				{}%
-			%\par\vspace{5mm}
+			\par%\vspace{5mm minus 5mm}
 			\let\@header\relax
 		\repeat
 	\fi
@@ -166,12 +163,12 @@
 			\ifnum \ESKD@tmpcnta < \ESKD@title@designed@cnt
 			\advance \ESKD@tmpcnta 1
 			\raggedleft%
-			\signatureStampBox %
-				{}%
+			\signatureStampBox*%
+				[]%
 				{\@nameuse{ESKD@title@designed@post@\number\ESKD@tmpcnta}}%
 				{\@nameuse{ESKD@title@designed@name@\number\ESKD@tmpcnta}}%
 				{}%
-			%\par\vspace{5mm}
+			\par%\vspace{5mm minus 5mm}
 		\repeat
 	\fi
 }
@@ -193,7 +190,7 @@
 \renewcommand{\ESKDtitleFontI}{\ESKDfontV\bfseries\upshape}
 \renewcommand{\ESKDtitleFontII}{\ESKDfontIII\upshape}
 \renewcommand{\ESKDtitleFontIII}{%
-	\ESKDfontIII\upshape\renewcommand{\baselinestretch}{1.50}\selectfont}
+	\ESKDfontIII\upshape} %\renewcommand{\baselinestretch}{1.50}\selectfont}
 \renewcommand{\ESKDtitleFontIV}{\ESKDfontVII\bfseries\upshape}
 \renewcommand{\ESKDtitleFontV}{\ESKDfontV\upshape\upshape}
 \renewcommand{\ESKDtitleFontVI}{\ESKDtitleFontV\upshape}

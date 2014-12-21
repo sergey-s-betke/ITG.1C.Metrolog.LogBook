@@ -1,7 +1,9 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{gost6.38}[2014/10/22 v0.1 ГОСТ 6.38-90 ОРД. Требования к оформлению документов]
 
-\RequirePackage[T2A,T1]{fontenc}
+\ProcessOptions\relax
+
+\RequirePackage{xparse}
 
 \newcommand*{\signatureStampTitle}[1]{%
 	\centering%
@@ -64,53 +66,50 @@
 
 % Шаблон даты
 \newcommand{\dateTemplate}[0]{%
-	<<\rule{2em}{.4pt}>>~\rule{10em}{.4pt}~\rule{4em}{.4pt}%
+	<<\vbox{\hbox{\hspace{0em plus 1em}\phantom{99}\strut\hspace{0em plus 1em}}\hrule height .4pt}>>~%
+	\vbox{\hbox{\hspace{0em plus 2em}\phantom{сентября}\strut\hspace{0em plus 2em}}\hrule height .4pt}~%
+	\vbox{\hbox{\hspace{0em plus 1em}\phantom{2999}\strut\hspace{0em plus 1em}}\hrule height .4pt}%
 }
 
 \newlength\@dateTemplateWidth
 		
 % Дата подписи в грифе документа
 \newcommand{\signatureStamp@Date}[1]{%
-	{%
-		\par\centering%
-		\settowidth{\@dateTemplateWidth}{\dateTemplate}%
-		\annotatedField{\@dateTemplateWidth}{\dateTemplate}{дата}%
-		\par%
-	}
-}
-
-% только виза в грифе документа по п.1.4
-% #1 - должность 
-% #2 - ФИО
-% #3 - дата
-\newcommand{\signatureStampVisa}[3]{%
-	\signatureStamp@Post{#1}%
-	\signatureStamp@NameAndSignature{#2}%
-	\signatureStamp@Date{#3}%
-	\vspace{2ex plus 1ex minus 1ex}
+	\settowidth{\@dateTemplateWidth}{\dateTemplate}%
+	\annotatedField{\@dateTemplateWidth}{\dateTemplate}{дата}%
 }
 
 % гриф документа по п.1.4
-% #1 - собственно гриф (Утверждаю, Согласовано и т.д.)
-% #2 - должность 
-% #3 - ФИО
-% #4 - дата
-\newcommand{\signatureStamp}[4]{%
-	\signatureStamp@Title{#1}%
-	\signatureStampVisa{#2}{#3}{#4}%
+% * - растянуть дату на всю ширину подписи
+% #2 - собственно гриф (Утверждаю, Согласовано и т.д.)
+% #3 - должность 
+% #4 - ФИО
+% #5 - дата
+\NewDocumentCommand{\signatureStamp}{s o m m m}{%
+	\IfNoValueTF{#2}{}{%
+		\signatureStamp@Title{#2}%
+	}
+	\signatureStamp@Post{#3}%
+	\signatureStamp@NameAndSignature{#4}%
+	\IfBooleanTF{#1}{%
+		\signatureStamp@Date{#5}%
+	}{%
+		{%
+			\centering%
+			\signatureStamp@Date{#5}%
+		}
+	}%
+	\vspace{2ex plus 1ex minus 1ex}
 }
 
 \newlength\@signatureStampBoxW
-\setlength{\@signatureStampBoxW}{15em}
+\setlength{\@signatureStampBoxW}{20em}
 
-\newcommand{\signatureStampVisaBox}[3]{%
-	\parbox[t]{\@signatureStampBoxW}{%
-		\signatureStampVisa{#1}{#2}{#3}%
-	}
+\NewDocumentCommand{\signatureStampBox}{s o m m m}{%
+	\IfBooleanTF{#1}{%
+		\parbox[t]{\linewidth}{\signatureStamp*[#2]{#3}{#4}{#5}}%
+	}{%
+		\parbox[t]{\@signatureStampBoxW}{\signatureStamp[#2]{#3}{#4}{#5}}%
+	}%
 }
-
-\newcommand{\signatureStampBox}[4]{%
-	\parbox[t]{\@signatureStampBoxW}{%
-		\signatureStamp{#1}{#2}{#3}{#4}%
-	}
-}
+\let\signatureStampVisaBox\signatureStampBox
