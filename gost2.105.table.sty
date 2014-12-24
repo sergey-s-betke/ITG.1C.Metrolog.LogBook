@@ -45,22 +45,30 @@
 % #3 - preamble without start and finish |
 % #4 - header line without \\
 \newenvironment{gost2.105.table}[4]{
+\begingroup
+	% минимальная высота строки - 8 мм (п.4.4.5 ГОСТ 2.105-95)
+	% вставляем для этих целей линейку. Высота шрифта по ГОСТ 2.304 для межстрочного
+	% b=8 мм h=5 мм, поэтому линей будем иметь высоту 5+(8-5)/2, остальное - в глубину
+	% вычитаем так же толщину разделительной линии ESKDlineThin (0.2mm)
+	\setbox\strutbox\hbox{ \vrule height 6.4mm depth 1.4mm width 0mm\relax }%
+	\tabu@rearstrut
 	\begin{longtabu}[c]
 		{|[outer]#3|[outer]}
 		\caption{#1\label{#2}}                                                   \\
 		\tabucline[outer]{-}%
-		#4                                                                       \\\tabucline[outer]{-}
+		#4                                                                       \\\tabucline[outer]{-}%
 		\endfirsthead
 		\caption*{\itshape\@gost@table@continuation@caption{#1}}                 \\
 		\tabucline[outer]{-}%
-		#4                                                                       \\\tabucline[outer]{-}
+		#4                                                                       \\\tabucline[outer]{-}%
 		\endhead
-		\tabucline[outer]{-}
-		\endfoot
 		\tabucline[outer]{-}%
-		\endlastfoot
+		\endfoot
+		%\tabucline[outer]{-}%
+		%\endlastfoot
 		%\everyrow{\tabucline{-}}
 }{
 		\tabuphantomline
 	\end{longtabu}
+\endgroup
 }
