@@ -50,8 +50,20 @@
 	% вставляем для этих целей линейку. Высота шрифта по ГОСТ 2.304 для межстрочного
 	% b=8 мм h=5 мм, поэтому линей будем иметь высоту 5+(8-5)/2, остальное - в глубину
 	% вычитаем так же толщину разделительной линии ESKDlineThin (0.2mm)
-	\setbox\strutbox\hbox{ \vrule height 6.4mm depth 1.4mm width 0mm\relax }%
-	\tabu@rearstrut
+	\setbox\@tempboxa\hbox{0Прбу}%
+	\@tempdima=8mm\relax
+	\advance \@tempdima by -\ESKDlineThin
+	\advance \@tempdima by -\ht\@tempboxa
+	%\advance \@tempdima by -\dp\@tempboxa
+	\divide \@tempdima by 2\relax
+	\ifdim\@tempdima>\dp\@tempboxa %0mm\relax
+		\@tempdimb=\ht\@tempboxa
+		\advance \@tempdimb by \@tempdima
+		\@tempdimc=\@tempdima %\dp\@tempdima
+		%\advance \@tempdimc by \@tempdima
+		\setbox\strutbox\hbox{ \vrule height \@tempdimb depth \@tempdimc width 0mm\relax }%
+		\tabu@rearstrut
+	\fi
 	\begin{longtabu}[c]
 		{|[outer]#3|[outer]}
 		\caption{#1\label{#2}}                                                   \\
