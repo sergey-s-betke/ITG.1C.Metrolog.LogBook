@@ -26,6 +26,10 @@
 	\par{\signatureStampPost{#1}\par}
 }
 
+\newcommand\annotatedField@hrulefill{%
+	\leavevmode\leaders\hrule height 0pt depth 0.4pt\hfill\kern\z@
+}
+
 % графа с пояснением
 \newcommand\annotatedField[2]{%
 	{%
@@ -54,7 +58,7 @@
 \newcommand\annotatedFieldLine[3]{%
 	{%
 		\par
-		\hrulefill\annotatedField{\hfil #1\hfil}{#3}\hrulefill%
+		\annotatedField@hrulefill\annotatedField{\hfil #1\hfil}{#3}\annotatedField@hrulefill%
 		~#2%
 		\parfillskip=\z@
 		\par%
@@ -74,7 +78,7 @@
 % Дата подписи в грифе документа
 \newcommand\signatureStamp@Date[1]{%
 	<<\annotatedField{\phantom{99}}{день}>>~%
-	\hrulefill\annotatedField{\phantom{сентября}}{месяц}\hrulefill~%
+	\annotatedField@hrulefill\annotatedField{\phantom{сентября}}{месяц}\annotatedField@hrulefill~%
 	\annotatedField{\phantom{2999}}{год}%
 }
 
