@@ -33,10 +33,6 @@
 
 \setcounter{secnumdepth}{6}
 
-\newlength{\betweenheadersskip}
-\setlength{\betweenheadersskip}{8mm plus 3mm minus 0mm - \baselineskip}
-
-
 \def\@sanitize@title#1{%
 	\nohyphens{%
 		\expandafter\@trim@final@dot\expandafter{%
@@ -73,9 +69,9 @@
 
 
 \newlength{\appendix@skip@before}
-\setlength{\appendix@skip@before}{15mm plus 6mm minus 1mm - \baselineskip}
+\setlength{\appendix@skip@before}{15mm plus 6mm minus 1mm}
 \newlength{\appendix@skip@after}
-\setlength{\appendix@skip@after}{15mm plus 0mm minus 1mm - \baselineskip}
+\setlength{\appendix@skip@after}{15mm plus 0mm minus 1mm}
 
 \def\appendix@begin{% п.4.3.7 - по центру страницы
 	\normalfont\large\bf
@@ -92,7 +88,9 @@
 	{\widthof{\quad}}
 	{\@sanitize@title}
 \titlespacing{\chapter}
-	{\parindent}{\appendix@skip@before}{\appendix@skip@after}
+	{\parindent}
+	{\appendix@skip@before - \normalbaselineskip}
+	{\appendix@skip@after - \normalbaselineskip}
 \let\appendixbreak\cleardoublepage % п.4.3.7 - с новой страницы
 \let\chapterbreak\appendixbreak
 
@@ -100,9 +98,9 @@
 \def\ttl@sectionclass{\ttl@useclass\ttl@section@i}
 
 \newlength{\section@skip@before}
-\setlength{\section@skip@before}{15mm plus 4mm minus 2mm - \baselinestretch\baselineskip}
+\setlength{\section@skip@before}{15mm plus 4mm minus 2mm}
 \newlength{\section@skip@after}
-\setlength{\section@skip@after}{15mm plus 0mm minus 2mm - \baselinestretch\baselineskip}
+\setlength{\section@skip@after}{15mm plus 0mm minus 2mm}
 
 \titleclass{\section}{section}[\chapter]
 \titleformat{\section}
@@ -110,7 +108,9 @@
 		\@title@align@left
 	}{\thesection}{\widthof{\quad}}{\@sanitize@title}
 \titlespacing{\section}
-	{\parindent}{\section@skip@before}{\section@skip@after}
+	{\parindent}
+	{\section@skip@before - \normalbaselineskip}
+	{\section@skip@after - \normalbaselineskip}
 \ifsectionpagebreak
 	\let\sectionbreak\newpage
 \fi
@@ -126,9 +126,9 @@
 
 
 \newlength{\subsection@skip@before}
-\setlength{\subsection@skip@before}{15mm plus 3mm minus 1mm - \baselinestretch\baselineskip}
+\setlength{\subsection@skip@before}{15mm plus 3mm minus 1mm}
 \newlength{\subsection@skip@after}
-\setlength{\subsection@skip@after}{15mm plus 0mm minus 3mm - \baselinestretch\baselineskip}
+\setlength{\subsection@skip@after}{15mm plus 0mm minus 3mm}
 
 \titleclass{\subsection}{section}[\section]
 \titleformat{\subsection}
@@ -136,7 +136,9 @@
 		\@title@align@left
 	}{\thesubsection}{\widthof{\quad}}{\@sanitize@title}
 \titlespacing{\subsection}
-	{\parindent}{\subsection@skip@before}{\subsection@skip@after}
+	{\parindent}
+	{\subsection@skip@before - \normalbaselineskip}
+	{\subsection@skip@after - \normalbaselineskip}
 
 \renewcommand\thesubsection{%
 	\ifnum\value{subsection}=\z@
@@ -150,9 +152,9 @@
 
 
 \newlength{\subsubsection@skip@before}
-\setlength{\subsubsection@skip@before}{15mm plus 3mm minus 1mm - \baselinestretch\baselineskip}
+\setlength{\subsubsection@skip@before}{15mm plus 3mm minus 1mm}
 \newlength{\subsubsection@skip@after}
-\setlength{\subsubsection@skip@after}{15mm plus 0mm minus 3mm - \baselinestretch\baselineskip}
+\setlength{\subsubsection@skip@after}{15mm plus 0mm minus 3mm}
 
 \titleclass{\subsubsection}{section}[\subsection]
 \titleformat{\subsubsection}
@@ -160,7 +162,9 @@
 		\@title@align@left
 	}{\thesubsubsection}{\widthof{\quad}}{\@sanitize@title}
 \titlespacing{\subsubsection}
-	{\parindent}{\subsubsection@skip@before}{\subsubsection@skip@after}
+	{\parindent}
+	{\subsubsection@skip@before - \normalbaselineskip}
+	{\subsubsection@skip@after - \normalbaselineskip}
 
 \renewcommand\thesubsubsection{%
 	\ifnum\value{subsubsection}=\z@%

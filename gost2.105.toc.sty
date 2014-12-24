@@ -24,12 +24,14 @@
 \renewcommand\tableofcontents{%
 	\begingroup
 		\pagebreak
-		\addvspace\appendix@skip@before
 		\appendix@begin
+		\setlength\@tempskipa{\appendix@skip@before-\baselinestretch\baselineskip}%
+		\addvspace\@tempskipa
 		\contentsname
+		\setlength\@tempskipa{\appendix@skip@after-\normalbaselineskip}%
 		\par
 		\nopagebreak
-		\addvspace\appendix@skip@after
+		\addvspace\@tempskipa
 	\endgroup
 	\@starttoc{toc}%
 	\newpage
