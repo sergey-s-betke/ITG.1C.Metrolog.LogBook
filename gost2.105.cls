@@ -30,7 +30,7 @@
 \ProcessOptions\relax
 
 
-\LoadClass[russian,utf8,vpadding=10mm,hpadding=2mm]{eskdtext}
+\LoadClass[russian,utf8,vpadding=10mm,hpadding=3mm]{eskdtext}
 
 \RequirePackage{gost2.304}
 \RequirePackage{gost2.104}
