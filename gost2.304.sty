@@ -313,7 +313,7 @@
 
 \newfontfamily\gostfont\@gostfont@name[\@gostfont@features]
 
-\NewDocumentCommand\@gostfont@fontsize{o m o}{
+\NewDocumentCommand\@gostfont@fontsize{o m o}{%
 	\IfNoValueTF{#3}{%
 		% расстояние между строками b = 22/14*h
 		\@tempdimc=#2\relax
