@@ -5,7 +5,7 @@
 
 \RequirePackage{xparse}
 
-\newcommand*{\signatureStampTitle}[1]{%
+\newcommand*\signatureStampTitle[1]{%
 	\centering%
 	\textbf{
 		\MakeUppercase{#1}
@@ -15,68 +15,67 @@
 }
 
 % собственно гриф документа
-\newcommand{\signatureStamp@Title}[1]{%
+\newcommand\signatureStamp@Title[1]{%
 	\par{\signatureStampTitle{#1}\par}
 }
 
-\newcommand*{\signatureStampPost}[1]{#1}
+\newcommand*\signatureStampPost[1]{#1}
 
 % должность в грифе документа
-\newcommand{\signatureStamp@Post}[1]{%
+\newcommand\signatureStamp@Post[1]{%
 	\par{\signatureStampPost{#1}\par}
 }
 
 % графа с пояснением
-\newcommand{\annotatedField}[3]{%
+\newcommand\annotatedField[2]{%
 	{%
-		\parbox[t]{#1}{%
-			\centering#2\\%
-			\renewcommand{\baselinestretch}{1}\selectfont%
-			\vspace{-0.2ex}%
-			\tiny#3%
+		\leavevmode
+		\setbox\@tempboxa\hbox{#1}%
+		\dp\@tempboxa\z@
+		\@tempdima\wd\@tempboxa
+		\setbox\@tempboxb\vtop{
+			\copy\@tempboxa
+			\hbox{\tiny #2}
 		}%
-	}
+		\vtop{
+			\offinterlineskip
+			\box\@tempboxa
+			\hrule
+			\vskip 0.4pt%
+			\hbox to \wd\@tempboxb{\hfil\tiny #2\hfil}
+		}%
+	}%
 }
 
-\newlength\@annotatedFieldWidth@t
-\newlength\@annotatedFieldWidth
-
+% #1 - данные в поле с аннотацией
+% #2 - данные после поля
+% #3 - аннотация к полю
 % ФИО и подпись в грифе документа
-\newcommand{\annotatedFieldLine}[3]{%
+\newcommand\annotatedFieldLine[3]{%
 	{%
-		\par%
-		\settowidth{\@annotatedFieldWidth@t}{ #2}%
-		\setlength{\@annotatedFieldWidth}{\linewidth}%
-		\addtolength{\@annotatedFieldWidth}{-\@annotatedFieldWidth@t}%
-		\annotatedField{\@annotatedFieldWidth}{#1}{#3}%
-		\hfill#2%
+		\par
+		\hrulefill\annotatedField{\hfil #1\hfil}{#3}\hrulefill%
+		~#2%
+		\parfillskip=\z@
 		\par%
 	}
 }
 
-\newcommand*{\signatureStampName}[1]{#1}
+\newcommand*\signatureStampName[1]{#1}
 
 % ФИО и подпись в грифе документа
-\newcommand{\signatureStamp@NameAndSignature}[1]{%
+\newcommand\signatureStamp@NameAndSignature[1]{%
 	\annotatedFieldLine%
-		{\hrulefill}%
-		{{\signatureStampName{#1}}}%
+		{\hfill}%
+		{\signatureStampName{#1}}%
 		{подпись}%
 }
 
-% Шаблон даты
-\newcommand{\dateTemplate}[0]{%
-	<<\vbox{\hbox{\hspace{0em plus 1em}\phantom{99}\strut\hspace{0em plus 1em}}\hrule height .4pt}>>~%
-	\vbox{\hbox{\hspace{0em plus 2em}\phantom{сентября}\strut\hspace{0em plus 2em}}\hrule height .4pt}~%
-	\vbox{\hbox{\hspace{0em plus 1em}\phantom{2999}\strut\hspace{0em plus 1em}}\hrule height .4pt}%
-}
-
-\newlength\@dateTemplateWidth
-		
 % Дата подписи в грифе документа
-\newcommand{\signatureStamp@Date}[1]{%
-	\settowidth{\@dateTemplateWidth}{\dateTemplate}%
-	\annotatedField{\@dateTemplateWidth}{\dateTemplate}{дата}%
+\newcommand\signatureStamp@Date[1]{%
+	<<\annotatedField{\phantom{99}}{день}>>~%
+	\hrulefill\annotatedField{\phantom{сентября}}{месяц}\hrulefill~%
+	\annotatedField{\phantom{2999}}{год}%
 }
 
 % гриф документа по п.1.4
@@ -85,14 +84,18 @@
 % #3 - должность 
 % #4 - ФИО
 % #5 - дата
-\NewDocumentCommand{\signatureStamp}{s o m m m}{%
+\NewDocumentCommand\signatureStamp{s o m m m}{%
 	\IfNoValueTF{#2}{}{%
 		\signatureStamp@Title{#2}%
 	}
 	\signatureStamp@Post{#3}%
 	\signatureStamp@NameAndSignature{#4}%
 	\IfBooleanTF{#1}{%
-		\signatureStamp@Date{#5}%
+		{%
+			\signatureStamp@Date{#5}%
+			\parfillskip=\z@
+			\par
+		}%
 	}{%
 		{%
 			\centering%
@@ -103,9 +106,9 @@
 }
 
 \newlength\@signatureStampBoxW
-\setlength{\@signatureStampBoxW}{20em}
+\setlength\@signatureStampBoxW{20em}
 
-\NewDocumentCommand{\signatureStampBox}{s o m m m}{%
+\NewDocumentCommand\signatureStampBox{s o m m m}{%
 	\IfBooleanTF{#1}{%
 		\signatureStamp*[#2]{#3}{#4}{#5}%
 	}{%
