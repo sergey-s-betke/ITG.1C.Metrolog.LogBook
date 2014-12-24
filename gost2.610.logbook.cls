@@ -4,6 +4,8 @@
 \DeclareOption{nosectionpagebreak}{
 	\PassOptionsToClass{\CurrentOption}{gost2.105}
 }
+\DeclareOption{noappendixtoc}{}
+\DeclareOption{appendixtoc}{}
 \DeclareOption*{
 	\PassOptionsToClass{\CurrentOption}{gost2.105}
 }
@@ -208,7 +210,7 @@
 					&%
 				}%
 				\Xrows{%
-				\phantom{30.09.2999} &  &  &  &  &  \\\tabucline{-}%
+					\phantom{30.09.2999} &  &  &  &  &  \\\tabucline{-}%
 				}{\Формуляр@Контроль@ПустыхСтрок}
 			\end{gost2.105.table}
 		\end{landscape}

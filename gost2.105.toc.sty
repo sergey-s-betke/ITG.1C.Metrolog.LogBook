@@ -1,6 +1,16 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{gost2.105.toc}[2014/12/11 v0.1 ГОСТ 2.105-95 ЕСКД. Общие требования к текстовым документам. Содержание]
 
+\newif\ifappendixtoc
+\DeclareOption{appendixtoc}{%
+	\global\appendixtoctrue
+}
+\DeclareOption{noappendixtoc}{%
+	\global\appendixtocfalse
+}
+
+\ExecuteOptions{appendixtoc}
+
 \ProcessOptions\relax
 
 \RequirePackage{gost2.105.titles}
@@ -33,7 +43,10 @@
 
 \titlecontents{chapter}
 	[\toc@indent@appendix]
-	{\pagebreak[3]\addvspace{0mm plus 3mm}}
+	{%
+		\pagebreak[3]\addvspace{0mm plus 3mm}%
+		\ifappendixtoc\else	\setcounter{tocdepth}{1}\fi
+	}
 	{\contentslabel{\toc@indent@appendix}}
 	{\hspace*{-\toc@indent@appendix}}
 	{\titlerule*{.}\contentspage}
