@@ -263,8 +263,12 @@
 \def\@gostfont@name{Mipgost} %{ГОСТ 2.304-81}
 
 {
+	% переводим 2.5mm в число в pt
+	\ExplSyntaxOn
+	\tl_gset:Nx \@gostfont@fontsize@first {\fp_eval:n {\dim_to_fp:n { 2.5mm }}}
+	\ExplSyntaxOff
 	% определение действительного масштаба для шрифтов
-	\def\@gostfont@features@#1{
+	\edef\@gostfont@features@#1{
 		Path = fonts/,
 		Extension = .ttf,
 		UprightFont = *,
@@ -287,6 +291,14 @@
 			FakeSlant = 0.258819,
 			OpticalSize = 0
 		},
+		SizeFeatures={
+			{
+				Size=-\@gostfont@fontsize@first, % п.2.2 ГОСТ 2.304-81
+				Font=*, % как для шрифта типа Б
+				FakeBold = 1.4
+			},
+			{ Size=\@gostfont@fontsize@first- }
+		}
 		%Kerning = On % not avaliable for ttf fonts
 	}
 	%
