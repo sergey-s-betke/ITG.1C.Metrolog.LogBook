@@ -34,12 +34,12 @@
 
 % ряд размеров шрифтов h по ГОСТ 2.304
 % применяемые размеры шрифта h=2,5; 3,5; 5,0; 7,0; 10,0; 14,0; 20,0; 28,0; 40,0 мм
+% п.3.3 ГОСТ 2.105-95 - высота шрифта не менее 2,5 мм
+% ввожу в ряд 1.8mm только ради формул (индексов, прочего)
 \ExplSyntaxOn
 \clist_set:Nn \l_fontsizes_clist {1.8mm, 2.5mm, 3.5mm, 5mm, 7mm, 10mm, 14mm, 20mm, 28mm, 40mm}
 \ExplSyntaxOff
 
-% п.3.3 ГОСТ 2.105-95 - высота шрифта не менее 2,5 мм
-% ввожу в ряд 1.8mm только ради формул (индексов, прочего)
 \newcommand\@gostfont@fontsize@map[1]{%
 	\ifcase #1 1,8mm\or 2,5mm\or 3,5mm\or 5,0mm\or 7,0mm\or 10mm\or 14mm\or 20mm\or 28mm\or 40mm\fi%
 }
@@ -268,27 +268,32 @@
 
 {
 	% определение действительного масштаба для шрифтов
-	\def\@gostfont@features@base{
+	\def\@gostfont@features@#1#2{
 		Path = fonts/,
 		Extension = .ttf,
 		UprightFont = *,
 		OpticalSize = 0,
 		Mapping = tex-text,
+		Scale = #1,
+		#2,
 		BoldFont = *,
 		BoldFeatures = {
 			FakeBold = 1.4,
-			OpticalSize = 0
+			OpticalSize = 0,
+			#2
 		},
 		SlantedFont = *,
 		SlantedFeatures = {
 			FakeSlant = 0.258819, % cos(75 градусов)
-			OpticalSize = 0
+			OpticalSize = 0,
+			#2
 		},
 		BoldSlantedFont = *,
 		BoldSlantedFeatures = {
 			FakeBold = 1.4,
 			FakeSlant = 0.258819,
-			OpticalSize = 0
+			OpticalSize = 0,
+			#2
 		},
 		%Kerning = On % not avaliable for ttf fonts
 	}
@@ -310,9 +315,7 @@
 	\xdef\@gostfont@sizes@{ \tl_use:N \l_fontsizes_tl }%
 	\ExplSyntaxOff
 	%
-	\edef\@gostfont@features@#1{
-		\@gostfont@features@base
-		Scale = #1,
+	\edef\@gostfont@sizefeatures@{
 		SizeFeatures={
 			{
 				Size={\@gostfont@fontsize@first}, % п.2.2 ГОСТ 2.304-81
@@ -328,7 +331,7 @@
 	}
 	%
 	\@tempdima=100pt\relax
-	\fontspec\@gostfont@name[\@gostfont@features@base]%
+	\fontspec\@gostfont@name[\@gostfont@features@1{}]%
 	\fontsize{\@tempdima}{\@tempdima}\selectfont
 	\settoheight\@tempdimc{H}%
 	\ExplSyntaxOn
@@ -338,7 +341,7 @@
 			\dim_to_fp:n { \@tempdimc }
 		}
 	}
-	\xdef\@gostfont@features{\@gostfont@features@ \l__fontspec_scale_tl}
+	\xdef\@gostfont@features{\@gostfont@features@\l__fontspec_scale_tl\@gostfont@sizefeatures@}
 	\ExplSyntaxOff
 
 	\fontspec\@gostfont@name[\@gostfont@features]
