@@ -3,28 +3,67 @@
 % используем шрифты A и Б, последний - для "утолщённых" начертаний
 
 \RequirePackage{expl3}
-\RequirePackage{xkeyval}
+\RequirePackage{l3keys2e}
+\RequirePackage{ifxetex}
+\RequireXeTeX
 
-\newcount\@gostfont@normalsize@number
+\ExplSyntaxOn
 
-\define@choicekey{\@currname.\@currext}{mainfontsize}
-	[ \@mainfontsize \@normalsize@number ]
-	{ 2.5mm, 3.5mm, 5mm, 7mm, 10mm, 14mm, 20mm }
-{%
-	\@gostfont@normalsize@number=\@normalsize@number\relax
-	\advance \@gostfont@normalsize@number by 1\relax
+% ряд размеров шрифтов h по ГОСТ 2.304
+% применяемые размеры шрифта h=2,5; 3,5; 5,0; 7,0; 10,0; 14,0; 20,0; 28,0; 40,0 мм
+% п.3.3 ГОСТ 2.105-95 - высота шрифта не менее 2,5 мм
+% ввожу в ряд 1.8mm только ради формул (индексов, прочего)
+\clist_new:N \c__eskdfont_fontsizes_clist
+\clist_gset:Nn \c__eskdfont_fontsizes_clist {1.8mm, 2.5mm, 3.5mm, 5mm, 7mm, 10mm, 14mm, 20mm, 28mm, 40mm}
+
+%\newcount\@gostfont@normalsize@number
+%\define@choicekey{\@currname.\@currext}{mainfontsize}
+%	[ \@mainfontsize \@normalsize@number ]
+%	{ 2.5mm, 3.5mm, 5mm, 7mm, 10mm, 14mm, 20mm }
+%{%
+%	\@gostfont@normalsize@number=\@normalsize@number\relax
+%	\advance \@gostfont@normalsize@number by 2\relax
+%}
+\keys_define:nn { gost2.304 }
+{
+  mainfontsize .code:n =
+  {
+    \__eskdfont_normalsize_set:n {#1}
+  }
+}
+
+\msg_new:nnn {gost2.304} {unexpected-font-size}
+  {
+    The~ font~ size~ "#1"~ unexprected.
+    Valid~ eskd~ font~ sizes:~ \clist_use:Nn \c__eskdfont_fontsizes_clist {,~ }.
+  }
+
+\dim_new:N \l__eskdfont_mainfontsize_dim
+\bool_new:N \l__eskdfont_mainfontsize_bool
+
+\cs_new:Npn \__eskdfont_normalsize_set:n #1 {
+  \dim_set:Nn \l_tmpa_dim {#1}
+  \bool_set_false:N \l__eskdfont_mainfontsize_bool
+  \clist_map_inline:Nn \c__eskdfont_fontsizes_clist
+    {
+      \dim_compare:nNnT \l_tmpa_dim = {##1}
+        {
+          \bool_set_true:N \l__eskdfont_mainfontsize_bool
+          \clist_map_break:
+        }
+    }
+  \bool_if:NTF \l__eskdfont_mainfontsize_bool
+    {
+    }
+    {
+      \msg_fatal:nnn {gost2.304} {unexpected-font-size} {#1}
+    }
 }
 
 \PassOptionsToPackage{T2A}{fontenc}
 \PassOptionsToPackage{T1}{fontenc}
 
-\ExecuteOptionsX{}
-
-\ProcessOptionsX\relax
-
-
-\RequirePackage{ifxetex}
-\RequireXeTeX
+\ProcessKeysOptions { gost2.304 }
 
 \RequirePackage{cmap}
 \RequirePackage{fontenc}
@@ -32,17 +71,19 @@
 \RequirePackage{xparse}
 \RequirePackage{fontspec}
 
-% ряд размеров шрифтов h по ГОСТ 2.304
-% применяемые размеры шрифта h=2,5; 3,5; 5,0; 7,0; 10,0; 14,0; 20,0; 28,0; 40,0 мм
-% п.3.3 ГОСТ 2.105-95 - высота шрифта не менее 2,5 мм
-% ввожу в ряд 1.8mm только ради формул (индексов, прочего)
-\ExplSyntaxOn
-\clist_set:Nn \l_fontsizes_clist {1.8mm, 2.5mm, 3.5mm, 5mm, 7mm, 10mm, 14mm, 20mm, 28mm, 40mm}
-\ExplSyntaxOff
+\cs_new_nopar:Npn \__eskdfont_fontsizeget:n #1
+  {
+    \clist_item:Nn \c__eskdfont_fontsizes_clist #1
+  }
+\cs_generate_variant:Nn \__eskdfont_fontsizeget:n { N }
+\cs_generate_variant:Nn \__eskdfont_fontsizeget:n { x }
+\cs_generate_variant:Nn \__eskdfont_fontsizeget:n { V }
 
 \newcommand\@gostfont@fontsize@map[1]{%
-	\ifcase #1 1,8mm\or 2,5mm\or 3,5mm\or 5,0mm\or 7,0mm\or 10mm\or 14mm\or 20mm\or 28mm\or 40mm\fi%
+	\__eskdfont_fontsizeget:n#1%
 }
+
+\ExplSyntaxOff
 
 \def\@gostfont@setupsizes{%
 	\newcount\@gostfont@small@number
@@ -199,39 +240,14 @@
 	\def\normalsize{%
 		\@gostfont@fontsize[\normalsize]{\@gostfont@fontsize@map\@gostfont@normalsize@number}%
 		\selectfont
-		%\abovedisplayskip 11\p@ \@plus3\p@ \@minus6\p@
-		%\abovedisplayshortskip \z@ \@plus3\p@
-		%\belowdisplayshortskip 6.5\p@ \@plus3.5\p@ \@minus3\p@
-		%\belowdisplayskip \abovedisplayskip
-		%\let\@listi\@listI
 	}
 	\def\small{%
 		\@gostfont@fontsize[\small]{\@gostfont@fontsize@map\@gostfont@small@number}%
 		\selectfont
-		%\@setfontsize\small\@xpt\@xiipt
-		%\abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
-		%\abovedisplayshortskip \z@ \@plus3\p@
-		%\belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
-		%\def\@listi{%
-		%	\leftmargin\leftmargini
-		%	\topsep 6\p@ \@plus2\p@ \@minus2\p@
-		%	\parsep 3\p@ \@plus2\p@ \@minus\p@
-		%	\itemsep \parsep
-		%}%
-		%\belowdisplayskip \abovedisplayskip
 	}
 	\def\footnotesize{%
 		\@gostfont@fontsize[\footnotesize]{\@gostfont@fontsize@map\@gostfont@footnotesize@number}%
 		\selectfont
-		%\@setfontsize\footnotesize\@ixpt{11}%
-		%\abovedisplayskip 8\p@ \@plus2\p@ \@minus4\p@
-		%\abovedisplayshortskip \z@ \@plus\p@
-		%\belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
-		%\def\@listi{\leftmargin\leftmargini
-		%	\topsep 4\p@ \@plus2\p@ \@minus2\p@
-		%	\parsep 2\p@ \@plus\p@ \@minus\p@
-		%	\itemsep \parsep}%
-		%\belowdisplayskip \abovedisplayskip
 	}
 	\def\scriptsize{%
 		\@gostfont@fontsize[\scriptsize]{\@gostfont@fontsize@map\@gostfont@scriptsize@number}%
@@ -266,6 +282,11 @@
 
 \def\@gostfont@name{Mipgost} %{ГОСТ 2.304-81}
 
+\ExplSyntaxOn
+
+\cs_generate_variant:Nn \dim_set:Nn { NV }
+\cs_generate_variant:Nn \dim_to_fp:n { N }
+
 {
 	% определение действительного масштаба для шрифтов
 	\def\@gostfont@features@#1#2{
@@ -298,31 +319,30 @@
 		%Kerning = On % not avaliable for ttf fonts
 	}
 	%
-	\ExplSyntaxOn
-	\tl_new:N \l_fontsizes_tl
-	\tl_new:N \l_font_tinysize_tl
-	\clist_pop:NN \l_fontsizes_clist \l_font_tinysize_tl
+	\clist_new:N \l__eskdfont_fontsizes_clist
+	\clist_set_eq:NN \l__eskdfont_fontsizes_clist \c__eskdfont_fontsizes_clist
+	\tl_new:N \l__eskdfont_fontsizes_tl
+	\tl_new:N \l__eskdfont_fonttinysize_tl
+	\clist_pop:NN \l__eskdfont_fontsizes_clist \l__eskdfont_fonttinysize_tl
 	% переводим 1.8mm в число в pt
-	\dim_new:N \l_font_tinysize_dim
-	\dim_set:Nn \l_font_tinysize_dim { \tl_use:N \l_font_tinysize_tl }%
-	\tl_set:Nx \l_font_tinysize_tl {\fp_eval:n {\dim_to_fp:n { \l_font_tinysize_dim }}}%
-	\xdef\@gostfont@fontsize@first{\tl_use:N \l_font_tinysize_tl}%
+	\dim_new:N \l__eskdfont_fonttinysize_dim
+	\dim_set:NV \l__eskdfont_fonttinysize_dim \l__eskdfont_fonttinysize_tl
+	\tl_set:Nx \l__eskdfont_fonttinysize_tl {\fp_eval:n {\dim_to_fp:N \l__eskdfont_fonttinysize_dim }}%
 	% готовим список остальных допустимых размеров
-	\clist_map_inline:Nn \l_fontsizes_clist{
-		\tl_set:Nx \l_fontsize_mm_tl {\fp_eval:n {\dim_to_fp:n { #1 }}}%
-		\tl_put_right:Nx \l_fontsizes_tl { { Size=\tl_use:N \l_fontsize_mm_tl }, }%
+	\tl_new:N \l__eskdfont_fontsize_mm_tl
+	\clist_map_inline:Nn \l__eskdfont_fontsizes_clist{
+		\tl_set:Nx \l__eskdfont_fontsize_mm_tl {\fp_eval:n {\dim_to_fp:n { #1 }}}%
+		\tl_put_right:Nx \l__eskdfont_fontsizes_tl { { Size=\tl_use:N \l__eskdfont_fontsize_mm_tl }, }%
 	}
-	\xdef\@gostfont@sizes@{ \tl_use:N \l_fontsizes_tl }%
-	\ExplSyntaxOff
 	%
 	\edef\@gostfont@sizefeatures@{
 		SizeFeatures={
 			{
-				Size={\@gostfont@fontsize@first}, % п.2.2 ГОСТ 2.304-81
+				Size={\tl_use:N \l__eskdfont_fonttinysize_tl}, % п.2.2 ГОСТ 2.304-81
 				Font=*, % как для шрифта типа Б
 				FakeBold = 1.4
 			},
-			\@gostfont@sizes@
+			\tl_use:N \l__eskdfont_fontsizes_tl
 		}
 	}
 	%
@@ -334,18 +354,19 @@
 	\fontspec\@gostfont@name[\@gostfont@features@1{}]%
 	\fontsize{\@tempdima}{\@tempdima}\selectfont
 	\settoheight\@tempdimc{H}%
-	\ExplSyntaxOn
-	\tl_set:Nx \l__fontspec_scale_tl {
+
+	\tl_new:N \l__eskdfont_fontscale_tl
+	\tl_set:Nx \l__eskdfont_fontscale_tl {
 		\fp_eval:n {
 			\dim_to_fp:n { \@tempdima } /
 			\dim_to_fp:n { \@tempdimc }
 		}
 	}
-	\xdef\@gostfont@features{\@gostfont@features@\l__fontspec_scale_tl\@gostfont@sizefeatures@}
-	\ExplSyntaxOff
+	\xdef\@gostfont@features{\@gostfont@features@\l__eskdfont_fontscale_tl\@gostfont@sizefeatures@}
 
 	\fontspec\@gostfont@name[\@gostfont@features]
 }
+\ExplSyntaxOff
 
 \newfontfamily\gostfont\@gostfont@name[\@gostfont@features]
 
@@ -369,9 +390,9 @@
 }
 
 \AtBeginDocument{
-	\key@ifundefined{gost2.304.sty}{mainfontsize}{}{%
-		\@gostfont@setupsizes
-		\setmainfont\@gostfont@name[\@gostfont@features]%
-		\normalfont\normalsize
-	}
+%	\key@ifundefined{gost2.304.sty}{mainfontsize}{}{%
+%		\@gostfont@setupsizes
+%		\setmainfont\@gostfont@name[\@gostfont@features]%
+%		\normalfont\normalsize
+%	}
 }
