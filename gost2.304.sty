@@ -3,28 +3,212 @@
 % используем шрифты A и Б, последний - для "утолщённых" начертаний
 
 \RequirePackage{expl3}
-\RequirePackage{xkeyval}
+\RequirePackage{l3keys2e}
+\RequirePackage{ifxetex}
+\RequireXeTeX
 
-\newcount\@gostfont@normalsize@number
+\ExplSyntaxOn
 
-\define@choicekey{\@currname.\@currext}{mainfontsize}
-	[ \@mainfontsize \@normalsize@number ]
-	{ 2.5mm, 3.5mm, 5mm, 7mm, 10mm, 14mm, 20mm }
-{%
-	\@gostfont@normalsize@number=\@normalsize@number\relax
-	\advance \@gostfont@normalsize@number by 1\relax
+% ряд размеров шрифтов h по ГОСТ 2.304
+% применяемые размеры шрифта h=2,5; 3,5; 5,0; 7,0; 10,0; 14,0; 20,0; 28,0; 40,0 мм
+% п.3.3 ГОСТ 2.105-95 - высота шрифта не менее 2,5 мм
+% ввожу в ряд 1.8mm только ради формул (индексов, прочего)
+\clist_new:N \c__eskdfont_fontsizes_clist
+\clist_gset:Nn \c__eskdfont_fontsizes_clist {1.8mm, 2.5mm, 3.5mm, 5mm, 7mm, 10mm, 14mm, 20mm, 28mm, 40mm}
+
+\keys_define:nn { gost2.304 }
+{
+  mainfontsize .code:n =
+  {
+    \__eskdfont_normalsize_set:n {#1}
+  }
+}
+
+\msg_new:nnn {gost2.304} {invalid-font-size}
+  {
+    The~ font~ size~ "#1"~ is~ invalid.~
+    Valid~ eskd~ font~ sizes:~ \clist_use:Nn \c__eskdfont_fontsizes_clist {,~ }.
+  }
+\msg_new:nnn {gost2.304} {invalid-mainfontsize}
+{
+  Invalid~ "mainfontsize"~ value~ "#1".
+}
+
+\cs_new_nopar:Npn \__eskdfont_fontsizeget:n #1 {
+  \clist_item:Nn \c__eskdfont_fontsizes_clist {#1}
+}
+
+\bool_new:N \l__eskdfont_mainfontsize_bool
+
+\dim_new:N \l__eskdfont_normalsize_dim
+\dim_new:N \l__eskdfont_smallsize_dim
+\dim_new:N \l__eskdfont_footnotesize_dim
+\dim_new:N \l__eskdfont_scriptsize_dim
+\dim_new:N \l__eskdfont_tinysize_dim
+\dim_new:N \l__eskdfont_largesize_dim
+\dim_new:N \l__eskdfont_Largesize_dim
+\dim_new:N \l__eskdfont_LARGEsize_dim
+\dim_new:N \l__eskdfont_hugesize_dim
+\dim_new:N \l__eskdfont_Hugesize_dim
+
+\@onlypreamble \__eskdfont_normalsize_set:n
+\cs_new_nopar:Npn \__eskdfont_normalsize_set:n #1 {
+  \dim_set:Nn \l_tmpa_dim {#1}
+  \bool_set_false:N \l__eskdfont_mainfontsize_bool
+  \int_set_eq:NN \l_tmpa_int \c_zero
+  \clist_map_inline:Nn \c__eskdfont_fontsizes_clist
+    {
+      \int_incr:N \l_tmpa_int
+      \dim_compare:nNnT \l_tmpa_dim = {##1}
+        {
+          \bool_set_true:N \l__eskdfont_mainfontsize_bool
+          \clist_map_break:
+        }
+    }
+  \bool_if:NTF \l__eskdfont_mainfontsize_bool
+    {
+      \int_case:nnTF { \l_tmpa_int }
+        {
+          { 2 } % 2,5mm
+            {
+              \dim_set:Nn \l__eskdfont_tinysize_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+              \dim_set:Nn \l__eskdfont_scriptsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
+              \dim_set:Nn \l__eskdfont_footnotesize_dim { \__eskdfont_fontsizeget:n \l_tmpa_int }
+              \dim_set:Nn \l__eskdfont_smallsize_dim    { \__eskdfont_fontsizeget:n \l_tmpa_int }
+              \dim_set:Nn \l__eskdfont_normalsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
+              \dim_set:Nn \l__eskdfont_largesize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 1 } } }
+              \dim_set:Nn \l__eskdfont_Largesize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 2 } } }
+              \dim_set:Nn \l__eskdfont_LARGEsize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
+              \dim_set:Nn \l__eskdfont_hugesize_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 4 } } }
+              \dim_set:Nn \l__eskdfont_Hugesize_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 5 } } }
+            }
+          { 3 } % 3,5mm
+            {
+              \dim_set:Nn \l__eskdfont_tinysize_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
+              \dim_set:Nn \l__eskdfont_scriptsize_dim   { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
+              \dim_set:Nn \l__eskdfont_footnotesize_dim { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+              \dim_set:Nn \l__eskdfont_smallsize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+              \dim_set:Nn \l__eskdfont_normalsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
+              \dim_set:Nn \l__eskdfont_largesize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 1 } } }
+              \dim_set:Nn \l__eskdfont_Largesize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 2 } } }
+              \dim_set:Nn \l__eskdfont_LARGEsize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
+              \dim_set:Nn \l__eskdfont_hugesize_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 4 } } }
+              \dim_set:Nn \l__eskdfont_Hugesize_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 5 } } }
+            }
+          { 4 } % 5,0mm
+            {
+              \dim_set:Nn \l__eskdfont_tinysize_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 3 } } }
+              \dim_set:Nn \l__eskdfont_scriptsize_dim   { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
+              \dim_set:Nn \l__eskdfont_footnotesize_dim { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+              \dim_set:Nn \l__eskdfont_smallsize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+              \dim_set:Nn \l__eskdfont_normalsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
+              \dim_set:Nn \l__eskdfont_largesize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 1 } } }
+              \dim_set:Nn \l__eskdfont_Largesize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 2 } } }
+              \dim_set:Nn \l__eskdfont_LARGEsize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
+              \dim_set:Nn \l__eskdfont_hugesize_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 4 } } }
+              \dim_set:Nn \l__eskdfont_Hugesize_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 5 } } }
+            }
+          { 5 } % 7,0mm
+            {
+              \dim_set:Nn \l__eskdfont_tinysize_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 3 } } }
+              \dim_set:Nn \l__eskdfont_scriptsize_dim   { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
+              \dim_set:Nn \l__eskdfont_footnotesize_dim { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+              \dim_set:Nn \l__eskdfont_smallsize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+              \dim_set:Nn \l__eskdfont_normalsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
+              \dim_set:Nn \l__eskdfont_largesize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 1 } } }
+              \dim_set:Nn \l__eskdfont_Largesize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 2 } } }
+              \dim_set:Nn \l__eskdfont_LARGEsize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
+              \dim_set:Nn \l__eskdfont_hugesize_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 4 } } }
+              \dim_set:Nn \l__eskdfont_Hugesize_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 5 } } }
+            }
+          { 6 } % 10mm
+            {
+              \dim_set_eq:NN \l__eskdfont_normalsize_dim \l_tmpa_dim
+              \dim_set:Nn \l__eskdfont_tinysize_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
+              \dim_set:Nn \l__eskdfont_scriptsize_dim   { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
+              \dim_set:Nn \l__eskdfont_footnotesize_dim { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+              \dim_set:Nn \l__eskdfont_smallsize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+              \dim_set:Nn \l__eskdfont_normalsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
+              \dim_set:Nn \l__eskdfont_largesize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 1 } } }
+              \dim_set:Nn \l__eskdfont_Largesize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 2 } } }
+              \dim_set:Nn \l__eskdfont_LARGEsize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
+              \dim_set:Nn \l__eskdfont_hugesize_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 4 } } }
+              \dim_set:Nn \l__eskdfont_Hugesize_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 4 } } }
+            }
+          { 7 } % 14mm
+            {
+              \dim_set_eq:NN \l__eskdfont_normalsize_dim \l_tmpa_dim
+              \dim_set:Nn \l__eskdfont_tinysize_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
+              \dim_set:Nn \l__eskdfont_scriptsize_dim   { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
+              \dim_set:Nn \l__eskdfont_footnotesize_dim { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+              \dim_set:Nn \l__eskdfont_smallsize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+              \dim_set:Nn \l__eskdfont_normalsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
+              \dim_set:Nn \l__eskdfont_largesize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 1 } } }
+              \dim_set:Nn \l__eskdfont_Largesize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 2 } } }
+              \dim_set:Nn \l__eskdfont_LARGEsize_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
+              \dim_set:Nn \l__eskdfont_hugesize_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
+              \dim_set:Nn \l__eskdfont_Hugesize_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
+            }
+        }
+        {
+          \def\normalsize{%
+            \__eskdfont_setfontsize:Nn \normalsize \l__eskdfont_normalsize_dim
+            \selectfont
+          }
+          \def\small{%
+            \__eskdfont_setfontsize:Nn \small \l__eskdfont_smallsize_dim
+            \selectfont
+          }
+          \def\footnotesize{%
+            \__eskdfont_setfontsize:Nn \footnotesize \l__eskdfont_footnotesize_dim
+            \selectfont
+          }
+          \def\scriptsize{%
+            \__eskdfont_setfontsize:Nn \scriptsize \l__eskdfont_scriptsize_dim
+            \selectfont
+          }
+          \def\tiny{%
+            \__eskdfont_setfontsize:Nn \tiny \l__eskdfont_tinysize_dim
+            \selectfont
+          }
+          \def\large{%
+            \__eskdfont_setfontsize:Nn \large \l__eskdfont_largesize_dim
+            \selectfont
+          }
+          \def\Large{%
+            \__eskdfont_setfontsize:Nn \Large \l__eskdfont_Largesize_dim
+            \selectfont
+          }
+          \def\LARGE{%
+            \__eskdfont_setfontsize:Nn \LARGE \l__eskdfont_LARGEsize_dim
+            \selectfont
+          }
+          \def\huge{%
+            \__eskdfont_setfontsize:Nn \huge \l__eskdfont_hugesize_dim
+            \selectfont
+          }
+          \def\Huge{%
+            \__eskdfont_setfontsize:Nn \Huge \l__eskdfont_Hugesize_dim
+            \selectfont
+          }
+        }
+        {
+          \msg_fatal:nnn {gost2.304} {invalid-mainfontsize} {#1}
+        }
+    }
+    {
+      \msg_fatal:nnn {gost2.304} {invalid-font-size} {#1}
+    }
+}
+
+\cs_new:Npn \__eskdfont_setfontsize:Nn #1#2 {%
+  \@setfontsize{#1}{#2}{ \dim_eval:n { #2 * 22 / 14 } }%
 }
 
 \PassOptionsToPackage{T2A}{fontenc}
 \PassOptionsToPackage{T1}{fontenc}
 
-\ExecuteOptionsX{}
-
-\ProcessOptionsX\relax
-
-
-\RequirePackage{ifxetex}
-\RequireXeTeX
+\ProcessKeysOptions { gost2.304 }
 
 \RequirePackage{cmap}
 \RequirePackage{fontenc}
@@ -32,346 +216,86 @@
 \RequirePackage{xparse}
 \RequirePackage{fontspec}
 
-% ряд размеров шрифтов h по ГОСТ 2.304
-% применяемые размеры шрифта h=2,5; 3,5; 5,0; 7,0; 10,0; 14,0; 20,0; 28,0; 40,0 мм
-% п.3.3 ГОСТ 2.105-95 - высота шрифта не менее 2,5 мм
-% ввожу в ряд 1.8mm только ради формул (индексов, прочего)
-\ExplSyntaxOn
-\clist_set:Nn \l__gostfont_fontsizes_clist {1.8mm, 2.5mm, 3.5mm, 5mm, 7mm, 10mm, 14mm, 20mm, 28mm, 40mm}
+\def \l__eskdfont_name {Mipgost}
+
+% определение действительного масштаба для шрифтов
+\def\@gostfont@features@#1#2{
+  Path = fonts/,
+  Extension = .ttf,
+  UprightFont = *,
+  OpticalSize = 0,
+  Mapping = tex-text,
+  Scale = #1,
+  #2,
+  BoldFont = *,
+  BoldFeatures = {
+    FakeBold = 1.4,
+    OpticalSize = 0,
+    #2
+  },
+  SlantedFont = *,
+  SlantedFeatures = {
+    FakeSlant = 0.258819, % cos(75 градусов)
+    OpticalSize = 0,
+    #2
+  },
+  BoldSlantedFont = *,
+  BoldSlantedFeatures = {
+    FakeBold = 1.4,
+    FakeSlant = 0.258819,
+    OpticalSize = 0,
+    #2
+  },
+  %Kerning = On % not avaliable for ttf fonts
+}
+%
+\clist_set_eq:NN \l_tmpa_clist \c__eskdfont_fontsizes_clist
+\clist_pop:NN \l_tmpa_clist \l_tmpa_tl % tiny size
+% переводим 1.8mm в число в pt
+\dim_new:N \l__eskdfont_smallestsize_dim
+\dim_set:Nn \l__eskdfont_smallestsize_dim \l_tmpa_tl
+% готовим список остальных допустимых размеров
+\seq_set_from_clist:NN \l_tmpa_seq \l_tmpa_clist
+\seq_set_map:NNn \l_tmpa_seq \l_tmpa_seq { { Size={ \fp_eval:n { \dim_to_fp:n { #1 } } } } }
+%
+\edef\@gostfont@sizefeatures@{
+  SizeFeatures={
+    {
+      Size={ \fp_eval:n { \dim_to_fp:n { \l__eskdfont_smallestsize_dim } } }, % п.2.2 ГОСТ 2.304-81
+      Font=*, % как для шрифта типа Б
+      FakeBold = 1.4
+    },
+    \seq_use:Nn \l_tmpa_seq {, }
+  }
+}
+%
+%\def\normalsize{%
+%  \fontsize{14mm}{22mm}\selectfont
+%}
+%
+\dim_set:Nn \l_tmpa_dim { 40mm }
+\hbox_set:Nn \l_tmpa_box
+  {%
+    \fontspec \l__eskdfont_name [\@gostfont@features@1{}]%
+    \fontsize{\l_tmpa_dim}{\l_tmpa_dim}\selectfont
+    НШПС
+  }
+\fp_new:N \l__eskdfont_fontscale_fp
+\fp_set:Nn \l__eskdfont_fontscale_fp { \dim_to_fp:n \l_tmpa_dim / \dim_to_fp:n { \box_ht:N \l_tmpa_box } }
+
+\xdef\@gostfont@features{\@gostfont@features@ { \fp_use:N \l__eskdfont_fontscale_fp } \@gostfont@sizefeatures@}
+
+\fontspec \l__eskdfont_name [\@gostfont@features]
+\newfontfamily \eskdfont \l__eskdfont_name [\@gostfont@features]
+\setmainfont \l__eskdfont_name [\@gostfont@features]
+
 \ExplSyntaxOff
 
-\newcommand\@gostfont@fontsize@map[1]{%
-	\ifcase #1 1,8mm\or 2,5mm\or 3,5mm\or 5,0mm\or 7,0mm\or 10mm\or 14mm\or 20mm\or 28mm\or 40mm\fi%
-}
-
-\def\@gostfont@setupsizes{%
-	\newcount\@gostfont@small@number
-	\newcount\@gostfont@footnotesize@number
-	\newcount\@gostfont@scriptsize@number
-	\newcount\@gostfont@tiny@number
-	\newcount\@gostfont@large@number
-	\newcount\@gostfont@Large@number
-	\newcount\@gostfont@LARGE@number
-	\newcount\@gostfont@huge@number
-	\newcount\@gostfont@Huge@number
-	%
-	\ifcase \@gostfont@normalsize@number
-		% 1,8mm
-	\or
-		% 2,5mm
-		\@gostfont@small@number=\@gostfont@normalsize@number
-		%\advance \@gostfont@small@number by -1\relax
-		\@gostfont@footnotesize@number=\@gostfont@small@number
-		\@gostfont@scriptsize@number=\@gostfont@small@number
-		\advance \@gostfont@scriptsize@number by -1\relax
-		\@gostfont@tiny@number=\@gostfont@small@number
-		\advance \@gostfont@tiny@number by -1\relax
-		\@gostfont@large@number=\@gostfont@normalsize@number
-		\advance \@gostfont@large@number by 1\relax
-		\@gostfont@Large@number=\@gostfont@large@number
-		\advance \@gostfont@Large@number by 1\relax
-		\@gostfont@LARGE@number=\@gostfont@Large@number
-		\advance \@gostfont@LARGE@number by 1\relax
-		\@gostfont@huge@number=\@gostfont@LARGE@number
-		\advance \@gostfont@huge@number by 1\relax
-		\@gostfont@Huge@number=\@gostfont@huge@number
-		\advance \@gostfont@Huge@number by 1\relax
-	\or
-		% 3,5mm
-		\@gostfont@small@number=\@gostfont@normalsize@number
-		\advance \@gostfont@small@number by -1\relax
-		\@gostfont@footnotesize@number=\@gostfont@small@number
-		\@gostfont@scriptsize@number=\@gostfont@small@number
-		\advance \@gostfont@scriptsize@number by -1\relax
-		\@gostfont@tiny@number=\@gostfont@small@number
-		\advance \@gostfont@tiny@number by -1\relax
-		\@gostfont@large@number=\@gostfont@normalsize@number
-		\advance \@gostfont@large@number by 1\relax
-		\@gostfont@Large@number=\@gostfont@large@number
-		\advance \@gostfont@Large@number by 1\relax
-		\@gostfont@LARGE@number=\@gostfont@Large@number
-		\advance \@gostfont@LARGE@number by 1\relax
-		\@gostfont@huge@number=\@gostfont@LARGE@number
-		\advance \@gostfont@huge@number by 1\relax
-		\@gostfont@Huge@number=\@gostfont@huge@number
-		\advance \@gostfont@Huge@number by 1\relax
-	\or
-		% 5,0mm
-		\@gostfont@small@number=\@gostfont@normalsize@number
-		\advance \@gostfont@small@number by -1\relax
-		\@gostfont@footnotesize@number=\@gostfont@small@number
-		\@gostfont@scriptsize@number=\@gostfont@small@number
-		\advance \@gostfont@scriptsize@number by -1\relax
-		\@gostfont@tiny@number=\@gostfont@small@number
-		\advance \@gostfont@tiny@number by -1\relax
-		\@gostfont@large@number=\@gostfont@normalsize@number
-		\advance \@gostfont@large@number by 1\relax
-		\@gostfont@Large@number=\@gostfont@large@number
-		\advance \@gostfont@Large@number by 1\relax
-		\@gostfont@LARGE@number=\@gostfont@Large@number
-		\advance \@gostfont@LARGE@number by 1\relax
-		\@gostfont@huge@number=\@gostfont@LARGE@number
-		\advance \@gostfont@huge@number by 1\relax
-		\@gostfont@Huge@number=\@gostfont@huge@number
-		\advance \@gostfont@Huge@number by 1\relax
-	\or
-		% 7,0mm
-		\@gostfont@small@number=\@gostfont@normalsize@number
-		\advance \@gostfont@small@number by -1\relax
-		\@gostfont@footnotesize@number=\@gostfont@small@number
-		\@gostfont@scriptsize@number=\@gostfont@small@number
-		\advance \@gostfont@scriptsize@number by -1\relax
-		\@gostfont@tiny@number=\@gostfont@small@number
-		\advance \@gostfont@tiny@number by -2\relax
-		\@gostfont@large@number=\@gostfont@normalsize@number
-		\advance \@gostfont@large@number by 1\relax
-		\@gostfont@Large@number=\@gostfont@large@number
-		\advance \@gostfont@Large@number by 1\relax
-		\@gostfont@LARGE@number=\@gostfont@Large@number
-		\advance \@gostfont@LARGE@number by 1\relax
-		\@gostfont@huge@number=\@gostfont@LARGE@number
-		\advance \@gostfont@huge@number by 1\relax
-		\@gostfont@Huge@number=\@gostfont@huge@number
-		\advance \@gostfont@Huge@number by 1\relax
-	\or
-		% 10mm
-		\@gostfont@small@number=\@gostfont@normalsize@number
-		\advance \@gostfont@small@number by -1\relax
-		\@gostfont@footnotesize@number=\@gostfont@small@number
-		\@gostfont@scriptsize@number=\@gostfont@small@number
-		\advance \@gostfont@scriptsize@number by -1\relax
-		\@gostfont@tiny@number=\@gostfont@small@number
-		\advance \@gostfont@tiny@number by -2\relax
-		\@gostfont@large@number=\@gostfont@normalsize@number
-		\advance \@gostfont@large@number by 1\relax
-		\@gostfont@Large@number=\@gostfont@large@number
-		\advance \@gostfont@Large@number by 1\relax
-		\@gostfont@LARGE@number=\@gostfont@Large@number
-		\advance \@gostfont@LARGE@number by 1\relax
-		\@gostfont@huge@number=\@gostfont@LARGE@number
-		\advance \@gostfont@huge@number by 1\relax
-		\@gostfont@Huge@number=\@gostfont@huge@number
-		%\advance \@gostfont@Huge@number by 1\relax
-	\or
-		% 14mm
-		\@gostfont@small@number=\@gostfont@normalsize@number
-		\advance \@gostfont@small@number by -1\relax
-		\@gostfont@footnotesize@number=\@gostfont@small@number
-		\@gostfont@scriptsize@number=\@gostfont@small@number
-		\advance \@gostfont@scriptsize@number by -1\relax
-		\@gostfont@tiny@number=\@gostfont@small@number
-		\advance \@gostfont@tiny@number by -2\relax
-		\@gostfont@large@number=\@gostfont@normalsize@number
-		\advance \@gostfont@large@number by 1\relax
-		\@gostfont@Large@number=\@gostfont@large@number
-		\advance \@gostfont@Large@number by 1\relax
-		\@gostfont@LARGE@number=\@gostfont@Large@number
-		\advance \@gostfont@LARGE@number by 1\relax
-		\@gostfont@huge@number=\@gostfont@LARGE@number
-		%\advance \@gostfont@huge@number by 1\relax
-		\@gostfont@Huge@number=\@gostfont@huge@number
-		%\advance \@gostfont@Huge@number by 1\relax
-	\or
-		% 20mm
-		\@gostfont@small@number=\@gostfont@normalsize@number
-		\advance \@gostfont@small@number by -1\relax
-		\@gostfont@footnotesize@number=\@gostfont@small@number
-		\@gostfont@scriptsize@number=\@gostfont@small@number
-		\advance \@gostfont@scriptsize@number by -1\relax
-		\@gostfont@tiny@number=\@gostfont@small@number
-		\advance \@gostfont@tiny@number by -2\relax
-		\@gostfont@large@number=\@gostfont@normalsize@number
-		\advance \@gostfont@large@number by 1\relax
-		\@gostfont@Large@number=\@gostfont@large@number
-		\advance \@gostfont@Large@number by 1\relax
-		\@gostfont@LARGE@number=\@gostfont@Large@number
-		%\advance \@gostfont@LARGE@number by 1\relax
-		\@gostfont@huge@number=\@gostfont@LARGE@number
-		%\advance \@gostfont@huge@number by 1\relax
-		\@gostfont@Huge@number=\@gostfont@huge@number
-		%\advance \@gostfont@Huge@number by 1\relax
-	%\or
-		% 28mm
-	%\or
-		% 40mm
-	\fi
-	%
-	\def\normalsize{%
-		\@gostfont@fontsize[\normalsize]{\@gostfont@fontsize@map\@gostfont@normalsize@number}%
-		\selectfont
-		%\abovedisplayskip 11\p@ \@plus3\p@ \@minus6\p@
-		%\abovedisplayshortskip \z@ \@plus3\p@
-		%\belowdisplayshortskip 6.5\p@ \@plus3.5\p@ \@minus3\p@
-		%\belowdisplayskip \abovedisplayskip
-		%\let\@listi\@listI
-	}
-	\def\small{%
-		\@gostfont@fontsize[\small]{\@gostfont@fontsize@map\@gostfont@small@number}%
-		\selectfont
-		%\@setfontsize\small\@xpt\@xiipt
-		%\abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
-		%\abovedisplayshortskip \z@ \@plus3\p@
-		%\belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
-		%\def\@listi{%
-		%	\leftmargin\leftmargini
-		%	\topsep 6\p@ \@plus2\p@ \@minus2\p@
-		%	\parsep 3\p@ \@plus2\p@ \@minus\p@
-		%	\itemsep \parsep
-		%}%
-		%\belowdisplayskip \abovedisplayskip
-	}
-	\def\footnotesize{%
-		\@gostfont@fontsize[\footnotesize]{\@gostfont@fontsize@map\@gostfont@footnotesize@number}%
-		\selectfont
-		%\@setfontsize\footnotesize\@ixpt{11}%
-		%\abovedisplayskip 8\p@ \@plus2\p@ \@minus4\p@
-		%\abovedisplayshortskip \z@ \@plus\p@
-		%\belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
-		%\def\@listi{\leftmargin\leftmargini
-		%	\topsep 4\p@ \@plus2\p@ \@minus2\p@
-		%	\parsep 2\p@ \@plus\p@ \@minus\p@
-		%	\itemsep \parsep}%
-		%\belowdisplayskip \abovedisplayskip
-	}
-	\def\scriptsize{%
-		\@gostfont@fontsize[\scriptsize]{\@gostfont@fontsize@map\@gostfont@scriptsize@number}%
-		\selectfont
-	}
-	\def\tiny{%
-		\@gostfont@fontsize[\tiny]{\@gostfont@fontsize@map\@gostfont@tiny@number}%
-		\selectfont
-	}
-	\def\large{%
-		\@gostfont@fontsize[\large]{\@gostfont@fontsize@map\@gostfont@large@number}%
-		\selectfont
-	}
-	\def\Large{%
-		\@gostfont@fontsize[\Large]{\@gostfont@fontsize@map\@gostfont@Large@number}%
-		\selectfont
-	}
-	\def\LARGE{%
-		\@gostfont@fontsize[\LARGE]{\@gostfont@fontsize@map\@gostfont@LARGE@number}%
-		\selectfont
-	}
-	\def\huge{%
-		\@gostfont@fontsize[\huge]{\@gostfont@fontsize@map\@gostfont@huge@number}%
-		\selectfont
-	}
-	\def\Huge{%
-		\@gostfont@fontsize[\Huge]{\@gostfont@fontsize@map\@gostfont@Huge@number}%
-		\selectfont
-	}
-}
-\@onlypreamble\@gostfont@setupsizes
-
-\def\@gostfont@name{Mipgost} %{ГОСТ 2.304-81}
-
-{
-	% определение действительного масштаба для шрифтов
-	\def\@gostfont@features@#1#2{
-		Path = fonts/,
-		Extension = .ttf,
-		UprightFont = *,
-		OpticalSize = 0,
-		Mapping = tex-text,
-		Scale = #1,
-		#2,
-		BoldFont = *,
-		BoldFeatures = {
-			FakeBold = 1.4,
-			OpticalSize = 0,
-			#2
-		},
-		SlantedFont = *,
-		SlantedFeatures = {
-			FakeSlant = 0.258819, % cos(75 градусов)
-			OpticalSize = 0,
-			#2
-		},
-		BoldSlantedFont = *,
-		BoldSlantedFeatures = {
-			FakeBold = 1.4,
-			FakeSlant = 0.258819,
-			OpticalSize = 0,
-			#2
-		},
-		%Kerning = On % not avaliable for ttf fonts
-	}
-	%
-	\ExplSyntaxOn
-	\tl_new:N \l__gostfont_fontsizes_tl
-	\tl_new:N \l__gostfont_fonttinysize_tl
-	\clist_pop:NN \l__gostfont_fontsizes_clist \l__gostfont_fonttinysize_tl
-	% переводим 1.8mm в число в pt
-	\dim_new:N \l__gostfont_fonttinysize_dim
-	\dim_set:Nn \l__gostfont_fonttinysize_dim { \tl_use:N \l__gostfont_fonttinysize_tl }%
-	\tl_set:Nx \l__gostfont_fonttinysize_tl {\fp_eval:n {\dim_to_fp:n { \l__gostfont_fonttinysize_dim }}}%
-	\xdef\@gostfont@fontsize@first{\tl_use:N \l__gostfont_fonttinysize_tl}%
-	% готовим список остальных допустимых размеров
-	\clist_map_inline:Nn \l__gostfont_fontsizes_clist{
-		\tl_set:Nx \l__gostfont_fontsize_mm_tl {\fp_eval:n {\dim_to_fp:n { #1 }}}%
-		\tl_put_right:Nx \l__gostfont_fontsizes_tl { { Size=\tl_use:N \l__gostfont_fontsize_mm_tl }, }%
-	}
-	\xdef\@gostfont@sizes@{ \tl_use:N \l__gostfont_fontsizes_tl }%
-	\ExplSyntaxOff
-	%
-	\edef\@gostfont@sizefeatures@{
-		SizeFeatures={
-			{
-				Size={\@gostfont@fontsize@first}, % п.2.2 ГОСТ 2.304-81
-				Font=*, % как для шрифта типа Б
-				FakeBold = 1.4
-			},
-			\@gostfont@sizes@
-		}
-	}
-	%
-	\def\normalsize{%
-		\fontsize{14mm}{22mm}\selectfont
-	}
-	%
-	\@tempdima=100pt\relax
-	\fontspec\@gostfont@name[\@gostfont@features@1{}]%
-	\fontsize{\@tempdima}{\@tempdima}\selectfont
-	\settoheight\@tempdimc{H}%
-	\ExplSyntaxOn
-	\tl_set:Nx \l__gostfont_fontscale_tl {
-		\fp_eval:n {
-			\dim_to_fp:n { \@tempdima } /
-			\dim_to_fp:n { \@tempdimc }
-		}
-	}
-	\xdef\@gostfont@features{\@gostfont@features@\l__gostfont_fontscale_tl\@gostfont@sizefeatures@}
-	\ExplSyntaxOff
-
-	\fontspec\@gostfont@name[\@gostfont@features]
-}
-
-\newfontfamily\gostfont\@gostfont@name[\@gostfont@features]
-
-\NewDocumentCommand\@gostfont@fontsize{o m o}{%
-	\IfNoValueTF{#3}{%
-		% расстояние между строками b = 22/14*h
-		\@tempdimc=#2\relax
-		\multiply \@tempdimc by 22\relax
-		\divide \@tempdimc by 14\relax
-		% расстояние между строками b = 17/10*h
-		%\multiply \@tempdimc by 17\relax
-		%\divide \@tempdimc by 10\relax
-	}{%
-		\@tempdimc=#3\relax
-	}%
-	\IfNoValueTF{#1}{%
-		\fontsize{#2}{\@tempdimc}%
-	}{%
-		\@setfontsize{#1}{#2}{\@tempdimc}%
-	}%
-}
-
 \AtBeginDocument{
-	\key@ifundefined{gost2.304.sty}{mainfontsize}{}{%
-		\@gostfont@setupsizes
-		\setmainfont\@gostfont@name[\@gostfont@features]%
-		\normalfont\normalsize
-	}
+%  \@gostfont@sizefeatures@
+%	\key@ifundefined{gost2.304.sty}{mainfontsize}{}{%
+%		\@gostfont@setupsizes
+%		\setmainfont\@gostfont@name[\@gostfont@features]%
+%		\normalfont\normalsize
+%	}
 }
