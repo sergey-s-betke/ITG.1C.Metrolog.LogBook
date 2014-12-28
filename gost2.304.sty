@@ -151,46 +151,47 @@
             }
         }
         {
-          \def\normalsize{%
+          \DeclareDocumentCommand \normalsize {} {%
             \__eskdfont_setfontsize:Nn \normalsize \l__eskdfont_normalsize_dim
             \selectfont
           }
-          \def\small{%
+          \DeclareDocumentCommand \small {} {%
             \__eskdfont_setfontsize:Nn \small \l__eskdfont_smallsize_dim
             \selectfont
           }
-          \def\footnotesize{%
+          \DeclareDocumentCommand \footnotesize {} {%
             \__eskdfont_setfontsize:Nn \footnotesize \l__eskdfont_footnotesize_dim
             \selectfont
           }
-          \def\scriptsize{%
+          \DeclareDocumentCommand \scriptsize {} {%
             \__eskdfont_setfontsize:Nn \scriptsize \l__eskdfont_scriptsize_dim
             \selectfont
           }
-          \def\tiny{%
+          \DeclareDocumentCommand \tiny {} {%
             \__eskdfont_setfontsize:Nn \tiny \l__eskdfont_tinysize_dim
             \selectfont
           }
-          \def\large{%
+          \DeclareDocumentCommand \large {} {%
             \__eskdfont_setfontsize:Nn \large \l__eskdfont_largesize_dim
             \selectfont
           }
-          \def\Large{%
+          \DeclareDocumentCommand \Large {} {%
             \__eskdfont_setfontsize:Nn \Large \l__eskdfont_Largesize_dim
             \selectfont
           }
-          \def\LARGE{%
+          \DeclareDocumentCommand \LARGE {} {%
             \__eskdfont_setfontsize:Nn \LARGE \l__eskdfont_LARGEsize_dim
             \selectfont
           }
-          \def\huge{%
+          \DeclareDocumentCommand \huge {} {%
             \__eskdfont_setfontsize:Nn \huge \l__eskdfont_hugesize_dim
             \selectfont
           }
-          \def\Huge{%
+          \DeclareDocumentCommand \Huge {} {%
             \__eskdfont_setfontsize:Nn \Huge \l__eskdfont_Hugesize_dim
             \selectfont
           }
+          \setmainfont \l__eskdfont_name [\@gostfont@features]
         }
         {
           \msg_fatal:nnn {gost2.304} {invalid-mainfontsize} {#1}
@@ -207,39 +208,37 @@
 
 \PassOptionsToPackage{T2A}{fontenc}
 \PassOptionsToPackage{T1}{fontenc}
-
-\ProcessKeysOptions { gost2.304 }
-
-\RequirePackage{cmap}
 \RequirePackage{fontenc}
+\RequirePackage{cmap}
 \RequirePackage{xecyr}
 \RequirePackage{xparse}
 \RequirePackage{fontspec}
 
-\def \l__eskdfont_name {Mipgost}
+\def \l__eskdfont_name {ГОСТ 2.304-81}
+\def \l__eskdfont_filename {Mipgost}
 
 % определение действительного масштаба для шрифтов
 \def\@gostfont@features@#1#2{
   Path = fonts/,
   Extension = .ttf,
-  UprightFont = *,
+  UprightFont = \l__eskdfont_filename,
   OpticalSize = 0,
   Mapping = tex-text,
   Scale = #1,
   #2,
-  BoldFont = *,
+  BoldFont = \l__eskdfont_filename,
   BoldFeatures = {
     FakeBold = 1.4,
     OpticalSize = 0,
     #2
   },
-  SlantedFont = *,
+  SlantedFont = \l__eskdfont_filename,
   SlantedFeatures = {
     FakeSlant = 0.258819, % cos(75 градусов)
     OpticalSize = 0,
     #2
   },
-  BoldSlantedFont = *,
+  BoldSlantedFont = \l__eskdfont_filename,
   BoldSlantedFeatures = {
     FakeBold = 1.4,
     FakeSlant = 0.258819,
@@ -262,7 +261,7 @@
   SizeFeatures={
     {
       Size={ \fp_eval:n { \dim_to_fp:n { \l__eskdfont_smallestsize_dim } } }, % п.2.2 ГОСТ 2.304-81
-      Font=*, % как для шрифта типа Б
+      Font=\l__eskdfont_filename, % как для шрифта типа Б
       FakeBold = 1.4
     },
     \seq_use:Nn \l_tmpa_seq {, }
@@ -275,19 +274,19 @@
 %
 \dim_set:Nn \l_tmpa_dim { 40mm }
 \hbox_set:Nn \l_tmpa_box
-  {%
-    \fontspec \l__eskdfont_name [\@gostfont@features@1{}]%
-    \fontsize{\l_tmpa_dim}{\l_tmpa_dim}\selectfont
-    НШПС
-  }
+{%
+  \fontspec \l__eskdfont_name [\@gostfont@features@1{}]%
+  \fontsize{\l_tmpa_dim}{\l_tmpa_dim}\selectfont
+  НШПС
+}
 \fp_new:N \l__eskdfont_fontscale_fp
 \fp_set:Nn \l__eskdfont_fontscale_fp { \dim_to_fp:n \l_tmpa_dim / \dim_to_fp:n { \box_ht:N \l_tmpa_box } }
 
 \xdef\@gostfont@features{\@gostfont@features@ { \fp_use:N \l__eskdfont_fontscale_fp } \@gostfont@sizefeatures@}
 
-\fontspec \l__eskdfont_name [\@gostfont@features]
 \newfontfamily \eskdfont \l__eskdfont_name [\@gostfont@features]
-\setmainfont \l__eskdfont_name [\@gostfont@features]
+
+\ProcessKeysOptions { gost2.304 }
 
 \ExplSyntaxOff
 
