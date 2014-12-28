@@ -19,31 +19,31 @@
 \RequirePackage{gost2.304}
 \RequirePackage{eskdfont}
 
-\renewcommand{\ESKDfontIIsize}{\@gostfont@fontsize{2,5mm}}
-\renewcommand{\ESKDfontIIIsize}{\@gostfont@fontsize{3,5mm}}
-\renewcommand{\ESKDfontVsize}{\@gostfont@fontsize{5mm}}
-\renewcommand{\ESKDfontVIIsize}{\@gostfont@fontsize{7mm}}
-\renewcommand{\ESKDfontXsize}{\@gostfont@fontsize{10mm}}
+\renewcommand{\ESKDfontIIsize}{\eskdfontsize{2,5mm}}
+\renewcommand{\ESKDfontIIIsize}{\eskdfontsize{3,5mm}}
+\renewcommand{\ESKDfontVsize}{\eskdfontsize{5mm}}
+\renewcommand{\ESKDfontVIIsize}{\eskdfontsize{7mm}}
+\renewcommand{\ESKDfontXsize}{\eskdfontsize{10mm}}
 
 \renewcommand{\ESKDfontII}{%
 	%\ESKDfontSetBaseLineStretch
-	\gostfont\ESKDfontIIsize\selectfont\ESKDfontShape
+	\eskdfont\ESKDfontIIsize\selectfont\ESKDfontShape
 }
 \renewcommand{\ESKDfontIII}{%
 	%\ESKDfontSetBaseLineStretch
-	\gostfont\ESKDfontIIIsize\selectfont\ESKDfontShape
+	\eskdfont\ESKDfontIIIsize\selectfont\ESKDfontShape
 }
 \renewcommand{\ESKDfontV}{%
 	%\ESKDfontSetBaseLineStretch
-	\gostfont\ESKDfontVsize\selectfont\ESKDfontShape
+	\eskdfont\ESKDfontVsize\selectfont\ESKDfontShape
 }
 \renewcommand{\ESKDfontVII}{%
 	%\ESKDfontSetBaseLineStretch
-	\gostfont\ESKDfontVIIsize\selectfont\ESKDfontShape
+	\eskdfont\ESKDfontVIIsize\selectfont\ESKDfontShape
 }
 \renewcommand{\ESKDfontX}{%
 	%\ESKDfontSetBaseLineStretch
-	\gostfont\ESKDfontXsize\selectfont\ESKDfontShape
+	\eskdfont\ESKDfontXsize\selectfont\ESKDfontShape
 }
 	
 \RequirePackage{eskdstamp}
@@ -56,7 +56,7 @@
 	O{2,5mm}   % #1 - font h
 	O{\slshape}% #2 - font shape
 }{%
-	\gostfont\@gostfont@fontsize{#1}\selectfont#2%
+	\eskdfont \eskdfontsize{#1}\selectfont #2%
 }
 
 \NewDocumentCommand{\@eskd@frame@field@title}{

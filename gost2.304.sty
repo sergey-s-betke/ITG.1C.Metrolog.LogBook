@@ -205,6 +205,9 @@
 \cs_new:Npn \__eskdfont_setfontsize:Nn #1#2 {%
   \@setfontsize{#1}{#2}{ \dim_eval:n { #2 * 22 / 14 } }%
 }
+\cs_new:Npn \__eskdfont_fontsize:n #1 {%
+  \fontsize{#1}{ \dim_eval:n { #1 * 22 / 14 } }%
+}
 
 \PassOptionsToPackage{T2A}{fontenc}
 \PassOptionsToPackage{T1}{fontenc}
@@ -247,7 +250,7 @@
   },
   %Kerning = On % not avaliable for ttf fonts
 }
-%
+
 \clist_set_eq:NN \l_tmpa_clist \c__eskdfont_fontsizes_clist
 \clist_pop:NN \l_tmpa_clist \l_tmpa_tl % tiny size
 % переводим 1.8mm в число в pt
@@ -256,7 +259,7 @@
 % готовим список остальных допустимых размеров
 \seq_set_from_clist:NN \l_tmpa_seq \l_tmpa_clist
 \seq_set_map:NNn \l_tmpa_seq \l_tmpa_seq { { Size={ \fp_eval:n { \dim_to_fp:n { #1 } } } } }
-%
+
 \edef\@gostfont@sizefeatures@{
   SizeFeatures={
     {
@@ -267,11 +270,7 @@
     \seq_use:Nn \l_tmpa_seq {, }
   }
 }
-%
-%\def\normalsize{%
-%  \fontsize{14mm}{22mm}\selectfont
-%}
-%
+
 \dim_set:Nn \l_tmpa_dim { 40mm }
 \hbox_set:Nn \l_tmpa_box
 {%
@@ -288,13 +287,8 @@
 
 \ProcessKeysOptions { gost2.304 }
 
-\ExplSyntaxOff
-
-\AtBeginDocument{
-%  \@gostfont@sizefeatures@
-%	\key@ifundefined{gost2.304.sty}{mainfontsize}{}{%
-%		\@gostfont@setupsizes
-%		\setmainfont\@gostfont@name[\@gostfont@features]%
-%		\normalfont\normalsize
-%	}
+\DeclareDocumentCommand \eskdfontsize {m} {%
+  \__eskdfont_fontsize:n {#1}%
 }
+
+\ExplSyntaxOff
