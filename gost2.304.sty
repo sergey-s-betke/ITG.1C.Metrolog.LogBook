@@ -30,9 +30,13 @@
     Valid~ eskd~ font~ sizes:~ \clist_use:Nn \c__eskdfont_fontsizes_clist {,~ }.
   }
 \msg_new:nnn {gost2.304} {invalid-mainfontsize}
-{
-  Invalid~ "mainfontsize"~ value~ "#1".
-}
+  {
+    Invalid~ "mainfontsize"~ value~ "#1".
+  }
+\msg_new:nnn {gost2.304} {invalid-baselineskip}
+  {
+    Invalid~ baselineskip~ value~ ("b"~ parameter,~ GOST~2.304-81)~ "#1".~ The~ b~value~ must~be~ at~ least~ 22/14h.
+  }
 
 \cs_new_nopar:Npn \__eskdfont_fontsizeget:n #1 {
   \clist_item:Nn \c__eskdfont_fontsizes_clist {#1}
@@ -175,10 +179,22 @@
   \ignorespaces
 }
 \cs_generate_variant:Nn \__eskdfont_setfontsize:Nn { Nc }
+
 \cs_new:Npn \__eskdfont_fontsize:n #1 {%
   \fontsize{#1}{ \dim_eval:n { #1 * 22 / 14 } }%
   \ignorespaces
 }
+
+\DeclareRobustCommand \eskdfontsize [1] {%
+  \__eskdfont_fontsize:n {#1}
+  \ignorespaces
+}
+
+%\DeclareRobustCommand \fontsize [2] {%
+%  \set@fontsize\baselinestretch{#1}{#2}%
+%  \dim_compare:xNxT { #2 } < { #1 * 22 / 14 } % проверяем минимальную высоту строк b
+%    { \msg_warning:nnn {gost2.304} {invalid-baselineskip} {#1:::#2} }
+%}
 
 \PassOptionsToPackage{T2A}{fontenc}
 \PassOptionsToPackage{T1}{fontenc}
@@ -250,10 +266,5 @@
 
 \ProcessKeysOptions { gost2.304 }
 
-
-\DeclareDocumentCommand \eskdfontsize {m} {%
-  \__eskdfont_fontsize:n {#1}
-  \ignorespaces
-}
 
 \ExplSyntaxOff
