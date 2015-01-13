@@ -159,7 +159,7 @@
                 \selectfont
               }
             }
-          \setmainfont \l__eskdfont_name [\@gostfont@features]
+          \setmainfont {eskdfont}
         }
         {
           \msg_fatal:nnn {gost2.304} {invalid-mainfontsize} {#1}
@@ -172,10 +172,12 @@
 
 \cs_new:Npn \__eskdfont_setfontsize:Nn #1#2 {%
   \@setfontsize{#1}{#2}{ \dim_eval:n { #2 * 22 / 14 } }%
+  \ignorespaces
 }
 \cs_generate_variant:Nn \__eskdfont_setfontsize:Nn { Nc }
 \cs_new:Npn \__eskdfont_fontsize:n #1 {%
   \fontsize{#1}{ \dim_eval:n { #1 * 22 / 14 } }%
+  \ignorespaces
 }
 
 \PassOptionsToPackage{T2A}{fontenc}
@@ -186,23 +188,43 @@
 \RequirePackage{xparse}
 \RequirePackage{fontspec}
 
-\def \l__eskdfont_name {ГОСТ 2.304-81}
-\def \l__eskdfont_filename {Mipgost}
+% основные параметры шрифтов ГОСТ 2.304
+\defaultfontfeatures
+  [eskdfont]
+  {
+    Path = fonts/,
+    Extension = .ttf,
+    UprightFont = Mipgost,
+    OpticalSize = 0,
+    Mapping = tex-text,
+    Scale = 1,
+    AutoFakeBold = 1.4,
+    AutoFakeSlant = 0.258819, % cos(75 градусов)
+    %Kerning = On % not avaliable for ttf fonts
+  }
 
-% определение действительного масштаба для шрифтов
-\def\@gostfont@features@#1#2{
-  Path = fonts/,
-  Extension = .ttf,
-  UprightFont = \l__eskdfont_filename,
-  OpticalSize = 0,
-  Mapping = tex-text,
-  Scale = #1,
-  AutoFakeBold = 1.4,
-  AutoFakeSlant = 0.258819, % cos(75 градусов)
-  #2,
-  %Kerning = On % not avaliable for ttf fonts
-}
+% определяем масштаб для шрифта
+\group_begin:
+  \newfontfamily \eskdfont {eskdfont}
+  \dim_set:Nn \l_tmpa_dim { 40mm }
+  \hbox_set:Nn \l_tmpa_box
+    {%
+      \eskdfont
+      \fontsize \l_tmpa_dim \l_tmpa_dim \selectfont
+      НШПС%
+    }
+  \fp_new:N \g__eskdfont_fontscale_fp
+  \fp_gset:Nn \g__eskdfont_fontscale_fp { \dim_to_fp:n \l_tmpa_dim / \dim_to_fp:n { \box_ht:N \l_tmpa_box } }
+\group_end:
 
+\defaultfontfeatures+
+  [eskdfont]
+  {
+    Scale = { \fp_use:N \g__eskdfont_fontscale_fp }
+  }
+\newfontfamily \eskdfont {eskdfont}
+
+% ограничиваем допустимые размеры шрифтов
 \clist_set_eq:NN \l_tmpa_clist \c__eskdfont_fontsizes_clist
 \clist_pop:NN \l_tmpa_clist \l_tmpa_tl % tiny size
 % переводим 1.8mm в число в pt
@@ -211,36 +233,27 @@
 % готовим список остальных допустимых размеров
 \seq_set_from_clist:NN \l_tmpa_seq \l_tmpa_clist
 \seq_set_map:NNn \l_tmpa_seq \l_tmpa_seq { { Size={ \fp_eval:n { \dim_to_fp:n { #1 } } } } }
+\seq_push:Nn \l_tmpa_seq
+  { {
+    Size = { \fp_eval:n { \dim_to_fp:n { \l__eskdfont_smallestsize_dim } } }, % п.2.2 ГОСТ 2.304-81
+    %Font = *, % как для шрифта типа Б
+    FakeBold = 1.4
+  } }
 
-\edef\@gostfont@sizefeatures@{
-  SizeFeatures={
-    {
-      Size={ \fp_eval:n { \dim_to_fp:n { \l__eskdfont_smallestsize_dim } } }, % п.2.2 ГОСТ 2.304-81
-      Font=\l__eskdfont_filename, % как для шрифта типа Б
-      FakeBold = 1.4
-    },
-    \seq_use:Nn \l_tmpa_seq {, }
+\defaultfontfeatures+
+  [eskdfont]
+  {
+    SizeFeatures={ \seq_use:Nn \l_tmpa_seq {, } }
   }
-}
+\newfontfamily \eskdfont {eskdfont}
 
-\dim_set:Nn \l_tmpa_dim { 40mm }
-\hbox_set:Nn \l_tmpa_box
-{%
-  \fontspec \l__eskdfont_name [\@gostfont@features@1{}]%
-  \fontsize{\l_tmpa_dim}{\l_tmpa_dim}\selectfont
-  НШПС
-}
-\fp_new:N \l__eskdfont_fontscale_fp
-\fp_set:Nn \l__eskdfont_fontscale_fp { \dim_to_fp:n \l_tmpa_dim / \dim_to_fp:n { \box_ht:N \l_tmpa_box } }
-
-\xdef\@gostfont@features{\@gostfont@features@ { \fp_use:N \l__eskdfont_fontscale_fp } \@gostfont@sizefeatures@}
-
-\newfontfamily \eskdfont \l__eskdfont_name [\@gostfont@features]
 
 \ProcessKeysOptions { gost2.304 }
 
+
 \DeclareDocumentCommand \eskdfontsize {m} {%
-  \__eskdfont_fontsize:n {#1}%
+  \__eskdfont_fontsize:n {#1}
+  \ignorespaces
 }
 
 \ExplSyntaxOff
