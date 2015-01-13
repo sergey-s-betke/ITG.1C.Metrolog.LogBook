@@ -7,9 +7,12 @@
 \usepackage{interfaces}
 \usepackage{tikz}
 \usepackage{interfaces-tikz}
+\usepackage[a4 paper, portrait, tmargin=10mm, bmargin=10mm, inner=20mm, outer=20mm, headheight=0mm, headsep=0mm, footskip=0mm]{geometry}
+\usepackage{unicode-math}
 
 \begin{document}
 
+  \parindent=0pt\relax
   \papergraduate
 
   %\eskdfont
@@ -31,5 +34,129 @@
   \textbf{40}
   {\slshape 40}
   {\slshape\bfseries 40}
+
+  \NewDocumentCommand \DrawChars {m} {
+    \begin{tikzpicture}
+    \papergraduate (-10mm,0mm) (160mm,20mm);
+    \node at (0mm,0mm) [anchor=south west,inner sep=0pt,outer sep=0pt]
+    {
+      #1
+    };
+    \end{tikzpicture}
+  }
+
+  \newpage
+  \eskdfont \eskdfontsize{14mm} \selectfont\mdseries
+  Раздел 3 ГОСТ 2.304-81. Шрифт типа А
+  
+  {
+    \slshape
+    \DrawChars{АБВГДЕЖЗИЙКЛМНОПР}
+    \DrawChars{СТУФХЦЧШЩЪЫЬЭЮЯ}
+    \DrawChars{абвгдежзийклмнопрст}
+    \DrawChars{уфхцчшщъыьэюя}
+  }
+
+  {
+    \DrawChars{АБВГДЕЖЗИЙКЛМНОПР}
+    \DrawChars{СТУФХЦЧШЩЪЫЬЭЮЯ}
+    \DrawChars{абвгдежзийклмнопрст}
+    \DrawChars{уфхцчшщъыьэюя}
+  }
+
+  \newpage
+  \eskdfont \eskdfontsize{10mm}\selectfont\bfseries
+  Шрифт типа Б
+
+  {
+    \slshape
+    \DrawChars{АБВГДЕЖЗИЙКЛМНОПР}
+    \DrawChars{СТУФХЦЧШЩЪЫЬЭЮЯ}
+    \DrawChars{абвгдежзийклмнопрст}
+    \DrawChars{уфхцчшщъыьэюя}
+  }
+
+  {
+    \DrawChars{АБВГДЕЖЗИЙКЛМНОПР}
+    \DrawChars{СТУФХЦЧШЩЪЫЬЭЮЯ}
+    \DrawChars{абвгдежзийклмнопрст}
+    \DrawChars{уфхцчшщъыьэюя}
+  }
+
+  \newpage
+  \eskdfont \eskdfontsize{14mm} \selectfont\mdseries
+  Раздел 4 ГОСТ 2.304-81. Шрифт типа А
+
+  {
+    \slshape
+    \DrawChars{ABCDEFGHIJKLMN}
+    \DrawChars{OPQRSTUVWXYZ}
+    \DrawChars{abcdefghijklmnop}
+    \DrawChars{qrstuvwxyz}
+  }
+
+  {
+    \DrawChars{ABCDEFGHIJKLMNO}
+    \DrawChars{PQRSTUVWXYZ}
+    \DrawChars{abcdefghijklmnopq}
+    \DrawChars{rstuvwxyz}
+  }
+
+  \newpage
+  \eskdfont \eskdfontsize{10mm}\selectfont\bfseries
+  Шрифт типа Б
+
+  {
+    \slshape
+    \DrawChars{ABCDEFGHIJKLMN}
+    \DrawChars{OPQRSTUVWXYZ}
+    \DrawChars{abcdefghijklmnop}
+    \DrawChars{qrstuvwxyz}
+  }
+
+  {
+    \DrawChars{ABCDEFGHIJKLMN}
+    \DrawChars{OPQRSTUVWXYZ}
+    \DrawChars{abcdefghijklmnopq}
+    \DrawChars{rstuvwxyz}
+  }
+
+  \newpage
+  \eskdfont \eskdfontsize{14mm} \selectfont\mdseries
+  Раздел 5 ГОСТ 2.304-81. Шрифт типа А
+
+  {
+    \slshape
+    \DrawChars{\Alpha \Beta \Gamma \Delta \Epsilon \Zeta \Eta \Theta \Iota \Kappa \Lambda \Mu \Nu \Xi}
+    \DrawChars{\Omicron \Pi \Rho \Sigma \Tau \Upsilon \Phi \Chi \Psi \Omega}
+    \DrawChars{\alpha \beta \gamma \delta \epsilon \zeta \eta \theta \iota \kappa \lambda \mu \nu}
+    \DrawChars{\xi \omicron \pi \rho \sigma \tau \upsilon \phi \chi \psi \omega}
+  }
+
+  {
+    \DrawChars{\Alpha \Beta \Gamma \Delta \Epsilon \Zeta \Eta \Theta \Iota \Kappa \Lambda \Mu \Nu \Xi \Omicron}
+    \DrawChars{\Pi \Rho \Sigma \Tau \Upsilon \Phi \Chi \Psi \Omega}
+    \DrawChars{\alpha \beta \gamma \delta \epsilon \zeta \eta \theta \iota \kappa \lambda \mu \nu \xi \omicron}
+    \DrawChars{\pi \rho \sigma \tau \upsilon \phi \chi \psi \omega}
+  }
+
+  \newpage
+  \eskdfont \eskdfontsize{10mm}\selectfont\bfseries
+  Шрифт типа Б
+
+  {
+    \slshape
+    \DrawChars{\Alpha \Beta \Gamma \Delta \Epsilon \Zeta \Eta \Theta \Iota \Kappa \Lambda \Mu \Nu}
+    \DrawChars{\Xi \Omicron \Pi \Rho \Sigma \Tau \Upsilon \Phi \Chi \Psi \Omega}
+    \DrawChars{\alpha \beta \gamma \delta \epsilon \zeta \eta \theta \iota \kappa \lambda \mu}
+    \DrawChars{\nu \xi \omicron \pi \rho \sigma \tau \upsilon \phi \chi \psi \omega}
+  }
+
+  {
+    \DrawChars{\Alpha \Beta \Gamma \Delta \Epsilon \Zeta \Eta \Theta \Iota \Kappa \Lambda \Mu \Nu}
+    \DrawChars{\Xi \Omicron \Pi \Rho \Sigma \Tau \Upsilon \Phi \Chi \Psi \Omega}
+    \DrawChars{\alpha \beta \gamma \delta \epsilon \zeta \eta \theta \iota \kappa \lambda \mu \nu}
+    \DrawChars{\xi \omicron \pi \rho \sigma \tau \upsilon \phi \chi \psi \omega}
+  }
 
 \end{document}
