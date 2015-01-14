@@ -38,6 +38,14 @@
     Invalid~ baselineskip~ value~ ("b"~ parameter,~ GOST~2.304-81)~ "#1".~ The~ b~value~ must~be~ at~ least~ 22/14h.
   }
 
+\PassOptionsToPackage{T2A}{fontenc}
+\PassOptionsToPackage{T1}{fontenc}
+\RequirePackage{fontenc}
+\RequirePackage{cmap}
+\RequirePackage{xecyr}
+\RequirePackage{xparse}
+\RequirePackage{fontspec}
+
 \cs_new_nopar:Npn \__eskdfont_fontsizeget:n #1 {
   \clist_item:Nn \c__eskdfont_fontsizes_clist {#1}
 }
@@ -159,7 +167,7 @@
           }
             {
               \DeclareDocumentCommand ##1 {} {%
-                \__eskdfont_setfontsize:Nc ##1 {l__eskdfont_\cs_to_str:N ##1_dim}
+                \__eskdfont_setfontsize_h:Nc ##1 {l__eskdfont_\cs_to_str:N ##1_dim}
                 \selectfont
               }
             }
@@ -174,36 +182,6 @@
     }
 }
 
-\cs_new:Npn \__eskdfont_setfontsize:Nn #1#2 {%
-  \@setfontsize{#1}{#2}{ \dim_eval:n { #2 * 22 / 14 } }%
-  \ignorespaces
-}
-\cs_generate_variant:Nn \__eskdfont_setfontsize:Nn { Nc }
-
-\cs_new:Npn \__eskdfont_fontsize:n #1 {%
-  \fontsize{#1}{ \dim_eval:n { #1 * 22 / 14 } }%
-  \ignorespaces
-}
-
-\DeclareRobustCommand \eskdfontsize [1] {%
-  \__eskdfont_fontsize:n {#1}
-  \ignorespaces
-}
-
-%\DeclareRobustCommand \fontsize [2] {%
-%  \set@fontsize\baselinestretch{#1}{#2}%
-%  \dim_compare:xNxT { #2 } < { #1 * 22 / 14 } % проверяем минимальную высоту строк b
-%    { \msg_warning:nnn {gost2.304} {invalid-baselineskip} {#1:::#2} }
-%}
-
-\PassOptionsToPackage{T2A}{fontenc}
-\PassOptionsToPackage{T1}{fontenc}
-\RequirePackage{fontenc}
-\RequirePackage{cmap}
-\RequirePackage{xecyr}
-\RequirePackage{xparse}
-\RequirePackage{fontspec}
-
 % основные параметры шрифтов ГОСТ 2.304
 \defaultfontfeatures
   [eskdfont]
@@ -217,52 +195,107 @@
     AutoFakeBold = 1.4,
     AutoFakeSlant = 0.258819, % cos(75 градусов)
     %Kerning = On, % not avaliable for ttf fonts
-    Numbers = Uppercase
+    %Numbers = Uppercase, % not avaliable in mipgost.ttf
   }
 
 % определяем масштаб для шрифта
+% по сути, измеряем 1 ex, потому как собственно 1ex даёт неверную высоту буквы X (ошибки в шрифте, видимо)
+\tl_new:N \g__eskdfont_fontscale_tl
+\newfontfamily \eskdfont {eskdfont}
 \group_begin:
-  \newfontfamily \eskdfont {eskdfont}
   \dim_set:Nn \l_tmpa_dim { 40mm }
-  \hbox_set:Nn \l_tmpa_box
-    {%
-      \eskdfont
-      \fontsize \l_tmpa_dim \l_tmpa_dim \selectfont
-      НШПС%
-    }
-  \fp_new:N \g__eskdfont_fontscale_fp
-  \fp_gset:Nn \g__eskdfont_fontscale_fp { \dim_to_fp:n \l_tmpa_dim / \dim_to_fp:n { \box_ht:N \l_tmpa_box } }
+  \hbox_set:Nn \l_tmpa_box {\eskdfont \fontsize \l_tmpa_dim \l_tmpa_dim \selectfont X}
+  \tl_gset:Nx \g__eskdfont_fontscale_tl { \dim_to_decimal:n { 1pt * \dim_ratio:nn \l_tmpa_dim { \box_ht:N \l_tmpa_box } } }
 \group_end:
 
-\defaultfontfeatures+
-  [eskdfont]
-  {
-    Scale = { \fp_use:N \g__eskdfont_fontscale_fp }
-  }
+%\defaultfontfeatures+
+%  [eskdfont]
+%  {
+%    Scale = { \tl_use:N \g__eskdfont_fontscale_tl }
+%  }
 \newfontfamily \eskdfont {eskdfont}
+
+\cs_new_nopar:Npn \__eskdfont_fontsize_from_h:NN #1#2
+  {
+    \dim_set:Nn #1 { \dim_eval:n { \g__eskdfont_fontscale_tl #2 } }
+  }
+\cs_new_nopar:Npn \__eskdfont_fontsize_from_h:Nn #1#2
+  {
+    \dim_set:Nn \l_tmpa_dim {#2}
+    \__eskdfont_fontsize_from_h:NN #1 \l_tmpa_dim
+  }
 
 % ограничиваем допустимые размеры шрифтов
 \clist_set_eq:NN \l_tmpa_clist \c__eskdfont_fontsizes_clist
 \clist_pop:NN \l_tmpa_clist \l_tmpa_tl % tiny size
 % переводим 1.8mm в число в pt
-\dim_new:N \l__eskdfont_smallestsize_dim
-\dim_set:Nn \l__eskdfont_smallestsize_dim \l_tmpa_tl
+\dim_set:Nn \l_tmpa_dim \l_tmpa_tl
 % готовим список остальных допустимых размеров
 \seq_set_from_clist:NN \l_tmpa_seq \l_tmpa_clist
-\seq_set_map:NNn \l_tmpa_seq \l_tmpa_seq { { Size={ \fp_eval:n { \dim_to_fp:n { #1 } } } } }
-\seq_push:Nn \l_tmpa_seq
+\seq_clear:N \l_tmpb_seq
+\__eskdfont_fontsize_from_h:NN \l_tmpa_dim \l_tmpa_dim
+\seq_push:Nx \l_tmpb_seq
   { {
-    Size = { \fp_eval:n { \dim_to_fp:n { \l__eskdfont_smallestsize_dim } } }, % п.2.2 ГОСТ 2.304-81
+    Size = \dim_to_decimal:n \l_tmpa_dim, % п.2.2 ГОСТ 2.304-81
     %Font = *, % как для шрифта типа Б
     FakeBold = 1.4
   } }
+\seq_map_inline:Nn \l_tmpa_seq
+  {
+    \__eskdfont_fontsize_from_h:Nn \l_tmpa_dim {#1}
+    \seq_push:Nx \l_tmpb_seq
+      { { Size = \dim_to_decimal:n \l_tmpa_dim } }
+  }
 
 \defaultfontfeatures+
   [eskdfont]
   {
-    SizeFeatures={ \seq_use:Nn \l_tmpa_seq {, } }
+    SizeFeatures={ \seq_use:Nn \l_tmpb_seq {, } }
   }
 \newfontfamily \eskdfont {eskdfont}
+
+\cs_new_nopar:Npn \__eskdfont_b_from_h:n #1
+  {
+    \dim_eval:n { #1 * 22 / 14 }
+  }
+
+\cs_new_nopar:Npn \__eskdfont_setfontsize_h:Nnn #1#2#3
+  {
+    \__eskdfont_fontsize_from_h:Nn \l_tmpa_dim {#2}
+    \@setfontsize{#1}{\l_tmpa_dim}{#3}%
+    \ignorespaces
+  }
+\cs_new_nopar:Npn \__eskdfont_setfontsize_h:Nn #1#2
+  {
+    \__eskdfont_setfontsize_h:Nnn {#1}{#2}{ \__eskdfont_b_from_h:n {#2} }
+  }
+\cs_generate_variant:Nn \__eskdfont_setfontsize_h:Nn { Nc }
+
+\cs_new_nopar:Npn \eskdfont_fontsize_h:nn #1#2
+  {
+    \__eskdfont_fontsize_from_h:Nn \l_tmpa_dim {#1}
+    \fontsize{\l_tmpa_dim}{#2}%
+    \ignorespaces
+  }
+\cs_new_nopar:Npn \eskdfont_fontsize_h:n #1
+  {
+    \eskdfont_fontsize_h:nn {#1}{ \__eskdfont_b_from_h:n {#1} }
+  }
+
+% в отличии от \fontsize устанавливает не кегль шрифта, а h (ex) параметр шрифта
+\DeclareDocumentCommand \eskdfontsize {m o}
+  {
+    \IfNoValueTF{#2}
+      { \eskdfont_fontsize_h:n {#1} }
+      { \eskdfont_fontsize_h:nn {#1}{#2} }
+    \ignorespaces
+  }
+
+%\DeclareRobustCommand \fontsize [2] {%
+%  \set@fontsize\baselinestretch{#1}{#2}%
+%  \dim_compare:xNxT { #2 } < { #1 * 22 / 14 } % проверяем минимальную высоту строк b
+%    { \msg_warning:nnn {gost2.304} {invalid-baselineskip} {#1:::#2} }
+%}
 
 
 \ProcessKeysOptions { gost2.304 }

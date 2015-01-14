@@ -13,13 +13,15 @@
 \begin{document}
 
   \parindent=0pt\relax
+  \raggedright
   \papergraduate
 
   %\eskdfont
-  \tiny Tiny 999 \bfseries Tiny 999 - должны быть одинаково утолщёнными (1.8 мм - допустим только для шрифта Б)
-  \fontsize{1mm}{1mm}\selectfont И это - не 1 мм, а 1.8 мм.
+  \eskdfontsize{1.8mm}\selectfont
+  Tiny 999 \bfseries Tiny 999 - должны быть одинаково утолщёнными (1.8 мм - допустим только для шрифта Б)
+  \eskdfontsize{1mm}\selectfont И это - не 1 мм, а 1.8 мм.
 
-  \upshape\mdseries\normalsize Нормальный	
+  \normalsize\upshape\mdseries Нормальный
   \small small
   \footnotesize Footnotesize
   \scriptsize Scriptsize
@@ -29,15 +31,21 @@
   \LARGE LARGE
   \huge huge
   \Huge Huge
-
-  \fontsize{40mm}{68mm}\selectfont 40 Ш
-  \textbf{40}
+  
+  \eskdfontsize{5mm}\selectfont
+  \newlength\ldn
+  \ldn=1em 1\,em равен \the\ldn,
+  \ldn=1ex 1\,ex равен \the\ldn,
+  \ldn=5mm 5\,mm равно \the\ldn.
+  
+  \eskdfontsize{40mm}\selectfont 40
   {\slshape 40}
+  \textbf{40}
   {\slshape\bfseries 40}
 
   \NewDocumentCommand \DrawChars {m} {
     \begin{tikzpicture}
-    \papergraduate (-10mm,0mm) (160mm,20mm);
+    \papergraduate (-5mm,0mm) (160mm,20mm);
     \node at (0mm,0mm) [anchor=south west,inner sep=0pt,outer sep=0pt]
     {
       #1
@@ -173,7 +181,7 @@
   \newcounter{digit}%
   {
     \DrawChars{%
-      \setcounter{digit}{1}\Roman{digit}
+      \setcounter{digit}{1}\roman{digit}
       \setcounter{digit}{3}\Roman{digit}
       \setcounter{digit}{4}\Roman{digit}
       \setcounter{digit}{6}\Roman{digit}
