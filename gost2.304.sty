@@ -4,8 +4,6 @@
 
 \RequirePackage{expl3}
 \RequirePackage{l3keys2e}
-\RequirePackage{ifxetex}
-\RequireXeTeX
 
 \ExplSyntaxOn
 
@@ -16,27 +14,91 @@
 \clist_new:N \c__eskdfont_fontsizes_clist
 \clist_gset:Nn \c__eskdfont_fontsizes_clist {1.8mm, 2.5mm, 3.5mm, 5mm, 7mm, 10mm, 14mm, 20mm, 28mm, 40mm}
 
-\keys_define:nn { gost2.304 }
-{
-  mainfontsize .code:n =
-  {
-    \__eskdfont_normalsize_set:n {#1}
-  }
-}
+\bool_new:N \g__eskdfont_mainfontsize_bool
+\bool_gset_false:N \g__eskdfont_mainfontsize_bool
 
-\msg_new:nnn {gost2.304} {invalid-font-size}
+\dim_new:N \g__eskdfont_normalsize_dim
+\dim_new:N \g__eskdfont_small_dim
+\dim_new:N \g__eskdfont_footnotesize_dim
+\dim_new:N \g__eskdfont_scriptsize_dim
+\dim_new:N \g__eskdfont_tiny_dim
+\dim_new:N \g__eskdfont_large_dim
+\dim_new:N \g__eskdfont_Large_dim
+\dim_new:N \g__eskdfont_LARGE_dim
+\dim_new:N \g__eskdfont_huge_dim
+\dim_new:N \g__eskdfont_Huge_dim
+
+\cs_generate_variant:Nn \dim_to_decimal_in_unit:nn { cn }
+
+\msg_new:nnn { gost2.304 } { mainfont }
+  {
+    Set~ eskdfont~ as~ main~ font.
+  }
+\msg_new:nnn { gost2.304 } { invalid-font-size }
   {
     The~ font~ size~ "#1"~ is~ invalid.~
     Valid~ eskd~ font~ sizes:~ \clist_use:Nn \c__eskdfont_fontsizes_clist {,~ }.
   }
-\msg_new:nnn {gost2.304} {invalid-mainfontsize}
+\msg_new:nnn { gost2.304 } { invalid-mainfontsize }
   {
     Invalid~ "mainfontsize"~ value~ "#1".
   }
-\msg_new:nnn {gost2.304} {invalid-baselineskip}
+\msg_new:nnn { gost2.304 } { set-font-size }
+  {
+    Set~ "#1"~ font~ size~ to~ \dim_to_decimal_in_unit:cn {g__eskdfont_#1_dim} {1mm}~mm.
+  }
+\msg_new:nnn { gost2.304 } { invalid-baselineskip }
   {
     Invalid~ baselineskip~ value~ ("b"~ parameter,~ GOST~2.304-81)~ "#1".~ The~ b~value~ must~be~ at~ least~ 22/14h.
   }
+
+\keys_define:nn { gost2.304 }
+  {
+    mainfontsize .code:n =
+      {
+        \clist_if_in:NnTF \c__eskdfont_fontsizes_clist {#1}
+          {
+            \dim_gset:Nn \g__eskdfont_normalsize_dim {#1}
+            \bool_gset_true:N \g__eskdfont_mainfontsize_bool
+          }
+          { \msg_fatal:nnn { gost2.304 } {invalid-font-size} {#1} }
+      },
+    quiet .code:n =
+      {
+        \msg_redirect_module:nnn { gost2.304 } { warning } { info }
+        \msg_redirect_module:nnn { gost2.304 } { info } { none }
+      },
+    quiet .meta:n =
+      {
+        trace = off
+      },
+    silent .code:n =
+      {
+        \msg_redirect_module:nnn { gost2.304 } { warning } { none }
+        \msg_redirect_module:nnn { gost2.304 } { info } { none }
+      },
+    silent .meta:n =
+      {
+        trace = off
+      },
+    warnings-off .code:n =
+      {
+        \clist_map_inline:nn {#1}
+          { \msg_redirect_name:nnn { gost2.304 } { ##1 } { none } }
+      },
+    trace .choice:,
+    trace / on .code:n = {},
+    trace / debug .code:n =
+      {
+        \msg_redirect_module:nnn { gost2.304 } { log } { warning }
+      },
+    trace / off .code:n =
+      {
+        \msg_redirect_module:nnn { gost2.304 } { log } { none }
+      }
+  }
+
+\ProcessKeysOptions { gost2.304 }
 
 \PassOptionsToPackage{T2A}{fontenc}
 \PassOptionsToPackage{T1}{fontenc}
@@ -50,137 +112,132 @@
   \clist_item:Nn \c__eskdfont_fontsizes_clist {#1}
 }
 
-\bool_new:N \l__eskdfont_mainfontsize_bool
-
-\dim_new:N \l__eskdfont_normalsize_dim
-\dim_new:N \l__eskdfont_small_dim
-\dim_new:N \l__eskdfont_footnotesize_dim
-\dim_new:N \l__eskdfont_scriptsize_dim
-\dim_new:N \l__eskdfont_tiny_dim
-\dim_new:N \l__eskdfont_large_dim
-\dim_new:N \l__eskdfont_Large_dim
-\dim_new:N \l__eskdfont_LARGE_dim
-\dim_new:N \l__eskdfont_huge_dim
-\dim_new:N \l__eskdfont_Huge_dim
-
-\@onlypreamble \__eskdfont_normalsize_set:n
-\cs_new_nopar:Npn \__eskdfont_normalsize_set:n #1 {
-  \dim_set:Nn \l_tmpa_dim {#1}
-  \bool_set_false:N \l__eskdfont_mainfontsize_bool
-  \int_set_eq:NN \l_tmpa_int \c_zero
-  \clist_map_inline:Nn \c__eskdfont_fontsizes_clist
-    {
-      \int_incr:N \l_tmpa_int
-      \dim_compare:nNnT \l_tmpa_dim = {##1}
-        {
-          \bool_set_true:N \l__eskdfont_mainfontsize_bool
-          \clist_map_break:
-        }
-    }
-  \bool_if:NTF \l__eskdfont_mainfontsize_bool
-    {
-      \int_case:nnTF { \l_tmpa_int }
-        {
-          { 2 } % 2,5mm
-            {
-              \dim_set:Nn \l__eskdfont_tiny_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
-              \dim_set:Nn \l__eskdfont_scriptsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
-              \dim_set:Nn \l__eskdfont_footnotesize_dim { \__eskdfont_fontsizeget:n \l_tmpa_int }
-              \dim_set:Nn \l__eskdfont_small_dim    { \__eskdfont_fontsizeget:n \l_tmpa_int }
-              \dim_set:Nn \l__eskdfont_normalsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
-              \dim_set:Nn \l__eskdfont_large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 1 } } }
-              \dim_set:Nn \l__eskdfont_Large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 2 } } }
-              \dim_set:Nn \l__eskdfont_LARGE_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
-              \dim_set:Nn \l__eskdfont_huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 4 } } }
-              \dim_set:Nn \l__eskdfont_Huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 5 } } }
-            }
-          { 3 } % 3,5mm
-            {
-              \dim_set:Nn \l__eskdfont_tiny_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
-              \dim_set:Nn \l__eskdfont_scriptsize_dim   { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
-              \dim_set:Nn \l__eskdfont_footnotesize_dim { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
-              \dim_set:Nn \l__eskdfont_small_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
-              \dim_set:Nn \l__eskdfont_normalsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
-              \dim_set:Nn \l__eskdfont_large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 1 } } }
-              \dim_set:Nn \l__eskdfont_Large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 2 } } }
-              \dim_set:Nn \l__eskdfont_LARGE_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
-              \dim_set:Nn \l__eskdfont_huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 4 } } }
-              \dim_set:Nn \l__eskdfont_Huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 5 } } }
-            }
-          { 4 } % 5,0mm
-            {
-              \dim_set:Nn \l__eskdfont_tiny_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 3 } } }
-              \dim_set:Nn \l__eskdfont_scriptsize_dim   { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
-              \dim_set:Nn \l__eskdfont_footnotesize_dim { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
-              \dim_set:Nn \l__eskdfont_small_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
-              \dim_set:Nn \l__eskdfont_normalsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
-              \dim_set:Nn \l__eskdfont_large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 1 } } }
-              \dim_set:Nn \l__eskdfont_Large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 2 } } }
-              \dim_set:Nn \l__eskdfont_LARGE_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
-              \dim_set:Nn \l__eskdfont_huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 4 } } }
-              \dim_set:Nn \l__eskdfont_Huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 5 } } }
-            }
-          { 5 } % 7,0mm
-            {
-              \dim_set:Nn \l__eskdfont_tiny_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 3 } } }
-              \dim_set:Nn \l__eskdfont_scriptsize_dim   { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
-              \dim_set:Nn \l__eskdfont_footnotesize_dim { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
-              \dim_set:Nn \l__eskdfont_small_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
-              \dim_set:Nn \l__eskdfont_normalsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
-              \dim_set:Nn \l__eskdfont_large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 1 } } }
-              \dim_set:Nn \l__eskdfont_Large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 2 } } }
-              \dim_set:Nn \l__eskdfont_LARGE_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
-              \dim_set:Nn \l__eskdfont_huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 4 } } }
-              \dim_set:Nn \l__eskdfont_Huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 5 } } }
-            }
-          { 6 } % 10mm
-            {
-              \dim_set:Nn \l__eskdfont_tiny_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
-              \dim_set:Nn \l__eskdfont_scriptsize_dim   { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
-              \dim_set:Nn \l__eskdfont_footnotesize_dim { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
-              \dim_set:Nn \l__eskdfont_small_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
-              \dim_set:Nn \l__eskdfont_normalsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
-              \dim_set:Nn \l__eskdfont_large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 1 } } }
-              \dim_set:Nn \l__eskdfont_Large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 2 } } }
-              \dim_set:Nn \l__eskdfont_LARGE_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
-              \dim_set:Nn \l__eskdfont_huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 4 } } }
-              \dim_set:Nn \l__eskdfont_Huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 4 } } }
-            }
-          { 7 } % 14mm
-            {
-              \dim_set:Nn \l__eskdfont_tiny_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
-              \dim_set:Nn \l__eskdfont_scriptsize_dim   { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
-              \dim_set:Nn \l__eskdfont_footnotesize_dim { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
-              \dim_set:Nn \l__eskdfont_small_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
-              \dim_set:Nn \l__eskdfont_normalsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
-              \dim_set:Nn \l__eskdfont_large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 1 } } }
-              \dim_set:Nn \l__eskdfont_Large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 2 } } }
-              \dim_set:Nn \l__eskdfont_LARGE_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
-              \dim_set:Nn \l__eskdfont_huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
-              \dim_set:Nn \l__eskdfont_Huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
-            }
-        }
-        {
-          \clist_map_inline:nn {
-            \normalsize, \small, \footnotesize, \scriptsize, \tiny,
-            \large, \Large, \LARGE, \huge, \Huge
+\cs_new_nopar:Npn \__eskdfont_normalsize_gset:n #1
+  {
+    \dim_set:Nn \l_tmpa_dim {#1}
+    \bool_gset_false:N \g__eskdfont_mainfontsize_bool
+    \int_set_eq:NN \l_tmpa_int \c_zero
+    \clist_map_inline:Nn \c__eskdfont_fontsizes_clist
+      {
+        \int_incr:N \l_tmpa_int
+        \dim_compare:nNnT \l_tmpa_dim = {##1}
+          {
+            \bool_gset_true:N \g__eskdfont_mainfontsize_bool
+            \clist_map_break:
           }
-            {
-              \DeclareDocumentCommand ##1 {} {%
-                \__eskdfont_setfontsize_h:Nc ##1 {l__eskdfont_\cs_to_str:N ##1_dim}
-                \selectfont
+      }
+    \bool_if:NTF \g__eskdfont_mainfontsize_bool
+      {
+        \int_case:nnTF { \l_tmpa_int }
+          {
+            { 2 } % 2,5mm
+              {
+                \dim_gset:Nn \g__eskdfont_tiny_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+                \dim_gset:Nn \g__eskdfont_scriptsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
+                \dim_gset:Nn \g__eskdfont_footnotesize_dim { \__eskdfont_fontsizeget:n \l_tmpa_int }
+                \dim_gset:Nn \g__eskdfont_small_dim    { \__eskdfont_fontsizeget:n \l_tmpa_int }
+                \dim_gset:Nn \g__eskdfont_normalsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
+                \dim_gset:Nn \g__eskdfont_large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 1 } } }
+                \dim_gset:Nn \g__eskdfont_Large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 2 } } }
+                \dim_gset:Nn \g__eskdfont_LARGE_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
+                \dim_gset:Nn \g__eskdfont_huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 4 } } }
+                \dim_gset:Nn \g__eskdfont_Huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 5 } } }
               }
+            { 3 } % 3,5mm
+              {
+                \dim_gset:Nn \g__eskdfont_tiny_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
+                \dim_gset:Nn \g__eskdfont_scriptsize_dim   { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
+                \dim_gset:Nn \g__eskdfont_footnotesize_dim { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+                \dim_gset:Nn \g__eskdfont_small_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+                \dim_gset:Nn \g__eskdfont_normalsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
+                \dim_gset:Nn \g__eskdfont_large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 1 } } }
+                \dim_gset:Nn \g__eskdfont_Large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 2 } } }
+                \dim_gset:Nn \g__eskdfont_LARGE_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
+                \dim_gset:Nn \g__eskdfont_huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 4 } } }
+                \dim_gset:Nn \g__eskdfont_Huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 5 } } }
+              }
+            { 4 } % 5,0mm
+              {
+                \dim_gset:Nn \g__eskdfont_tiny_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 3 } } }
+                \dim_gset:Nn \g__eskdfont_scriptsize_dim   { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
+                \dim_gset:Nn \g__eskdfont_footnotesize_dim { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+                \dim_gset:Nn \g__eskdfont_small_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+                \dim_gset:Nn \g__eskdfont_normalsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
+                \dim_gset:Nn \g__eskdfont_large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 1 } } }
+                \dim_gset:Nn \g__eskdfont_Large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 2 } } }
+                \dim_gset:Nn \g__eskdfont_LARGE_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
+                \dim_gset:Nn \g__eskdfont_huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 4 } } }
+                \dim_gset:Nn \g__eskdfont_Huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 5 } } }
+              }
+            { 5 } % 7,0mm
+              {
+                \dim_gset:Nn \g__eskdfont_tiny_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 3 } } }
+                \dim_gset:Nn \g__eskdfont_scriptsize_dim   { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
+                \dim_gset:Nn \g__eskdfont_footnotesize_dim { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+                \dim_gset:Nn \g__eskdfont_small_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+                \dim_gset:Nn \g__eskdfont_normalsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
+                \dim_gset:Nn \g__eskdfont_large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 1 } } }
+                \dim_gset:Nn \g__eskdfont_Large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 2 } } }
+                \dim_gset:Nn \g__eskdfont_LARGE_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
+                \dim_gset:Nn \g__eskdfont_huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 4 } } }
+                \dim_gset:Nn \g__eskdfont_Huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 5 } } }
+              }
+            { 6 } % 10mm
+              {
+                \dim_gset:Nn \g__eskdfont_tiny_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
+                \dim_gset:Nn \g__eskdfont_scriptsize_dim   { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
+                \dim_gset:Nn \g__eskdfont_footnotesize_dim { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+                \dim_gset:Nn \g__eskdfont_small_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+                \dim_gset:Nn \g__eskdfont_normalsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
+                \dim_gset:Nn \g__eskdfont_large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 1 } } }
+                \dim_gset:Nn \g__eskdfont_Large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 2 } } }
+                \dim_gset:Nn \g__eskdfont_LARGE_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
+                \dim_gset:Nn \g__eskdfont_huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 4 } } }
+                \dim_gset:Nn \g__eskdfont_Huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 4 } } }
+              }
+            { 7 } % 14mm
+              {
+                \dim_gset:Nn \g__eskdfont_tiny_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
+                \dim_gset:Nn \g__eskdfont_scriptsize_dim   { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 2 } } }
+                \dim_gset:Nn \g__eskdfont_footnotesize_dim { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+                \dim_gset:Nn \g__eskdfont_small_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int - 1 } } }
+                \dim_gset:Nn \g__eskdfont_normalsize_dim   { \__eskdfont_fontsizeget:n \l_tmpa_int }
+                \dim_gset:Nn \g__eskdfont_large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 1 } } }
+                \dim_gset:Nn \g__eskdfont_Large_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 2 } } }
+                \dim_gset:Nn \g__eskdfont_LARGE_dim    { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
+                \dim_gset:Nn \g__eskdfont_huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
+                \dim_gset:Nn \g__eskdfont_Huge_dim     { \__eskdfont_fontsizeget:n { \int_eval:n { \l_tmpa_int + 3 } } }
+              }
+          }
+          {
+            \clist_map_inline:nn {
+              \normalsize, \small, \footnotesize, \scriptsize, \tiny,
+              \large, \Large, \LARGE, \huge, \Huge
             }
-          \setmainfont {eskdfont}
-        }
-        {
-          \msg_fatal:nnn {gost2.304} {invalid-mainfontsize} {#1}
-        }
-    }
-    {
-      \msg_fatal:nnn {gost2.304} {invalid-font-size} {#1}
-    }
-}
+              {
+                \DeclareDocumentCommand ##1 {} {%
+                  \__eskdfont_setfontsize_h:Nc ##1 {g__eskdfont_\cs_to_str:N ##1_dim}
+                  \selectfont
+                }
+                \msg_log:nnx { gost2.304 } { set-font-size } {\cs_to_str:N ##1}
+              }
+            \setmainfont {eskdfont}
+            \msg_log:nn { gost2.304 } { mainfont }
+          }
+          {
+            \msg_fatal:nnn { gost2.304 } { invalid-mainfontsize } {#1}
+          }
+      }
+      {
+        \msg_fatal:nnn { gost2.304 } { invalid-font-size } {#1}
+      }
+  }
+\@onlypreamble \__eskdfont_normalsize_gset:n
+\cs_new_nopar:Nn \__eskdfont_normalsize_gset:
+  {
+    \__eskdfont_normalsize_gset:n \g__eskdfont_normalsize_dim
+  }
+\@onlypreamble \__eskdfont_normalsize_gset:
 
 % основные параметры шрифтов ГОСТ 2.304
 \defaultfontfeatures
@@ -297,8 +354,8 @@
 %    { \msg_warning:nnn {gost2.304} {invalid-baselineskip} {#1:::#2} }
 %}
 
-
-\ProcessKeysOptions { gost2.304 }
-
+% устанавливаем основной шрифт и производные размеры, если указана опция mainfontsize
+\bool_if:NT \g__eskdfont_mainfontsize_bool
+  { \__eskdfont_normalsize_gset: }
 
 \ExplSyntaxOff
