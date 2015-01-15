@@ -47,10 +47,6 @@
   {
     Set~ "#1"~ font~ size~ to~ \dim_to_decimal_in_unit:cn {g__eskdfont_#1_dim} {1mm}~mm.
   }
-\msg_new:nnn { gost2.304 } { invalid-baselineskip }
-  {
-    Invalid~ baselineskip~ value~ ("b"~ parameter,~ GOST~2.304-81)~ "#1".~ The~ b~value~ must~be~ at~ least~ 22/14h.
-  }
 
 \keys_define:nn { gost2.304 }
   {
@@ -346,12 +342,6 @@
       { \eskdfont_fontsize_h:nn {#1}{#2} }
     \ignorespaces
   }
-
-%\DeclareRobustCommand \fontsize [2] {%
-%  \set@fontsize\baselinestretch{#1}{#2}%
-%  \dim_compare:xNxT { #2 } < { #1 * 22 / 14 } % проверяем минимальную высоту строк b
-%    { \msg_warning:nnn {gost2.304} {invalid-baselineskip} {#1:::#2} }
-%}
 
 % устанавливаем основной шрифт и производные размеры, если указана опция mainfontsize
 \bool_if:NT \g__eskdfont_mainfontsize_bool
