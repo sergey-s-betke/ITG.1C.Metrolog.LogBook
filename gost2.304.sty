@@ -28,6 +28,9 @@
 \dim_new:N \g__eskdfont_huge_dim
 \dim_new:N \g__eskdfont_Huge_dim
 
+\bool_new:N \g__eskdfont_romannumeral_check_bool
+\bool_gset_false:N \g__eskdfont_romannumeral_check_bool
+
 \cs_generate_variant:Nn \dim_to_decimal_in_unit:nn { cn }
 
 \msg_new:nnn { gost2.304 } { mainfont }
@@ -59,6 +62,12 @@
           }
           { \msg_fatal:nnn { gost2.304 } {invalid-font-size} {#1} }
       },
+    romannumeral .choice:,
+    romannumeral / gost2.304 .code:n =
+      { \bool_gset_true:N \g__eskdfont_romannumeral_check_bool },
+    romannumeral / tex .code:n =
+      { \bool_gset_false:N \g__eskdfont_romannumeral_check_bool },
+    romannumeral .default:n = { gost2.304 },
     quiet .code:n =
       {
         \msg_redirect_module:nnn { gost2.304 } { warning } { info }
@@ -94,6 +103,10 @@
       }
   }
 
+\ExecuteOptions
+  {
+    romannumeral=gost2.304
+  }
 \ProcessKeysOptions { gost2.304 }
 
 \PassOptionsToPackage{T2A}{fontenc}
