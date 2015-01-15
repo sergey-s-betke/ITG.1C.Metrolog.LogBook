@@ -7,6 +7,9 @@
 
 \ExplSyntaxOn
 
+% NFSS идентификатор шрифта
+\tl_const:Nn \c_eskdfont_tl {eskdfont}
+
 % ряд размеров шрифтов h по ГОСТ 2.304
 % применяемые размеры шрифта h=2,5; 3,5; 5,0; 7,0; 10,0; 14,0; 20,0; 28,0; 40,0 мм
 % п.3.3 ГОСТ 2.105-95 - высота шрифта не менее 2,5 мм
@@ -229,7 +232,7 @@
                 }
                 \msg_log:nnx { gost2.304 } { set-font-size } {\cs_to_str:N ##1}
               }
-            \setmainfont {eskdfont}
+            \setmainfont \c_eskdfont_tl
             \msg_log:nn { gost2.304 } { mainfont }
           }
           {
@@ -251,7 +254,7 @@
 \defaultfontfeatures
   [eskdfont]
   {
-    NFSSFamily = eskdfont,
+    NFSSFamily = \c_eskdfont_tl,
     Path = fonts/,
     Extension = .ttf,
     UprightFont = Mipgost,
@@ -269,7 +272,7 @@
 \tl_new:N \g__eskdfont_fontscale_tl
 \group_begin:
   \dim_set:Nn \l_tmpa_dim { 40mm }
-  \hbox_set:Nn \l_tmpa_box {\fontspec{eskdfont}\fontsize \l_tmpa_dim \l_tmpa_dim \selectfont X}
+  \hbox_set:Nn \l_tmpa_box {\fontspec\c_eskdfont_tl\fontsize \l_tmpa_dim \l_tmpa_dim \selectfont X}
   \tl_gset:Nx \g__eskdfont_fontscale_tl { \dim_to_decimal:n { 1pt * \dim_ratio:nn \l_tmpa_dim { \box_ht:N \l_tmpa_box } } }
 \group_end:
 
@@ -316,7 +319,7 @@
   {
     SizeFeatures={ \seq_use:Nn \l_tmpb_seq {, } }
   }
-\newfontfamily \eskdfont {eskdfont}
+\newfontfamily \eskdfont \c_eskdfont_tl
 
 \cs_new_nopar:Npn \__eskdfont_b_from_h:n #1
   {
@@ -360,13 +363,19 @@
   { \__eskdfont_normalsize_gset: }
 
 % опционально используем только заглавные римские цифры, как предусмотрено ГОСТ 2.304
+\cs_set_eq:NN \__eskdfont_latex__Roman:n \@Roman
 \cs_new_nopar:Npn \__eskdfont_Roman:n #1
   {
-    \@Roman{#1}
+    \__eskdfont_latex__Roman:n{#1}
   }
+\cs_set_eq:NN \__eskdfont_latex__roman:n \@roman
 \cs_new_nopar:Npn \__eskdfont_roman:n #1
   {
-    \__eskdfont_Roman:n { #1 }
+    \if_meaning:w \c_eskdfont_tl \f@family
+      \__eskdfont_Roman:n { #1 }
+    \else:
+      \__eskdfont_latex__roman:n{#1}
+    \fi:
   }
 
 \bool_if:NT \g__eskdfont_romannumeral_check_bool
