@@ -67,7 +67,7 @@
       { \bool_gset_true:N \g__eskdfont_romannumeral_check_bool },
     romannumeral / tex .code:n =
       { \bool_gset_false:N \g__eskdfont_romannumeral_check_bool },
-    romannumeral .default:n = { gost2.304 },
+    romannumeral .initial:n = { gost2.304 },
     quiet .code:n =
       {
         \msg_redirect_module:nnn { gost2.304 } { warning } { info }
@@ -92,7 +92,10 @@
           { \msg_redirect_name:nnn { gost2.304 } { ##1 } { none } }
       },
     trace .choice:,
-    trace / on .code:n = {},
+    trace / on .code:n = 
+      {
+        \msg_redirect_module:nnn { gost2.304 } { log } { log }
+      },
     trace / debug .code:n =
       {
         \msg_redirect_module:nnn { gost2.304 } { log } { warning }
@@ -103,10 +106,6 @@
       }
   }
 
-\ExecuteOptions
-  {
-    romannumeral=gost2.304
-  }
 \ProcessKeysOptions { gost2.304 }
 
 \PassOptionsToPackage{T2A}{fontenc}
@@ -359,5 +358,20 @@
 % устанавливаем основной шрифт и производные размеры, если указана опция mainfontsize
 \bool_if:NT \g__eskdfont_mainfontsize_bool
   { \__eskdfont_normalsize_gset: }
+
+% опционально используем только заглавные римские цифры, как предусмотрено ГОСТ 2.304
+\cs_new_nopar:Npn \__eskdfont_Roman:n #1
+  {
+    \@Roman{#1}
+  }
+\cs_new_nopar:Npn \__eskdfont_roman:n #1
+  {
+    \__eskdfont_Roman:n { #1 }
+  }
+
+\bool_if:NT \g__eskdfont_romannumeral_check_bool
+  {
+    \cs_set_eq:NN \@roman \__eskdfont_roman:n
+  }
 
 \ExplSyntaxOff
