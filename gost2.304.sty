@@ -243,6 +243,7 @@
 \defaultfontfeatures
   [eskdfont]
   {
+    NFSSFamily = eskdfont,
     Path = fonts/,
     Extension = .ttf,
     UprightFont = Mipgost,
@@ -258,10 +259,9 @@
 % определяем масштаб для шрифта
 % по сути, измеряем 1 ex, потому как собственно 1ex даёт неверную высоту буквы X (ошибки в шрифте, видимо)
 \tl_new:N \g__eskdfont_fontscale_tl
-\newfontfamily \eskdfont {eskdfont}
 \group_begin:
   \dim_set:Nn \l_tmpa_dim { 40mm }
-  \hbox_set:Nn \l_tmpa_box {\eskdfont \fontsize \l_tmpa_dim \l_tmpa_dim \selectfont X}
+  \hbox_set:Nn \l_tmpa_box {\fontspec{eskdfont}\fontsize \l_tmpa_dim \l_tmpa_dim \selectfont X}
   \tl_gset:Nx \g__eskdfont_fontscale_tl { \dim_to_decimal:n { 1pt * \dim_ratio:nn \l_tmpa_dim { \box_ht:N \l_tmpa_box } } }
 \group_end:
 
@@ -270,7 +270,6 @@
 %  {
 %    Scale = { \tl_use:N \g__eskdfont_fontscale_tl }
 %  }
-\newfontfamily \eskdfont {eskdfont}
 
 \cs_new_nopar:Npn \__eskdfont_fontsize_from_h:NN #1#2
   {
