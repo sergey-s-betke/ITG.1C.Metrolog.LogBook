@@ -34,7 +34,7 @@
   \papergraduate
 
   \makeatletter
-  \f@family\,\@roman{4}\, \eskdfont \f@family\,\@roman{4}
+  \f@family\,\@roman{4}\, \eskdfont \f@family\,\@roman{4}\,\@roman{6}\,\@roman{12}
 
   \eskdfontsize{1.8mm}\selectfont
   Tiny 999 \bfseries Tiny 999 - должны быть одинаково утолщёнными (1.8 мм - допустим только для шрифта Б)
@@ -208,6 +208,7 @@
       \setcounter{digit}{8}\Roman{digit}
       \setcounter{digit}{9}\Roman{digit}
     }
+    \DrawChars{\@roman{4}\,\@roman{6}\,\@roman{12}\,\@roman{2014}}
   }
   {
     \slshape
@@ -221,6 +222,7 @@
     }
   }
 
+  \newpage
   \eskdfont \eskdfontsize{10mm}\selectfont\bfseries
   Шрифт типа Б
 
@@ -240,6 +242,7 @@
       \setcounter{digit}{8}\Roman{digit}
       \setcounter{digit}{9}\Roman{digit}
     }
+    \DrawChars{\@roman{4}\,\@roman{6}\,\@roman{12}\,\@roman{2014}}
   }
   {
     \slshape

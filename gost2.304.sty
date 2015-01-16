@@ -269,22 +269,21 @@
 
 % определяем масштаб для шрифта
 % по сути, измеряем 1 ex, потому как собственно 1ex даёт неверную высоту буквы X (ошибки в шрифте, видимо)
-\tl_new:N \g__eskdfont_fontscale_tl
 \group_begin:
   \dim_set:Nn \l_tmpa_dim { 40mm }
   \hbox_set:Nn \l_tmpa_box {\fontspec\c_eskdfont_tl\fontsize \l_tmpa_dim \l_tmpa_dim \selectfont X}
-  \tl_gset:Nx \g__eskdfont_fontscale_tl { \dim_to_decimal:n { 1pt * \dim_ratio:nn \l_tmpa_dim { \box_ht:N \l_tmpa_box } } }
+  \tl_const:Nx \c__eskdfont_fontscale_tl { \dim_to_decimal:n { 1pt * \dim_ratio:nn \l_tmpa_dim { \box_ht:N \l_tmpa_box } } }
 \group_end:
 
 %\defaultfontfeatures+
 %  [eskdfont]
 %  {
-%    Scale = { \tl_use:N \g__eskdfont_fontscale_tl }
+%    Scale = { \tl_use:N \c__eskdfont_fontscale_tl }
 %  }
 
 \cs_new_nopar:Npn \__eskdfont_fontsize_from_h:NN #1#2
   {
-    \dim_set:Nn #1 { \dim_eval:n { \g__eskdfont_fontscale_tl #2 } }
+    \dim_set:Nn #1 { \dim_eval:n { \c__eskdfont_fontscale_tl #2 } }
   }
 \cs_new_nopar:Npn \__eskdfont_fontsize_from_h:Nn #1#2
   {
@@ -366,7 +365,7 @@
 \cs_new_nopar:Npn \eskdfont_int_to_Roman:n #1
   {
     \if_meaning:w \c_eskdfont_tl \f@family
-      \__eskdfont_int_to_Roman:n {#1}
+      \__eskdfont_int_to_Roman_aux:n {#1}
     \else:
       \int_to_Roman:n {#1}
     \fi:
@@ -374,14 +373,27 @@
 \cs_new_nopar:Npn \eskdfont_int_to_roman:n #1
   {
     \if_meaning:w \c_eskdfont_tl \f@family
-      \__eskdfont_int_to_Roman:n {#1}
+      \__eskdfont_int_to_Roman_aux:n {#1}
     \else:
       \int_to_roman:n {#1}
     \fi:
   }
-\cs_new_nopar:Npn \__eskdfont_int_to_Roman:n #1
+
+\tl_new:N \l__eskdfont_romannumeral_kern_tl
+
+\cs_new_nopar:Npn \__eskdfont_int_to_Roman_aux:n #1
   {
-    \int_to_Roman:n {#1}
+    \group_begin:
+      \tl_set:Nn \l__eskdfont_romannumeral_kern_tl {-0.05ex} % todo следует измерять эту величину
+      \cs_set_nopar:Npn \__int_to_Roman_i:w { \tex_kern:D \l__eskdfont_romannumeral_kern_tl I\tex_kern:D \l__eskdfont_romannumeral_kern_tl }
+      \cs_set_nopar:Npn \__int_to_Roman_v:w { \tex_kern:D \l__eskdfont_romannumeral_kern_tl V\tex_kern:D \l__eskdfont_romannumeral_kern_tl }
+      \cs_set_nopar:Npn \__int_to_Roman_x:w { \tex_kern:D \l__eskdfont_romannumeral_kern_tl X\tex_kern:D \l__eskdfont_romannumeral_kern_tl }
+      \cs_set_nopar:Npn \__int_to_Roman_l:w { \tex_kern:D \l__eskdfont_romannumeral_kern_tl L\tex_kern:D \l__eskdfont_romannumeral_kern_tl }
+      \cs_set_nopar:Npn \__int_to_Roman_c:w { \tex_kern:D \l__eskdfont_romannumeral_kern_tl C\tex_kern:D \l__eskdfont_romannumeral_kern_tl }
+      \cs_set_nopar:Npn \__int_to_Roman_d:w { \tex_kern:D \l__eskdfont_romannumeral_kern_tl D\tex_kern:D \l__eskdfont_romannumeral_kern_tl }
+      \cs_set_nopar:Npn \__int_to_Roman_m:w { \tex_kern:D \l__eskdfont_romannumeral_kern_tl M\tex_kern:D \l__eskdfont_romannumeral_kern_tl }
+      \int_to_Roman:n {#1}
+    \group_end:
   }
 
 \bool_if:NT \g__eskdfont_romannumeral_check_bool
