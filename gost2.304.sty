@@ -277,12 +277,6 @@
     { \dim_to_decimal:n { 1pt * \dim_ratio:nn { 10em } { 14ex } } }
 \group_end:
 
-%\defaultfontfeatures+
-%  [eskdfont]
-%  {
-%    Scale = { \tl_use:N \c__eskdfont_fontscale_tl }
-%  }
-
 \cs_new_nopar:Npn \__eskdfont_fontsize_from_h:NN #1#2
   {
     \dim_set:Nn #1 { \dim_eval:n { \c__eskdfont_fontscale_tl #2 } }
