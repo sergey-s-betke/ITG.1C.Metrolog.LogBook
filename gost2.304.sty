@@ -270,11 +270,11 @@
 
 % определяем масштаб для шрифта
 % 1ex = c, h = 14/10 c (или 10/7 c для шрифта типа Б)
+% 1em = кегль шрифта (\f@size)
 \group_begin:
-  \dim_set:Nn \l_tmpa_dim { 40mm }
-  \fontspec \c_eskdfont_tl \fontsize \l_tmpa_dim \l_tmpa_dim \selectfont
+  \fontspec \c_eskdfont_tl \fontsize { 100pt } { 100pt } \selectfont
   \tl_const:Nx \c__eskdfont_fontscale_tl
-    { \dim_to_decimal:n { 1pt * \dim_ratio:nn { 10\l_tmpa_dim } { 14ex } } }
+    { \dim_to_decimal:n { 1pt * \dim_ratio:nn { 10em } { 14ex } } }
 \group_end:
 
 %\defaultfontfeatures+
