@@ -383,10 +383,12 @@
     \group_begin:
       \tl_if_eq:xxTF \f@series {m}
         {
-          \dim_set:Nn \l__eskdfont_romannumeral_kern_dim {-0.104ex} % todo следует измерять эту величину
+          % 1ex = c, h = 14/10 c, d = ex / 10, kern = -d
+          \dim_set:Nn \l__eskdfont_romannumeral_kern_dim {-0.1ex}
         }
         {
-          \dim_set:Nn \l__eskdfont_romannumeral_kern_dim {-0.04ex} % todo следует измерять эту величину
+          % 1ex = c, h = 10/7 c, d = ex / 7, kern = -3ex/49
+          \dim_set:Nn \l__eskdfont_romannumeral_kern_dim {-0.0612245ex}
         }
       \cs_set_nopar:Npn \__int_to_Roman_i:w { I\tex_kern:D \l__eskdfont_romannumeral_kern_dim }
       \cs_set_nopar:Npn \__int_to_Roman_v:w { V\tex_kern:D \l__eskdfont_romannumeral_kern_dim }
