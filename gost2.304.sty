@@ -232,7 +232,7 @@
                 }
                 \msg_log:nnx { gost2.304 } { set-font-size } {\cs_to_str:N ##1}
               }
-            \setmainfont \c_eskdfont_tl
+            \normalsize\setmainfont \c_eskdfont_tl
             \msg_log:nn { gost2.304 } { mainfont }
           }
           {
@@ -251,21 +251,40 @@
 \@onlypreamble \__eskdfont_normalsize_gset:
 
 % основные параметры шрифтов ГОСТ 2.304
-\tl_const:Nn \c__eskdfont_db_divide_da_tl { \fp_to_decimal:n { \fp_eval:n { 10 / 7 } } }
+\tl_const:Nn \c__eskdfont_type_A_tl { OpenGost~Type~A~TT }
+\tl_const:Nn \c__eskdfont_type_B_tl { OpenGost~Type~B~TT }
+%\tl_const:Nn \c__eskdfont_db_divide_da_tl { \fp_to_decimal:n { \fp_eval:n { 10 / 7 } } }
+\tl_new:N \g__eskdfont_type_B_scale_tl
+\tl_gset:Nn \g__eskdfont_type_B_scale_tl { 1 } % { MatchUppercase }
+\tl_const:Nn \c__eskdfont_slant_tl { 0.258819 } % cos 75 градусов
 \defaultfontfeatures
   [eskdfont]
   {
     NFSSFamily = \c_eskdfont_tl,
     Path = fonts/,
     Extension = .ttf,
-    UprightFont = Mipgost,
+    UprightFont = \c__eskdfont_type_A_tl,
     OpticalSize = 0,
     Mapping = tex-text,
     Scale = 1,
-    AutoFakeBold = \c__eskdfont_db_divide_da_tl,
-    AutoFakeSlant = 0.258819, % cos(75 градусов)
+    SlantedFeatures =
+      {
+        Font = \c__eskdfont_type_A_tl,
+        FakeSlant = \c__eskdfont_slant_tl
+      },
+    BoldFeatures =
+      {
+        Font = \c__eskdfont_type_B_tl,
+        Scale = \g__eskdfont_type_B_scale_tl
+      },
+    BoldSlantedFeatures =
+      {
+        Font = \c__eskdfont_type_B_tl,
+        FakeSlant = \c__eskdfont_slant_tl,
+        Scale = \g__eskdfont_type_B_scale_tl
+      }
     %Kerning = On, % not avaliable for ttf fonts
-    %Numbers = Uppercase, % not avaliable in mipgost.ttf
+    %Numbers = Uppercase, % not avaliable in font
   }
 
 % определяем масштаб для шрифта
@@ -275,6 +294,10 @@
   \fontspec \c_eskdfont_tl \fontsize { 100pt } { 100pt } \selectfont
   \tl_const:Nx \c__eskdfont_fontscale_tl
     { \dim_to_decimal:n { 1pt * \dim_ratio:nn { 10em } { 14ex } } }
+  \dim_set:Nn \l_tmpa_dim {1ex}
+  \bfseries
+  \tl_gset:Nx \g__eskdfont_type_B_scale_tl
+    { \dim_to_decimal:n { 1pt * \dim_ratio:nn \l_tmpa_dim { 1ex } } }
 \group_end:
 
 \cs_new_nopar:Npn \__eskdfont_fontsize_from_h:NN #1#2
@@ -299,8 +322,8 @@
 \seq_push:Nx \l_tmpb_seq
   { {
     Size = \dim_to_decimal:n \l_tmpa_dim, % п.2.2 ГОСТ 2.304-81
-    %Font = *, % как для шрифта типа Б
-    FakeBold = \c__eskdfont_db_divide_da_tl
+    Font = \c__eskdfont_type_B_tl,
+    Scale = \g__eskdfont_type_B_scale_tl
   } }
 \seq_map_inline:Nn \l_tmpa_seq
   {
@@ -383,12 +406,12 @@
     \group_begin:
       \tl_if_eq:xxTF \f@series {m}
         {
-          % 1ex = c, h = 14/10 c, d = ex / 10, kern = -d
+          % 1ex = c, h = 14/10 c, d = ex / 10, kern = -d = -1/10 ex
           \dim_set:Nn \l__eskdfont_romannumeral_kern_dim {-0.1ex}
         }
         {
-          % 1ex = c, h = 10/7 c, d = ex / 7, kern = -3ex/49
-          \dim_set:Nn \l__eskdfont_romannumeral_kern_dim {-0.0612245ex}
+          % 1ex = c, h = 10/7 c, d = ex / 7, kern = -d = -1/7 ex
+          \dim_set:Nn \l__eskdfont_romannumeral_kern_dim {-0,142857ex}
         }
       \cs_set_nopar:Npn \__int_to_Roman_i:w { I\tex_kern:D \l__eskdfont_romannumeral_kern_dim }
       \cs_set_nopar:Npn \__int_to_Roman_v:w { V\tex_kern:D \l__eskdfont_romannumeral_kern_dim }
