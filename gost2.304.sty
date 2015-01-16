@@ -363,24 +363,31 @@
   { \__eskdfont_normalsize_gset: }
 
 % опционально используем только заглавные римские цифры, как предусмотрено ГОСТ 2.304
-\cs_set_eq:NN \__eskdfont_latex__Roman:n \@Roman
-\cs_new_nopar:Npn \__eskdfont_Roman:n #1
-  {
-    \__eskdfont_latex__Roman:n{#1}
-  }
-\cs_set_eq:NN \__eskdfont_latex__roman:n \@roman
-\cs_new_nopar:Npn \__eskdfont_roman:n #1
+\cs_new_nopar:Npn \eskdfont_int_to_Roman:n #1
   {
     \if_meaning:w \c_eskdfont_tl \f@family
-      \__eskdfont_Roman:n { #1 }
+      \__eskdfont_int_to_Roman:n {#1}
     \else:
-      \__eskdfont_latex__roman:n{#1}
+      \int_to_Roman:n {#1}
     \fi:
+  }
+\cs_new_nopar:Npn \eskdfont_int_to_roman:n #1
+  {
+    \if_meaning:w \c_eskdfont_tl \f@family
+      \__eskdfont_int_to_Roman:n {#1}
+    \else:
+      \int_to_roman:n {#1}
+    \fi:
+  }
+\cs_new_nopar:Npn \__eskdfont_int_to_Roman:n #1
+  {
+    \int_to_Roman:n {#1}
   }
 
 \bool_if:NT \g__eskdfont_romannumeral_check_bool
   {
-    \cs_set_eq:NN \@roman \__eskdfont_roman:n
+    \cs_set_eq:NN \@roman \eskdfont_int_to_roman:n
+    \cs_set_eq:NN \@Roman \eskdfont_int_to_Roman:n
   }
 
 \ExplSyntaxOff
