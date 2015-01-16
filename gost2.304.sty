@@ -379,20 +379,28 @@
     \fi:
   }
 
-\tl_new:N \l__eskdfont_romannumeral_kern_tl
+\dim_new:N \l__eskdfont_romannumeral_kern_dim
 
+\cs_generate_variant:Nn \tl_if_eq:nnTF {xx}
 \cs_new_nopar:Npn \__eskdfont_int_to_Roman_aux:n #1
   {
     \group_begin:
-      \tl_set:Nn \l__eskdfont_romannumeral_kern_tl {-0.05ex} % todo следует измерять эту величину
-      \cs_set_nopar:Npn \__int_to_Roman_i:w { \tex_kern:D \l__eskdfont_romannumeral_kern_tl I\tex_kern:D \l__eskdfont_romannumeral_kern_tl }
-      \cs_set_nopar:Npn \__int_to_Roman_v:w { \tex_kern:D \l__eskdfont_romannumeral_kern_tl V\tex_kern:D \l__eskdfont_romannumeral_kern_tl }
-      \cs_set_nopar:Npn \__int_to_Roman_x:w { \tex_kern:D \l__eskdfont_romannumeral_kern_tl X\tex_kern:D \l__eskdfont_romannumeral_kern_tl }
-      \cs_set_nopar:Npn \__int_to_Roman_l:w { \tex_kern:D \l__eskdfont_romannumeral_kern_tl L\tex_kern:D \l__eskdfont_romannumeral_kern_tl }
-      \cs_set_nopar:Npn \__int_to_Roman_c:w { \tex_kern:D \l__eskdfont_romannumeral_kern_tl C\tex_kern:D \l__eskdfont_romannumeral_kern_tl }
-      \cs_set_nopar:Npn \__int_to_Roman_d:w { \tex_kern:D \l__eskdfont_romannumeral_kern_tl D\tex_kern:D \l__eskdfont_romannumeral_kern_tl }
-      \cs_set_nopar:Npn \__int_to_Roman_m:w { \tex_kern:D \l__eskdfont_romannumeral_kern_tl M\tex_kern:D \l__eskdfont_romannumeral_kern_tl }
+      \tl_if_eq:xxTF \f@series {m}
+        {
+          \dim_set:Nn \l__eskdfont_romannumeral_kern_dim {-0.104ex} % todo следует измерять эту величину
+        }
+        {
+          \dim_set:Nn \l__eskdfont_romannumeral_kern_dim {-0.04ex} % todo следует измерять эту величину
+        }
+      \cs_set_nopar:Npn \__int_to_Roman_i:w { I\tex_kern:D \l__eskdfont_romannumeral_kern_dim }
+      \cs_set_nopar:Npn \__int_to_Roman_v:w { V\tex_kern:D \l__eskdfont_romannumeral_kern_dim }
+      \cs_set_nopar:Npn \__int_to_Roman_x:w { X\tex_kern:D \l__eskdfont_romannumeral_kern_dim }
+      \cs_set_nopar:Npn \__int_to_Roman_l:w { L\tex_kern:D \l__eskdfont_romannumeral_kern_dim }
+      \cs_set_nopar:Npn \__int_to_Roman_c:w { C\tex_kern:D \l__eskdfont_romannumeral_kern_dim }
+      \cs_set_nopar:Npn \__int_to_Roman_d:w { D\tex_kern:D \l__eskdfont_romannumeral_kern_dim }
+      \cs_set_nopar:Npn \__int_to_Roman_m:w { M\tex_kern:D \l__eskdfont_romannumeral_kern_dim }
       \int_to_Roman:n {#1}
+      \tex_kern:D -\l__eskdfont_romannumeral_kern_dim
     \group_end:
   }
 
