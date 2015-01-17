@@ -33,6 +33,8 @@
 
 \bool_new:N \g__eskdfont_romannumeral_check_bool
 \bool_gset_false:N \g__eskdfont_romannumeral_check_bool
+\bool_new:N \g__eskdfont_math_support_bool
+\bool_gset_false:N \g__eskdfont_math_support_bool
 
 \cs_generate_variant:Nn \dim_to_decimal_in_unit:nn { cn }
 
@@ -71,6 +73,13 @@
     romannumeral / tex .code:n =
       { \bool_gset_false:N \g__eskdfont_romannumeral_check_bool },
     romannumeral .initial:n = { gost2.304 },
+    math .bool_gset:N = \g__eskdfont_math_support_bool,
+    math .default:n = true,
+    math .initial:n = true,
+    no-math .meta:n =
+      {
+        math = false
+      },
     quiet .code:n =
       {
         \msg_redirect_module:nnn { gost2.304 } { warning } { info }
@@ -429,6 +438,28 @@
   {
     \cs_set_eq:NN \@roman \eskdfont_int_to_roman:n
     \cs_set_eq:NN \@Roman \eskdfont_int_to_Roman:n
+  }
+
+% опционально заменяем математические шрифты
+\bool_if:NT \g__eskdfont_math_support_bool
+  {
+    \RequirePackage{unicode-math}
+
+    \setmathfont
+      [
+        range = {\mathit,\mathup,\mathbin,\mathcal,\mathbfcal,\mathscr},
+        math-style = TeX,
+        Path = fonts/,
+        Extension = .ttf,
+        UprightFont = OpenGost~Type~A~TT,
+        %FakeBold = 1.4
+      ]
+      {OpenGost~Type~A~TT}
+    %\setmathfont[range={\mathit/{greek,Greek,latin,Latin,num,misc},\mathup,\mathbin,\mathcal,\mathbfcal,\mathscr}]{Mipgost}
+    %\setmathfont{eskdfont}
+    %\setmathfont[range={\mathit}]{eskdfont}
+    %\setmathfont[range={\mathup}]{eskdfont}
+    %\setmathfont[range={\mathbin}]{eskdfont}
   }
 
 \ExplSyntaxOff
