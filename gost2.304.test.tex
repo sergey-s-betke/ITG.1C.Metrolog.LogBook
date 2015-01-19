@@ -8,6 +8,8 @@
 \usepackage{tikz}
 \usepackage{interfaces-tikz}
 \usepackage[a4 paper, portrait, tmargin=10mm, bmargin=10mm, inner=20mm, outer=20mm, headheight=0mm, headsep=0mm, footskip=0mm]{geometry}
+%\usepackage{unicode-math}
+
 
 \begin{document}
 
@@ -20,7 +22,9 @@
 
   \eskdfontsize{1.8mm}\selectfont
   Tiny 999 \bfseries Tiny 999 - должны быть одинаково утолщёнными (1.8 мм - допустим только для шрифта Б \f@series)
+  f@size=\f@size.\,
   \eskdfontsize{1mm}\selectfont И это - не 1 мм, а 1.8 мм.
+  f@size=\f@size.
 
   \normalsize\upshape\mdseries Нормальный
   \small small
@@ -135,7 +139,7 @@
   \eskdfont \eskdfontsize{14mm} \selectfont\mdseries
   Раздел 5 ГОСТ 2.304-81. Шрифт типа А
 
-  {
+  \def\z{
     \slshape
     \DrawChars{\Alpha \Beta \Gamma \Delta \Epsilon \Zeta \Eta \Theta \Iota \Kappa \Lambda \Mu \Nu \Xi}
     \DrawChars{\Omicron \Pi \Rho \Sigma \Tau \Upsilon \Phi \Chi \Psi \Omega}
@@ -143,7 +147,7 @@
     \DrawChars{\xi \omicron \pi \rho \sigma \tau \upsilon \phi \chi \psi \omega}
   }
 
-  {
+  \def\z{
     \DrawChars{\Alpha \Beta \Gamma \Delta \Epsilon \Zeta \Eta \Theta \Iota \Kappa \Lambda \Mu \Nu \Xi \Omicron}
     \DrawChars{\Pi \Rho \Sigma \Tau \Upsilon \Phi \Chi \Psi \Omega}
     \DrawChars{\alpha \beta \gamma \delta \epsilon \zeta \eta \theta \iota \kappa \lambda \mu \nu \xi \omicron}
@@ -154,7 +158,7 @@
   \eskdfont \eskdfontsize{10mm}\selectfont\bfseries
   Шрифт типа Б
 
-  {
+  \def\z{
     \slshape
     \DrawChars{\Alpha \Beta \Gamma \Delta \Epsilon \Zeta \Eta \Theta \Iota \Kappa \Lambda \Mu \Nu}
     \DrawChars{\Xi \Omicron \Pi \Rho \Sigma \Tau \Upsilon \Phi \Chi \Psi \Omega}
@@ -162,7 +166,7 @@
     \DrawChars{\nu \xi \omicron \pi \rho \sigma \tau \upsilon \phi \chi \psi \omega}
   }
 
-  {
+  \def\z{
     \DrawChars{\Alpha \Beta \Gamma \Delta \Epsilon \Zeta \Eta \Theta \Iota \Kappa \Lambda \Mu \Nu}
     \DrawChars{\Xi \Omicron \Pi \Rho \Sigma \Tau \Upsilon \Phi \Chi \Psi \Omega}
     \DrawChars{\alpha \beta \gamma \delta \epsilon \zeta \eta \theta \iota \kappa \lambda \mu \nu}
@@ -243,12 +247,21 @@
   Раздел 8 ГОСТ 2.304-81. Степени и дроби
 
   \papergraduate
-  %\setmathfont{eskdfont}
-  $m = \frac{m_0}{\sqrt{1-\frac{v^2}{c^2}}}\times 2 \times 10^{23}$
+  \mathversion{eskd}
 
-  \begin{eqnarray}
-    E &=& mc^2\\
-    m &=& \frac{m_0}{\sqrt{1-\frac{v^2}{c^2}}}\times 2 \cdot 10^{23}
-  \end{eqnarray}
+  f@size=\f@size,
+  %\@tempdima=10mm\relax10 mm=\the\@tempdima\,
+  \@ifundefined{S@\f@size}
+    {math size doesn't definded.}
+    {math size definded.}
+
+  $m = 1$
+
+%  $m = \frac{m_0}{\sqrt{1-\frac{v^2}{c^2}}}\times 2 \times 10^{23}$
+
+%  \begin{eqnarray}
+%    E &=& mc^2\\
+%    m &=& \frac{m_0}{\sqrt{1-\frac{v^2}{c^2}}}\times 2 \cdot 10^{23}
+%  \end{eqnarray}
 
 \end{document}
