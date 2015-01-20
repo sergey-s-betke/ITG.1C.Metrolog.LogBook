@@ -475,7 +475,7 @@
     \DeclareSymbolFont {numbers}             \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
     \SetSymbolFont     {numbers}      {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
     \int_step_inline:nnnn { 0 } { 1 } { 9 }
-      { \DeclareMathSymbol { ##1 } {\mathalpha} {numbers} {`##1} }
+      { \DeclareMathSymbol {##1} {\mathalpha} {numbers} {`##1} }
     \DeclareMathSymbol {,} {\mathpunct} {numbers} {`,}
 
     \SetSymbolFont     {letters}      {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \sldefault
@@ -496,10 +496,22 @@
     \SetMathAlphabet   \mathit        {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \sldefault
     \SetMathAlphabet   \mathtt        {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
     
+    % определяем допустимые размеры шрифтов для формул
+    \dim_new:N \l__eskdfont_mathscriptsize_dim
+    \dim_new:N \l__eskdfont_mathsubscriptsize_dim
+    \clist_get:NN \l_tmpa_tl \c__eskdfont_fontsizes_clist
+    \__eskdfont_fontsize_from_h:Nn \l__eskdfont_mathscriptsize_dim { \l_tmpa_tl }
+    \dim_set_eq:NN \l__eskdfont_mathsubscriptsize_dim \l__eskdfont_mathscriptsize_dim
     \clist_map_inline:Nn \c__eskdfont_fontsizes_clist
       {
         \__eskdfont_fontsize_from_h:Nn \l_tmpa_dim {##1}
-        \__eskdfont_declare_math_sizes:nnnn \l_tmpa_dim \l_tmpa_dim \l_tmpa_dim \l_tmpa_dim
+        \__eskdfont_declare_math_sizes:nnnn
+          \l_tmpa_dim
+          \l_tmpa_dim
+          \l__eskdfont_mathscriptsize_dim
+          \l__eskdfont_mathsubscriptsize_dim
+        \dim_set_eq:NN \l__eskdfont_mathsubscriptsize_dim \l__eskdfont_mathscriptsize_dim
+        \dim_set_eq:NN \l__eskdfont_mathscriptsize_dim \l_tmpa_dim
       }
   }
 
