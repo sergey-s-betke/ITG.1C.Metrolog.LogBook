@@ -136,11 +136,12 @@
 \RequirePackage{xparse}
 \RequirePackage{fontspec}
 
-\cs_new_nopar:Npn \__eskdfont_fontsizeget:n #1 {
-  \clist_item:Nn \c__eskdfont_fontsizes_clist {#1}
-}
+\cs_new_nopar:Nn \__eskdfont_fontsizeget:n
+  {
+    \clist_item:Nn \c__eskdfont_fontsizes_clist {#1}
+  }
 
-\cs_new_nopar:Npn \__eskdfont_normalsize_gset:n #1
+\cs_new_nopar:Nn \__eskdfont_normalsize_gset:n
   {
     \dim_set:Nn \l_tmpa_dim {#1}
     \bool_gset_false:N \g__eskdfont_mainfontsize_bool
@@ -317,11 +318,11 @@
     { \dim_to_decimal:n { 1pt * \dim_ratio:nn \l_tmpa_dim { 1ex } } }
 \group_end:
 
-\cs_new_nopar:Npn \__eskdfont_fontsize_from_h:NN #1#2
+\cs_new_nopar:Nn \__eskdfont_fontsize_from_h:NN
   {
     \dim_set:Nn #1 { \dim_eval:n { \c__eskdfont_fontscale_tl #2 } }
   }
-\cs_new_nopar:Npn \__eskdfont_fontsize_from_h:Nn #1#2
+\cs_new_nopar:Nn \__eskdfont_fontsize_from_h:Nn
   {
     \dim_set:Nn \l_tmpa_dim {#2}
     \__eskdfont_fontsize_from_h:NN #1 \l_tmpa_dim
@@ -356,30 +357,30 @@
   }
 \newfontfamily \eskdfont \c_eskdfont_tl
 
-\cs_new_nopar:Npn \__eskdfont_b_from_h:n #1
+\cs_new_nopar:Nn \__eskdfont_b_from_h:n
   {
     \dim_eval:n { #1 * 22 / 14 }
   }
 
-\cs_new_nopar:Npn \__eskdfont_setfontsize_h:Nnn #1#2#3
+\cs_new_nopar:Nn \__eskdfont_setfontsize_h:Nnn
   {
     \__eskdfont_fontsize_from_h:Nn \l_tmpa_dim {#2}
     \@setfontsize{#1}{\l_tmpa_dim}{#3}%
     \ignorespaces
   }
-\cs_new_nopar:Npn \__eskdfont_setfontsize_h:Nn #1#2
+\cs_new_nopar:Nn \__eskdfont_setfontsize_h:Nn
   {
     \__eskdfont_setfontsize_h:Nnn {#1}{#2}{ \__eskdfont_b_from_h:n {#2} }
   }
 \cs_generate_variant:Nn \__eskdfont_setfontsize_h:Nn { Nc }
 
-\cs_new_nopar:Npn \eskdfont_fontsize_h:nn #1#2
+\cs_new_nopar:Nn \eskdfont_fontsize_h:nn
   {
     \__eskdfont_fontsize_from_h:Nn \l_tmpa_dim {#1}
     \fontsize{\l_tmpa_dim}{#2}%
     \ignorespaces
   }
-\cs_new_nopar:Npn \eskdfont_fontsize_h:n #1
+\cs_new_nopar:Nn \eskdfont_fontsize_h:n
   {
     \eskdfont_fontsize_h:nn {#1}{ \__eskdfont_b_from_h:n {#1} }
   }
@@ -398,7 +399,7 @@
   { \__eskdfont_normalsize_gset: }
 
 % опционально используем только заглавные римские цифры, как предусмотрено ГОСТ 2.304
-\cs_new_nopar:Npn \eskdfont_int_to_Roman:n #1
+\cs_new_nopar:Nn \eskdfont_int_to_Roman:n
   {
     \if_meaning:w \c_eskdfont_tl \f@family
       \__eskdfont_int_to_Roman_aux:n {#1}
@@ -406,7 +407,7 @@
       \int_to_Roman:n {#1}
     \fi:
   }
-\cs_new_nopar:Npn \eskdfont_int_to_roman:n #1
+\cs_new_nopar:Nn \eskdfont_int_to_roman:n
   {
     \if_meaning:w \c_eskdfont_tl \f@family
       \__eskdfont_int_to_Roman_aux:n {#1}
@@ -418,7 +419,7 @@
 \dim_new:N \l__eskdfont_romannumeral_kern_dim
 
 \cs_generate_variant:Nn \tl_if_eq:nnTF {xx}
-\cs_new_nopar:Npn \__eskdfont_int_to_Roman_aux:n #1
+\cs_new_nopar:Nn \__eskdfont_int_to_Roman_aux:n
   {
     \group_begin:
       \tl_if_eq:xxTF \f@series {m}
@@ -459,7 +460,7 @@
 %  \fontspec_set_family:cnn { g__eskdfont_family_OML } {} \c_eskdfont_tl
 %\group_end:
 
-\cs_new:Npn \__eskdfont_declare_math_sizes:nnnn #1#2#3#4
+\cs_new:Nn \__eskdfont_declare_math_sizes:nnnn
   {
     \DeclareMathSizes
       { \dim_to_decimal:n {#1} }
