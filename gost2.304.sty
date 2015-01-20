@@ -490,20 +490,23 @@
       }
   }
 
-\cs_new:Nn \eskdfont_setup_math:
+% переопределяем шрифты цифр
+\cs_new:Nn \__eskdfont_numbers_font_set:
   {
-    \DeclareMathVersion {eskd}
-
-    \DeclareSymbolFont {numbers}             \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
-    \SetSymbolFont     {numbers}      {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+    \DeclareSymbolFont {numbers}        \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+    \SetSymbolFont     {numbers} {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
     \int_step_inline:nnnn { 0 } { 1 } { 9 }
       { \DeclareMathSymbol {##1} {\mathalpha} {numbers} {`##1} }
     \DeclareMathSymbol {,} {\mathpunct} {numbers} {`,}
+  }
 
+\cs_new:Nn \eskdfont_setup_math:
+  {
+    \DeclareMathVersion {eskd}
+    \__eskdfont_numbers_font_set:
     \SetSymbolFont     {letters}      {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \sldefault
-
     \SetSymbolFont     {operators}    {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
-
+    
     %\SetSymbolFont     {symbols}      {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
     %\SetSymbolFont     {largesymbols} {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
 
