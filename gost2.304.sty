@@ -72,11 +72,15 @@
     romannumeral / tex .code:n =
       { \bool_gset_false:N \g__eskdfont_romannumeral_check_bool },
     romannumeral .initial:n = { gost2.304 },
-    math .code:n.bool_gset:N = \g__eskdfont_math_support_bool,
-    math .code:n =
+    math .choice:,
+    math / true .code:n =
       {
-        \bool_if:NT \g__eskdfont_math_support_bool
-          { \PassOptionsToClass {math} {fontspec} }
+        \bool_gset_true:N \g__eskdfont_math_support_bool
+        \PassOptionsToClass {no-math} {fontspec}
+      },
+    math / false .code:n =
+      {
+        \bool_gset_false:N \g__eskdfont_math_support_bool
       },
     math .default:n = true,
     math .initial:n = true,
@@ -445,17 +449,15 @@
   }
 
 % опционально заменяем математические шрифты
-\DeclareMathVersion {eskd}
-
-\SetSymbolFont   {operators}    {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
-\SetSymbolFont   {letters}      {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \sldefault
-%\SetSymbolFont   {symbols}      {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
-%\SetSymbolFont   {largesymbols} {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
-
-\SetMathAlphabet \mathbf        {eskd} \g_fontspec_encoding_tl {eskdfont} \bfdefault \updefault
-\SetMathAlphabet \mathsf        {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
-\SetMathAlphabet \mathit        {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \sldefault
-\SetMathAlphabet \mathtt        {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+%\group_begin:
+%  \clist_map_inline:nn { OT1, OML, OMS, OMX }
+%    {
+%      \tl_set:Nn \g_fontspec_encoding_tl {#1}
+%      \fontspec_set_family:cnn { g__eskdfont_family_#1 } {} \c_eskdfont_tl
+%    }
+%  \tl_set:Nn \g_fontspec_encoding_tl {OML}
+%  \fontspec_set_family:cnn { g__eskdfont_family_OML } {} \c_eskdfont_tl
+%\group_end:
 
 \cs_new:Npn \__eskdfont_declare_math_sizes:nnnn #1#2#3#4
   {
@@ -466,44 +468,44 @@
       { \dim_to_decimal:n {#4} }
   }
 
-\group_begin:
-  \clist_map_inline:Nn \c__eskdfont_fontsizes_clist
-    {
-      \__eskdfont_fontsize_from_h:Nn \l_tmpa_dim {#1}
-      \__eskdfont_declare_math_sizes:nnnn \l_tmpa_dim \l_tmpa_dim \l_tmpa_dim \l_tmpa_dim
-    }
-\group_end:
-
-%\DeclareSymbolFont{operators}   {OT1}{cmr} {m}{n}
-%\DeclareSymbolFont{letters}     {OML}{cmm} {m}{it}
-%\DeclareSymbolFont{symbols}     {OMS}{cmsy}{m}{n}
-%\DeclareSymbolFont{largesymbols}{OMX}{cmex}{m}{n}
-%\DeclareMathAlphabet      {\mathbf}{OT1}{cmr}{bx}{n}
-%\DeclareMathAlphabet      {\mathsf}{OT1}{cmss}{m}{n}
-%\DeclareMathAlphabet      {\mathit}{OT1}{cmr}{m}{it}
-%\DeclareMathAlphabet      {\mathtt}{OT1}{cmtt}{m}{n}
-
-%\setmathfont[range={\mathit/{greek,Greek,latin,Latin,num,misc},\mathup,\mathbin,\mathcal,\mathbfcal,\mathscr}]{Mipgost}
-%\setmathfont{eskdfont}
-%\setmathfont[range={\mathit}]{eskdfont}
-%\setmathfont[range={\mathup}]{eskdfont}
-%\setmathfont[range={\mathbin}]{eskdfont}
-
-\bool_if:NT \g__eskdfont_math_support_bool
+\cs_new:Nn \eskdfont_setup_math:
   {
-%    \RequirePackage{unicode-math}
+    \DeclareMathVersion {eskd}
 
-%    \setmathfont
-%      [
-%        range = {\mathit,\mathup,\mathbin,\mathcal,\mathbfcal,\mathscr},
-%        math-style = TeX,
-%        bold-style = TeX,
-%        Path = fonts/,
-%        Extension = .ttf,
-%        UprightFont = OpenGost~Type~A~TT,
-%      ]
-%      {OpenGost~Type~A~TT}
+    \DeclareSymbolFont {numbers}             \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+    \SetSymbolFont     {numbers}      {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+    \int_step_inline:nnnn { 0 } { 1 } { 9 }
+      { \DeclareMathSymbol { ##1 } {\mathalpha} {numbers} {`##1} }
 
+    \SetSymbolFont     {letters}      {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \sldefault
+
+    \SetSymbolFont     {operators}    {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+
+    %\SetSymbolFont     {symbols}      {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+    %\SetSymbolFont     {largesymbols} {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+
+    %\SetSymbolFont     {operators}    {eskd} {OT1} {eskdfont} \mddefault \updefault
+    %\SetSymbolFont     {letters}      {eskd} {OML} {eskdfont} \mddefault \sldefault
+    %\SetSymbolFont     {symbols}      {eskd} {OMS} {eskdfont} \mddefault \updefault
+    %\SetSymbolFont     {largesymbols} {eskd} {OMX} {eskdfont} \mddefault \updefault
+    %\SetSymbolFont     {numbers}      {eskd} {OT1} {eskdfont} \mddefault \sldefault
+    
+    \SetMathAlphabet   \mathbf        {eskd} \g_fontspec_encoding_tl {eskdfont} \bfdefault \updefault
+    \SetMathAlphabet   \mathsf        {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+    \SetMathAlphabet   \mathit        {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \sldefault
+    \SetMathAlphabet   \mathtt        {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+    
+    \clist_map_inline:Nn \c__eskdfont_fontsizes_clist
+      {
+        \__eskdfont_fontsize_from_h:Nn \l_tmpa_dim {##1}
+        \__eskdfont_declare_math_sizes:nnnn \l_tmpa_dim \l_tmpa_dim \l_tmpa_dim \l_tmpa_dim
+      }
+  }
+
+\AtBeginDocument
+  {
+    \bool_if:NT \g__eskdfont_math_support_bool
+      { \eskdfont_setup_math: }
   }
 
 \ExplSyntaxOff
