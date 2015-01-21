@@ -450,16 +450,6 @@
   }
 
 % опционально заменяем математические шрифты
-%\group_begin:
-%  \clist_map_inline:nn { OT1, OML, OMS, OMX }
-%    {
-%      \tl_set:Nn \g_fontspec_encoding_tl {#1}
-%      \fontspec_set_family:cnn { g__eskdfont_family_#1 } {} \c_eskdfont_tl
-%    }
-%  \tl_set:Nn \g_fontspec_encoding_tl {OML}
-%  \fontspec_set_family:cnn { g__eskdfont_family_OML } {} \c_eskdfont_tl
-%\group_end:
-
 \cs_new:Nn \__eskdfont_declare_math_sizes:nnnn
   {
     \DeclareMathSizes
@@ -532,7 +522,7 @@
   {
     \SetSymbolFont {operators} {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
 
-    \__eskdfont_math_symbol_declare:nNnn {*} \mathbin {operators} {`*}
+    \__eskdfont_math_symbol_declare:nNnn {*} \mathbin {operators} {\cdot}
     \__eskdfont_math_symbol_declare:nNnn {+} \mathbin {operators} {`+}
     \__eskdfont_math_symbol_declare:nNnn {-} \mathbin {operators} {`-}
 
