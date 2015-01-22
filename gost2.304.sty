@@ -135,6 +135,7 @@
 \RequirePackage{xecyr}
 \RequirePackage{xparse}
 \RequirePackage{fontspec}
+\RequirePackage{unicode-math}
 
 \cs_new_nopar:Nn \__eskdfont_fontsizeget:n
   {
@@ -450,6 +451,14 @@
   }
 
 % опционально заменяем математические шрифты
+%\group_begin: 
+%  \clist_map_inline:nn { OT1, OML, OMS, OMX } 
+%    { 
+%      \tl_set:Nn \g_fontspec_encoding_tl {#1} 
+%      \fontspec_set_family:cnn { g__eskdfont_family_#1 } {} \c_eskdfont_tl 
+%    } 
+%\group_end: 
+
 \cs_new:Nn \__eskdfont_declare_math_sizes:nnnn
   {
     \DeclareMathSizes
@@ -522,12 +531,73 @@
   {
     \SetSymbolFont {operators} {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
 
-    \__eskdfont_math_symbol_declare:nNnn {*} \mathbin {operators} {\cdot}
+    % должен быть "022C5, но этого символа нет в шрифте
+    % * сознательно перевожу в знак умножения в виде точки
+    %\__eskdfont_math_symbol_declare:nNnn {*} \mathbin {operators}  %{/centerdot b: middle dot}
+    \__eskdfont_math_symbol_declare:nNnn {*} \mathbin {operators} {`∗} %{"002DA} %{"000B7} %{"02217} % {"000B7} {"022C5}
+    \cs_set_eq:NN \cdot \cdotp
+    \cs_set_eq:NN \times \cdot
+
     \__eskdfont_math_symbol_declare:nNnn {+} \mathbin {operators} {`+}
     \__eskdfont_math_symbol_declare:nNnn {-} \mathbin {operators} {`-}
 
     \__eskdfont_math_symbol_declare:nNnn {:} \mathrel {operators} {`:}
     \__eskdfont_math_symbol_declare:nNnn {=} \mathrel {operators} {`=}
+  }
+
+% переопределеяем знак корня
+\cs_new:Nn \__eskdfont_math_radical_declare:Nnnnn
+  {
+    \DeclareMathRadical {#1} {#2} {#3} {#4} {#5}
+    \ignorespaces
+  }
+
+\cs_new:Nn \__eskdfont_radical_font_set:
+  {
+    %\DeclareSymbolFont {eskdsymbols}             \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+    %\SetSymbolFont     {eskdsymbols}      {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+    %\DeclareSymbolFont {eskdlargesymbols}        \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+    %\SetSymbolFont     {eskdlargesymbols} {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+
+    %\DeclareSymbolFont {symbols}             \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+    %\SetSymbolFont     {symbols}      {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+    %\DeclareSymbolFont {largesymbols}        \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+    %\SetSymbolFont     {largesymbols} {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+
+    %\DeclareSymbolFont {eskdsymbols}             {OMS} {eskdfont} \mddefault \updefault
+    %\SetSymbolFont     {eskdsymbols}      {eskd} {OMS} {eskdfont} \mddefault \updefault
+    %\DeclareSymbolFont {eskdlargesymbols}        {OMX} {eskdfont} \mddefault \updefault
+    %\SetSymbolFont     {eskdlargesymbols} {eskd} {OMX} {eskdfont} \mddefault \updefault
+    %\__eskdfont_math_radical_declare:Nnnnn \sqrtsign
+    %  {eskdsymbols} {`X}
+    %  {eskdlargesymbols} {"0221A} %{"221A}
+    %\DeclareMathRadical{\sqrtsign}{eskdsymbols}{"70}{eskdlargesymbols}{"70}
+
+%    \@ifpackageloaded { amsmath } { }
+%    {
+%      \cs_set_nopar:Npn \r@@t ##1 ##2
+%      {
+%        \hbox_set:Nn \l_tmpa_box
+%        {
+%          \c_math_toggle_token
+%          \m@th
+%          ##1
+%          \sqrtsign { ##2 }
+%          \c_math_toggle_token
+%        }
+%        \um_mathstyle_scale:Nnn ##1 { \kern }
+%        { \fontdimen 63 \l_um_font }
+%        \box_move_up:nn
+%        {
+%          (\box_ht:N \l_tmpa_box - \box_dp:N \l_tmpa_box)
+%          * \number \fontdimen 65 \l_um_font / 100
+%        }
+%        { \box_use:N \rootbox }
+%        \um_mathstyle_scale:Nnn ##1 { \kern }
+%        { \fontdimen 64 \l_um_font }
+%        \box_use_clear:N \l_tmpa_box
+%      }
+%    }
   }
 
 \cs_new:Nn \eskdfont_setup_math:
@@ -541,6 +611,8 @@
     \__eskdfont_math_symbol_declare:nNnn {?} \mathclose {operators} {`?}
     \__eskdfont_math_symbol_declare:nNnn {;} \mathpunct {operators} {`;}
     \__eskdfont_math_symbol_declare:nNnn {.} \mathord   {letters}   {`.}
+
+    \__eskdfont_radical_font_set:
 
     %\SetSymbolFont     {symbols}      {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
 

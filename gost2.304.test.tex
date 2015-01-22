@@ -8,6 +8,7 @@
 \usepackage{interfaces-tikz}
 \usepackage[a4 paper, portrait, tmargin=10mm, bmargin=10mm, inner=20mm, outer=20mm, headheight=0mm, headsep=0mm, footskip=0mm]{geometry}
 \usepackage[mainfontsize=3.5mm, math=true]{gost2.304}
+\usepackage[math]{kurier}
 
 \begin{document}
 
@@ -137,7 +138,7 @@
   \eskdfont \eskdfontsize{14mm} \selectfont\mdseries
   Раздел 5 ГОСТ 2.304-81. Шрифт типа А
 
-  \def\z{
+  {
     \slshape
     \DrawChars{\Alpha \Beta \Gamma \Delta \Epsilon \Zeta \Eta \Theta \Iota \Kappa \Lambda \Mu \Nu \Xi}
     \DrawChars{\Omicron \Pi \Rho \Sigma \Tau \Upsilon \Phi \Chi \Psi \Omega}
@@ -145,7 +146,7 @@
     \DrawChars{\xi \omicron \pi \rho \sigma \tau \upsilon \phi \chi \psi \omega}
   }
 
-  \def\z{
+  {
     \DrawChars{\Alpha \Beta \Gamma \Delta \Epsilon \Zeta \Eta \Theta \Iota \Kappa \Lambda \Mu \Nu \Xi \Omicron}
     \DrawChars{\Pi \Rho \Sigma \Tau \Upsilon \Phi \Chi \Psi \Omega}
     \DrawChars{\alpha \beta \gamma \delta \epsilon \zeta \eta \theta \iota \kappa \lambda \mu \nu \xi \omicron}
@@ -156,7 +157,7 @@
   \eskdfont \eskdfontsize{10mm}\selectfont\bfseries
   Шрифт типа Б
 
-  \def\z{
+  {
     \slshape
     \DrawChars{\Alpha \Beta \Gamma \Delta \Epsilon \Zeta \Eta \Theta \Iota \Kappa \Lambda \Mu \Nu}
     \DrawChars{\Xi \Omicron \Pi \Rho \Sigma \Tau \Upsilon \Phi \Chi \Psi \Omega}
@@ -164,7 +165,7 @@
     \DrawChars{\nu \xi \omicron \pi \rho \sigma \tau \upsilon \phi \chi \psi \omega}
   }
 
-  \def\z{
+  {
     \DrawChars{\Alpha \Beta \Gamma \Delta \Epsilon \Zeta \Eta \Theta \Iota \Kappa \Lambda \Mu \Nu}
     \DrawChars{\Xi \Omicron \Pi \Rho \Sigma \Tau \Upsilon \Phi \Chi \Psi \Omega}
     \DrawChars{\alpha \beta \gamma \delta \epsilon \zeta \eta \theta \iota \kappa \lambda \mu \nu}
@@ -258,9 +259,10 @@
   $m = \frac{m_0}{\sqrt{1-\frac{v^2}{c^2}}}\times 2 \times 10^{23}$
 
   \begin{eqnarray}
+    m &=& 1,23 * \left(а+б+в_{Гл}\right)\\
     E &=& mc^2\\
     m &=& \frac{m_0}{\sqrt{1-\frac{v^2}{c^2}}}\times 2,34 \cdot 10^{23}\\
-    z &=& \sum_{i=0}^{10}a^i\sigma\left( x_i \right) \times \pi
+    z &=& \sum_{i=0}^{10}a^i\sigma\left( x_i \right) \times \pi\\
   \end{eqnarray}
 
 \end{document}
