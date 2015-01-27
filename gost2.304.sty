@@ -9,7 +9,7 @@
 
 % NFSS идентификатор шрифта
 \tl_const:Nn \c_eskdfont_mainfont_tl {eskdfont}
-\tl_const:Nn \c_eskdfont_mathfont_tl {eskdmathfont}
+\tl_const:Nn \c_eskdfont_mathfont_tl {eskdfont}
 
 % ряд размеров шрифтов h по ГОСТ 2.304
 % применяемые размеры шрифта h=2,5; 3,5; 5,0; 7,0; 10,0; 14,0; 20,0; 28,0; 40,0 мм
@@ -278,21 +278,25 @@
 % основные параметры шрифтов ГОСТ 2.304
 \tl_const:Nn \c__eskdfont_type_A_tl { OpenGost~Type~A~TT }
 \tl_const:Nn \c__eskdfont_type_B_tl { OpenGost~Type~B~TT }
-\tl_new:N \g__eskdfont_type_A_features_tl
-\tl_new:N \g__eskdfont_type_B_features_tl
+\tl_new:N \l__eskdfont_type_A_features_tl
+\tl_new:N \l__eskdfont_type_A_fontadjustment_tl
+\tl_new:N \l__eskdfont_type_B_features_tl
+\tl_new:N \l__eskdfont_type_B_fontadjustment_tl
 %\tl_const:Nn \c__eskdfont_db_divide_da_tl { \fp_to_decimal:n { \fp_eval:n { 10 / 7 } } }
 \tl_new:N \g__eskdfont_type_B_scale_tl
 \tl_gset:Nn \g__eskdfont_type_B_scale_tl { 1 } % { MatchUppercase }
 \tl_const:Nn \c__eskdfont_slant_tl { 0.258819 } % cos 75 градусов
 \tl_new:N \g__eskdfont_font_features_tl % fontspec параметры семейства шрифтов
-\tl_gset:Nn \g__eskdfont_type_A_features_tl
+\tl_set:Nn \l__eskdfont_type_A_features_tl
   {
     Font = \c__eskdfont_type_A_tl,
+    FontAdjustment = { \l__eskdfont_type_A_fontadjustment_tl },
   }
-\tl_gset:Nn \g__eskdfont_type_B_features_tl
+\tl_set:Nn \l__eskdfont_type_B_features_tl
   {
     Font = \c__eskdfont_type_B_tl,
     Scale = \g__eskdfont_type_B_scale_tl,
+    FontAdjustment = { \l__eskdfont_type_B_fontadjustment_tl },
   }
 \tl_gset:Nn \g__eskdfont_font_features_tl
   {
@@ -307,20 +311,20 @@
       },
     UprightFeatures =
       {
-        \g__eskdfont_type_A_features_tl
+        \l__eskdfont_type_A_features_tl
       },
     SlantedFeatures =
       {
-        \g__eskdfont_type_A_features_tl,
+        \l__eskdfont_type_A_features_tl,
         FakeSlant = \c__eskdfont_slant_tl
       },
     BoldFeatures =
       {
-        \g__eskdfont_type_B_features_tl
+        \l__eskdfont_type_B_features_tl
       },
     BoldSlantedFeatures =
       {
-        \g__eskdfont_type_B_features_tl,
+        \l__eskdfont_type_B_features_tl,
         FakeSlant = \c__eskdfont_slant_tl
       }
     %Kerning = On, % not avaliable for ttf fonts
@@ -367,7 +371,7 @@
 \seq_push:Nx \l_tmpb_seq
   { {
     Size = \dim_to_decimal:n \l_tmpa_dim, % п.2.2 ГОСТ 2.304-81
-    \g__eskdfont_type_B_features_tl
+    \l__eskdfont_type_B_features_tl
   } }
 \seq_map_inline:Nn \l_tmpa_seq
   {
@@ -481,7 +485,7 @@
   }
 
 % опционально заменяем математические шрифты
-\tl_new:N \g__eskdfont_mathfont_featuresl_tl % fontspec параметры math шрифтов
+\tl_new:N \l__eskdfont_mathfont_features_tl % fontspec параметры math шрифтов
 
 \cs_new:Nn \__eskdfont_declare_math_sizes:nnnn
   {
@@ -629,60 +633,76 @@
 %    }
   }
 
-% переопределяем толщину линии в дробях
-% для шрифта типа Б d = 1/10 h = 1/7 c, или d = 0,1428571428571429ex соответственно
-% для шрифта типа А d = 1/14 h = 1/10 c, или d = .1ex соответственно
+\cs_new_nopar:Nn \__eskdfont_math_font_family:n
+  {\tl_to_str:N \c_eskdfont_mathfont_tl #1}
 
-\tl_put_right:Nn \g__eskdfont_type_A_features_tl
+\cs_new_nopar:Nn \__eskdfont_set_symbol_font:nnn
   {
-    ,
-    FontAdjustment =
+    \tl_set:Nx \l__eskdfont_mathfont_features_tl \g__eskdfont_font_features_tl
+    \fontspec_set_family:cnn { g__eskdfont_math_symbol_font_ #1 }
       {
-        %\fontdimen8\font=.1ex\relax
-        %\fontdimen48\textfont2=.1ex\relax
-        \fontdimen48\font=.1ex\relax
-        %\um_set_fraction_rule:N \mathstyle {.1ex}
-        %\um_set_fraction_rule:N \displaystyle {.1ex}
+        NFSSFamily = \__eskdfont_math_font_family:n {#1},
+        \l__eskdfont_mathfont_features_tl
       }
+      \c_eskdfont_mathfont_tl
+    \SetSymbolFont
+      {#1}
+      {eskd}
+      \g_fontspec_encoding_tl
+      { \__eskdfont_math_font_family:n {#1} }
+      {#2}
+      {#3}
   }
-\tl_put_right:Nn \g__eskdfont_type_B_features_tl
+\cs_new_nopar:Nn \__eskdfont_set_symbol_font:nnnnn
   {
-    ,
-    FontAdjustment =
-      {
-        %\fontdimen8\font=0,1428571428571429ex\relax
-        %\fontdimen48\textfont2=0,1428571428571429ex\relax
-        \fontdimen48\font=0,1428571428571429ex\relax
-        %\um_set_fraction_rule:N \displaystyle {.1428571428571429ex}
-      }
-  }
-
-\cs_new:Nn \__eskdfont_fraction_set:
-  {
-%    \cs_set:Npn \over
-%      {
-%        \tex_above:D\fontdimen8\font
-%      }
-%    \cs_set:Npn \overwithdelims ##1##2
-%      {
-%        \tex_abovewithdelims:D##1##2\fontdimen8\font
-%      }
+    \tl_set:Nn \l__eskdfont_type_A_fontadjustment_tl {#4}
+    \tl_set:Nn \l__eskdfont_type_B_fontadjustment_tl {#5}
+    \__eskdfont_set_symbol_font:nnn {#1} {#2} {#3}
   }
 
 \DeclareMathVersion {eskd}
 
-\SetSymbolFont     {operators}    {eskd} \g_fontspec_encoding_tl \c_eskdfont_mathfont_tl \mddefault \updefault
-%\SetSymbolFont     {symbols}      {eskd} \g_fontspec_encoding_tl \c_eskdfont_mathfont_tl \mddefault \updefault
-%\SetSymbolFont     {largesymbols} {eskd} \g_fontspec_encoding_tl \c_eskdfont_mathfont_tl \mddefault \updefault
-\SetSymbolFont     {letters}      {eskd} \g_fontspec_encoding_tl \c_eskdfont_mathfont_tl \mddefault \sldefault
+\__eskdfont_set_symbol_font:nnn {operators}    \mddefault \updefault
+\__eskdfont_set_symbol_font:nnn {letters}      \mddefault \sldefault
 
-%\SetSymbolFont     {symbols}      {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+\__eskdfont_set_symbol_font:nnnnn {symbols}      \mddefault \updefault
+  {
+    \fontdimen8\font=0ex\relax %FractionNumeratorDisplayStyleShiftUp
+    \fontdimen43\font=0ex\relax %FractionNumeratorDisplayStyleShiftUp
+    \fontdimen9\font=2ex\relax %
+    \fontdimen10\font=2ex\relax %
+    \fontdimen11\font=2ex\relax %
+    \fontdimen12\font=2ex\relax %
+    \fontdimen32\font=2ex\relax %
+    \fontdimen45\font=2ex\relax %
+    \fontdimen44\font=2ex\relax %
+  }
+  {
+    \fontdimen8\font=0ex\relax %FractionNumeratorDisplayStyleShiftUp
+    \fontdimen43\font=0ex\relax %FractionNumeratorDisplayStyleShiftUp
+    \fontdimen9\font=2ex\relax %
+    \fontdimen10\font=2ex\relax %
+    \fontdimen11\font=2ex\relax %
+    \fontdimen12\font=2ex\relax %
+    \fontdimen32\font=2ex\relax %
+    \fontdimen45\font=2ex\relax %
+    \fontdimen44\font=2ex\relax %
+  }
 
-%\SetSymbolFont     {operators}    {eskd} {OT1} {eskdfont} \mddefault \updefault
-%\SetSymbolFont     {letters}      {eskd} {OML} {eskdfont} \mddefault \sldefault
-%\SetSymbolFont     {symbols}      {eskd} {OMS} {eskdfont} \mddefault \updefault
-%\SetSymbolFont     {largesymbols} {eskd} {OMX} {eskdfont} \mddefault \updefault
-%\SetSymbolFont     {numbers}      {eskd} {OT1} {eskdfont} \mddefault \sldefault
+\__eskdfont_set_symbol_font:nnnnn {largesymbols} \mddefault \updefault
+  {
+    % переопределяем толщину линии в дробях для шрифта типа А d = 1/14 h = 1/10 c = .1ex
+    \fontdimen8\font=.1ex\relax %FractionRuleThickness
+    \fontdimen48\font=.1ex\relax %FractionRuleThickness
+    \fontdimen13\font=0pt\relax
+  }
+  {
+    % переопределяем толщину линии в дробях для шрифта типа Б d = 1/10 h = 1/7 c = 0,1428571428571429ex
+    \fontdimen8\font=0,1428571428571429ex\relax %FractionRuleThickness
+    \fontdimen48\font=0,1428571428571429ex\relax %FractionRuleThickness
+    \fontdimen13\font=0pt\relax
+  }
+
 
 %\SetMathAlphabet   \mathbf        {eskd} \g_fontspec_encoding_tl {eskdfont} \bfdefault \updefault
 %\SetMathAlphabet   \mathsf        {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
@@ -699,16 +719,8 @@
 %\__eskdfont_math_symbol_declare:nNnn {.} \mathord   {letters}   {`.}
 
 %\__eskdfont_radical_set:
-\__eskdfont_fraction_set:
 
 \__eskdfont_declare_math_sizes:
-
-\tl_gset:Nx \g__eskdfont_mathfont_featuresl_tl \g__eskdfont_font_features_tl
-\newfontfamily \eskdmathfont \c_eskdfont_mathfont_tl
-  [
-    NFSSFamily = \c_eskdfont_mathfont_tl,
-    \g__eskdfont_mathfont_featuresl_tl
-  ]
 
 \AtBeginDocument
   {
