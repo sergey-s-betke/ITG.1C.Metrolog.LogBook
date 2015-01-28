@@ -636,15 +636,18 @@
 \cs_new_nopar:Nn \__eskdfont_math_font_family:n
   {\tl_to_str:N \c_eskdfont_mathfont_tl #1}
 
+\cs_generate_variant:Nn \fontspec_set_family:cnn { cxx }
+
 \cs_new_nopar:Nn \__eskdfont_set_symbol_font:nnn
   {
     \tl_set:Nx \l__eskdfont_mathfont_features_tl \g__eskdfont_font_features_tl
-    \fontspec_set_family:cnn { g__eskdfont_math_symbol_font_ #1 }
+    \fontspec_set_family:cxx { g__eskdfont_math_symbol_font_ #1 }
       {
         NFSSFamily = \__eskdfont_math_font_family:n {#1},
         \l__eskdfont_mathfont_features_tl
       }
-      \c_eskdfont_mathfont_tl
+      { \__eskdfont_math_font_family:n {#1} }
+      %      \c_eskdfont_mathfont_tl
     \SetSymbolFont
       {#1}
       {eskd}
@@ -667,26 +670,8 @@
 
 \__eskdfont_set_symbol_font:nnnnn {symbols}      \mddefault \updefault
   {
-    \fontdimen8\font=0ex\relax %FractionNumeratorDisplayStyleShiftUp
-    \fontdimen43\font=0ex\relax %FractionNumeratorDisplayStyleShiftUp
-    \fontdimen9\font=2ex\relax %
-    \fontdimen10\font=2ex\relax %
-    \fontdimen11\font=2ex\relax %
-    \fontdimen12\font=2ex\relax %
-    \fontdimen32\font=2ex\relax %
-    \fontdimen45\font=2ex\relax %
-    \fontdimen44\font=2ex\relax %
   }
   {
-    \fontdimen8\font=0ex\relax %FractionNumeratorDisplayStyleShiftUp
-    \fontdimen43\font=0ex\relax %FractionNumeratorDisplayStyleShiftUp
-    \fontdimen9\font=2ex\relax %
-    \fontdimen10\font=2ex\relax %
-    \fontdimen11\font=2ex\relax %
-    \fontdimen12\font=2ex\relax %
-    \fontdimen32\font=2ex\relax %
-    \fontdimen45\font=2ex\relax %
-    \fontdimen44\font=2ex\relax %
   }
 
 \__eskdfont_set_symbol_font:nnnnn {largesymbols} \mddefault \updefault
@@ -695,14 +680,17 @@
     \fontdimen8\font=.1ex\relax %FractionRuleThickness
     \fontdimen48\font=.1ex\relax %FractionRuleThickness
     \fontdimen13\font=0pt\relax
+    % положение дробной линии по вертикали
+    \fontdimen22\font=.52ex\relax %AxisHeight
   }
   {
     % переопределяем толщину линии в дробях для шрифта типа Б d = 1/10 h = 1/7 c = 0,1428571428571429ex
     \fontdimen8\font=0,1428571428571429ex\relax %FractionRuleThickness
     \fontdimen48\font=0,1428571428571429ex\relax %FractionRuleThickness
     \fontdimen13\font=0pt\relax
+    % положение дробной линии по вертикали
+    \fontdimen22\font=.81ex\relax %AxisHeight
   }
-
 
 %\SetMathAlphabet   \mathbf        {eskd} \g_fontspec_encoding_tl {eskdfont} \bfdefault \updefault
 %\SetMathAlphabet   \mathsf        {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
