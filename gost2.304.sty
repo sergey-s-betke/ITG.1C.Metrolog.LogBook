@@ -282,7 +282,6 @@
 \tl_new:N \l__eskdfont_type_A_fontadjustment_tl
 \tl_new:N \l__eskdfont_type_B_features_tl
 \tl_new:N \l__eskdfont_type_B_fontadjustment_tl
-%\tl_const:Nn \c__eskdfont_db_divide_da_tl { \fp_to_decimal:n { \fp_eval:n { 10 / 7 } } }
 \tl_new:N \g__eskdfont_type_B_scale_tl
 \tl_gset:Nn \g__eskdfont_type_B_scale_tl { 1 } % { MatchUppercase }
 \tl_const:Nn \c__eskdfont_slant_tl { 0.258819 } % cos 75 градусов
@@ -341,33 +340,29 @@
       \g__eskdfont_font_features_tl
     ]
   \fontsize { 100pt } { 100pt } \selectfont
-  \tl_const:Nx \c__eskdfont_fontscale_tl
-    { \dim_to_decimal:n { 1pt * \dim_ratio:nn { 10em } { 14ex } } }
+  \dim_set:Nn \l_tmpa_dim { 1pt * \dim_ratio:nn { 10em } { 14ex } }
+  \int_set:Nn \l_tmpa_int \l_tmpa_dim
+  \tl_const:Nx \c__eskdfont_fontscale_tl { \int_use:N \l_tmpa_int / 65536 }
+
   \dim_set:Nn \l_tmpa_dim {1ex}
   \bfseries
   \tl_gset:Nx \g__eskdfont_type_B_scale_tl
     { \dim_to_decimal:n { 1pt * \dim_ratio:nn \l_tmpa_dim { 1ex } } }
 \group_end:
 
-\cs_new_nopar:Nn \__eskdfont_fontsize_from_h:NN
-  {
-    \dim_set:Nn #1 { \dim_eval:n { \c__eskdfont_fontscale_tl #2 } }
-  }
+\cs_new_nopar:Nn \__eskdfont_fontsize_from_h:n
+  { \dim_eval:n { \dim_eval:n{ #1 } * \c__eskdfont_fontscale_tl } }
 \cs_new_nopar:Nn \__eskdfont_fontsize_from_h:Nn
-  {
-    \dim_set:Nn \l_tmpa_dim {#2}
-    \__eskdfont_fontsize_from_h:NN #1 \l_tmpa_dim
-  }
+  { \dim_set:Nn #1 { \__eskdfont_fontsize_from_h:n { #2 } } }
 
 % ограничиваем допустимые размеры шрифтов
 \clist_set_eq:NN \l_tmpa_clist \c__eskdfont_fontsizes_clist
 \clist_pop:NN \l_tmpa_clist \l_tmpa_tl % tiny size
 % переводим 1.8mm в число в pt
-\dim_set:Nn \l_tmpa_dim \l_tmpa_tl
+\dim_set:Nn \l_tmpa_dim { \__eskdfont_fontsize_from_h:n \l_tmpa_tl }
 % готовим список остальных допустимых размеров
 \seq_set_from_clist:NN \l_tmpa_seq \l_tmpa_clist
 \seq_clear:N \l_tmpb_seq
-\__eskdfont_fontsize_from_h:NN \l_tmpa_dim \l_tmpa_dim
 \seq_push:Nx \l_tmpb_seq
   { {
     Size = \dim_to_decimal:n \l_tmpa_dim % п.2.2 ГОСТ 2.304-81
@@ -375,20 +370,17 @@
   } }
 \seq_map_inline:Nn \l_tmpa_seq
   {
-    \__eskdfont_fontsize_from_h:Nn \l_tmpa_dim {#1}
     \seq_push:Nx \l_tmpb_seq
-      { { Size = \dim_to_decimal:n \l_tmpa_dim } }
+      { { Size = \dim_to_decimal:n { \__eskdfont_fontsize_from_h:n { #1 } } } }
   }
-
 \tl_put_right:Nx \l__eskdfont_type_A_features_tl
   { ,SizeFeatures={ \seq_use:Nn \l_tmpb_seq {, } } }
 
 \seq_clear:N \l_tmpb_seq
 \clist_map_inline:Nn \c__eskdfont_fontsizes_clist
   {
-    \__eskdfont_fontsize_from_h:Nn \l_tmpa_dim {#1}
     \seq_push:Nx \l_tmpb_seq
-      { { Size = \dim_to_decimal:n \l_tmpa_dim } }
+      { { Size = \dim_to_decimal:n { \__eskdfont_fontsize_from_h:n { #1 } } } }
   }
 \tl_put_right:Nx \l__eskdfont_type_B_features_tl
   { ,SizeFeatures={ \seq_use:Nn \l_tmpb_seq {, } } }
@@ -407,8 +399,7 @@
 
 \cs_new_nopar:Nn \__eskdfont_setfontsize_h:Nnn
   {
-    \__eskdfont_fontsize_from_h:Nn \l_tmpa_dim {#2}
-    \@setfontsize{#1}{\l_tmpa_dim}{#3}%
+    \@setfontsize{#1}{\__eskdfont_fontsize_from_h:n{#2}}{#3}
     \ignorespaces
   }
 \cs_new_nopar:Nn \__eskdfont_setfontsize_h:Nn
@@ -419,8 +410,7 @@
 
 \cs_new_nopar:Nn \eskdfont_fontsize_h:nn
   {
-    \__eskdfont_fontsize_from_h:Nn \l_tmpa_dim {#1}
-    \fontsize{\l_tmpa_dim}{#2}%
+    \fontsize{\__eskdfont_fontsize_from_h:n{#1}}{#2}
     \ignorespaces
   }
 \cs_new_nopar:Nn \eskdfont_fontsize_h:n
