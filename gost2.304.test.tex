@@ -285,4 +285,35 @@
   \[m = 1.23 * \left(а+в_{Гл}\right) \times A_{B_C}\]
   \[m = \frac{a}{a}\times\frac{a_{12}}{a_{21}} \times \frac{m_0}{\sqrt{1-\frac{v^2}{c^2}}}\]
 
+  \newpage
+  \eskdfont \eskdfontsize{10mm} \selectfont\mdseries
+  Проба всего размерного ряда шрифтов
+
+  \NewDocumentCommand \DrawSize {m} {
+    \par
+    \begin{tikzpicture}
+    \papergraduate (-5mm,0mm) (160mm,#1+5mm);
+    \node at (0mm,0mm) [anchor=south west,inner sep=0pt,outer sep=0pt]
+    {
+      \eskdfontsize{#1}\selectfont
+      \upshape\mdseries SIZE=#1,\,
+      \bfseries SIZE=#1,\,
+      \slshape\mdseries SIZE=#1,\,
+      \bfseries SIZE=#1.
+    };
+    \end{tikzpicture}
+    \par
+  }
+
+  \DrawSize{1.8mm}
+  \DrawSize{2.5mm}
+  \DrawSize{3.5mm}
+  \DrawSize{5mm}
+  \DrawSize{7mm}
+  \DrawSize{10mm}
+  \DrawSize{14mm}
+  \DrawSize{20mm}
+  \DrawSize{28mm}
+  \DrawSize{40mm}
+
 \end{document}
