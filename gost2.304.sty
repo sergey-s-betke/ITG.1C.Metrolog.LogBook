@@ -499,10 +499,9 @@
     \dim_set_eq:NN \l__eskdfont_mathsubscriptsize_dim \l__eskdfont_mathscriptsize_dim
     \clist_map_inline:Nn \c__eskdfont_fontsizes_clist
       {
-        \__eskdfont_fontsize_from_h:Nn \l_tmpa_dim {##1}
         \__eskdfont_declare_math_sizes:nnnn
-          \l_tmpa_dim
-          \l_tmpa_dim
+          { \__eskdfont_fontsize_from_h:n {##1} }
+          { \__eskdfont_fontsize_from_h:n {##1} }
           \l__eskdfont_mathscriptsize_dim
           \l__eskdfont_mathsubscriptsize_dim
         \dim_set_eq:NN \l__eskdfont_mathsubscriptsize_dim \l__eskdfont_mathscriptsize_dim
