@@ -253,10 +253,10 @@
                 \msg_log:nnx { gost2.304 } { set-font-size } {\cs_to_str:N ##1}
               }
             \normalsize
-            \setmainfont \c_eskdfont_mainfont_tl
+            \setmainfont { \tl_use:N \c_eskdfont_mainfont_tl }
               [
-                NFSSFamily = \c_eskdfont_mainfont_tl,
-                \g__eskdfont_mainfont_features_tl
+                NFSSFamily = \tl_use:N \c_eskdfont_mainfont_tl,
+                \tl_use:N \g__eskdfont_mainfont_features_tl
               ]
             \msg_log:nn { gost2.304 } { mainfont }
           }
@@ -290,43 +290,40 @@
 \tl_new:N \g__eskdfont_font_features_tl % fontspec параметры семейства шрифтов
 \tl_set:Nn \l__eskdfont_type_A_features_tl
   {
-    Font = \c__eskdfont_type_A_tl
+    Font = \tl_use:N \c__eskdfont_type_A_tl
     ,Scale = \fp_to_decimal:N \g__eskdfont_type_A_scale_fp
-    ,FontAdjustment = { \l__eskdfont_type_A_fontadjustment_tl }
+    ,FontAdjustment = { \tl_use:N \l__eskdfont_type_A_fontadjustment_tl }
   }
 \tl_set:Nn \l__eskdfont_type_B_features_tl
   {
-    Font = \c__eskdfont_type_B_tl
+    Font = \tl_use:N \c__eskdfont_type_B_tl
     ,Scale = \fp_to_decimal:N \g__eskdfont_type_B_scale_fp
-    ,FontAdjustment = { \l__eskdfont_type_B_fontadjustment_tl }
+    ,FontAdjustment = { \tl_use:N \l__eskdfont_type_B_fontadjustment_tl }
   }
 \tl_gset:Nn \g__eskdfont_font_features_tl
   {
     Path = fonts/
     ,Extension = .ttf
-    ,UprightFont = \c__eskdfont_type_A_tl
+    ,UprightFont = \tl_use:N \c__eskdfont_type_A_tl
     ,OpticalSize = 0
     ,Mapping = tex-text
-    ,FontAdjustment =
-      {
-      }
     ,UprightFeatures =
       {
-        \l__eskdfont_type_A_features_tl
+        \tl_use:N \l__eskdfont_type_A_features_tl
       }
     ,SlantedFeatures =
       {
-        \l__eskdfont_type_A_features_tl
-        ,FakeSlant = \c__eskdfont_slant_tl
+        \tl_use:N \l__eskdfont_type_A_features_tl
+        ,FakeSlant = \tl_use:N \c__eskdfont_slant_tl
       }
     ,BoldFeatures =
       {
-        \l__eskdfont_type_B_features_tl
+        \tl_use:N \l__eskdfont_type_B_features_tl
       }
     ,BoldSlantedFeatures =
       {
-        \l__eskdfont_type_B_features_tl
-        ,FakeSlant = \c__eskdfont_slant_tl
+        \tl_use:N \l__eskdfont_type_B_features_tl
+        ,FakeSlant = \tl_use:N \c__eskdfont_slant_tl
       }
     %Kerning = On, % not avaliable for ttf fonts
     %Numbers = Uppercase, % not avaliable in font
@@ -336,10 +333,10 @@
 % 1ex = c, h = 14/10 c (или 10/7 c для шрифта типа Б)
 % 1em = кегль шрифта (\f@size)
 \group_begin:
-  \fontspec \c_eskdfont_mainfont_tl
+  \fontspec { \tl_use:N \c_eskdfont_mainfont_tl }
     [
-      NFSSFamily = \c_eskdfont_mainfont_tl,
-      \g__eskdfont_font_features_tl
+      NFSSFamily = \tl_use:N \c_eskdfont_mainfont_tl,
+      \tl_use:N \g__eskdfont_font_features_tl
     ]
   \fontsize { 100pt } { 100pt } \selectfont
   \dim_set:Nn \l_tmpa_dim { 1pt * \dim_ratio:nn { 10em } { 14ex } }
@@ -361,14 +358,14 @@
 \clist_set_eq:NN \l_tmpa_clist \c__eskdfont_fontsizes_clist
 \clist_pop:NN \l_tmpa_clist \l_tmpa_tl % tiny size
 % переводим 1.8mm в число в pt
-\dim_set:Nn \l_tmpa_dim { \__eskdfont_fontsize_from_h:n \l_tmpa_tl }
+\dim_set:Nn \l_tmpa_dim { \__eskdfont_fontsize_from_h:n { \tl_use:N \l_tmpa_tl } }
 % готовим список остальных допустимых размеров
 \seq_set_from_clist:NN \l_tmpa_seq \l_tmpa_clist
 \seq_clear:N \l_tmpb_seq
 \seq_push:Nx \l_tmpb_seq
   { {
     Size = \dim_to_decimal:n \l_tmpa_dim % п.2.2 ГОСТ 2.304-81
-    , \l__eskdfont_type_B_features_tl
+    , \tl_use:N \l__eskdfont_type_B_features_tl
   } }
 \seq_map_inline:Nn \l_tmpa_seq
   {
@@ -387,11 +384,11 @@
 \tl_put_right:Nx \l__eskdfont_type_B_features_tl
   { ,SizeFeatures={ \seq_use:Nn \l_tmpb_seq {, } } }
 
-\tl_gset:Nx \g__eskdfont_mainfont_features_tl \g__eskdfont_font_features_tl
-\newfontfamily \eskdfont \c_eskdfont_mainfont_tl
+\tl_gset:Nx \g__eskdfont_mainfont_features_tl { \tl_use:N \g__eskdfont_font_features_tl }
+\newfontfamily \eskdfont { \tl_use:N \c_eskdfont_mainfont_tl }
   [
-    NFSSFamily = \c_eskdfont_mainfont_tl,
-    \g__eskdfont_mainfont_features_tl
+    NFSSFamily = \tl_use:N \c_eskdfont_mainfont_tl,
+    \tl_use:N \g__eskdfont_mainfont_features_tl
   ]
 
 \cs_new_nopar:Nn \__eskdfont_b_from_h:n
@@ -540,14 +537,14 @@
   {
     %\DeclareSymbolFont {eskd}                \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
     %\SetSymbolFont     {eskd}         {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
-    \SetSymbolFont     {operators}    {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
-    \SetSymbolFont     {symbols}      {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
-    \SetSymbolFont     {largesymbols} {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+    \SetSymbolFont     {operators}    {eskd} { \tl_use:N \g_fontspec_encoding_tl } {eskdfont} \mddefault \updefault
+    \SetSymbolFont     {symbols}      {eskd} { \tl_use:N \g_fontspec_encoding_tl } {eskdfont} \mddefault \updefault
+    \SetSymbolFont     {largesymbols} {eskd} { \tl_use:N \g_fontspec_encoding_tl } {eskdfont} \mddefault \updefault
     %\DeclareSymbolFontAlphabet \matheskd     {eskd}
     %\DeclareSymbolFontAlphabet \mathrm       {eskd}
     %\DeclareSymbolFont {eskdsl}              \g_fontspec_encoding_tl {eskdfont} \mddefault \sldefault
     %\SetSymbolFont     {eskdsl}       {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \sldefault
-    \SetSymbolFont     {letters}      {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \sldefault
+    \SetSymbolFont     {letters}      {eskd} { \tl_use:N \g_fontspec_encoding_tl } {eskdfont} \mddefault \sldefault
     %\DeclareSymbolFontAlphabet \matheskdsl   {eskdsl}
     %\DeclareSymbolFontAlphabet \mathnormal   {eskdsl}
     %\DeclareSymbolFontAlphabet \mathit       {eskdsl}
@@ -563,7 +560,7 @@
 % переопределяем шрифты операторов
 \cs_new:Nn \__eskdfont_operators_set:
   {
-    \SetSymbolFont {operators} {eskd} \g_fontspec_encoding_tl {eskdfont} \mddefault \updefault
+    \SetSymbolFont {operators} {eskd} { \tl_use:N \g_fontspec_encoding_tl } {eskdfont} \mddefault \updefault
 
     % должен быть "022C5, но этого символа нет в шрифте
     % * сознательно перевожу в знак умножения в виде точки
@@ -640,17 +637,17 @@
 
 \cs_new_nopar:Nn \__eskdfont_set_symbol_font:nnn
   {
-    \tl_set:Nx \l__eskdfont_mathfont_features_tl \g__eskdfont_font_features_tl
+    \tl_set:Nx \l__eskdfont_mathfont_features_tl { \tl_use:N \g__eskdfont_font_features_tl }
     \fontspec_set_family:cxx { g__eskdfont_math_symbol_font_ #1 }
       {
         NFSSFamily = \__eskdfont_math_font_family:n {#1},
-        \l__eskdfont_mathfont_features_tl
+        \tl_use:N \l__eskdfont_mathfont_features_tl
       }
-      \c_eskdfont_mathfont_tl
+      { \tl_use:N \c_eskdfont_mathfont_tl }
     \SetSymbolFont
       {#1}
       {eskd}
-      \g_fontspec_encoding_tl
+      { \tl_use:N \g_fontspec_encoding_tl }
       { \__eskdfont_math_font_family:n {#1} }
       {#2}
       {#3}
