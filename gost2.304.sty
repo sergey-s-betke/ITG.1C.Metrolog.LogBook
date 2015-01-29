@@ -673,8 +673,18 @@
     %\fontdimen12\font=0pt\relax %FractionDenominatorShiftDown
     % положение дробной линии по вертикали
     \fontdimen22\font=.505ex\relax %AxisHeight
+    %
+    % переопределяем параметры знака корня (радикала)
+    \fontdimen62\font=0pt\relax % radical_kern
+    \fontdimen61\font=0pt\relax % radical_rule
+    \fontdimen60\font=0pt\relax % radical_vgap
+    \fontdimen59\font=0pt\relax % radical_vgap
+    \fontdimen63\font=0pt\relax % radical_degree_before
+    \fontdimen64\font=0pt\relax % radical_degree_after
+    \fontdimen65\font=0pt\relax % radical_degree_raise
+    %
     % увеличиваем количество доступных параметров до 23
-    \fontdimen23\font=0pt\relax
+    \fontdimen66\font=0pt\relax
   }
   {
     % положение числителя и знаменателя
@@ -684,8 +694,18 @@
     %\fontdimen12\font=0pt\relax %FractionDenominatorShiftDown
     % положение дробной линии по вертикали
     \fontdimen22\font=.81ex\relax %AxisHeight
+    %
+    % переопределяем параметры знака корня (радикала)
+    \fontdimen62\font=0pt\relax % radical_kern
+    \fontdimen61\font=0pt\relax % radical_rule
+    \fontdimen60\font=0pt\relax % radical_vgap
+    \fontdimen59\font=0pt\relax % radical_vgap
+    \fontdimen63\font=0pt\relax % radical_degree_before
+    \fontdimen64\font=0pt\relax % radical_degree_after
+    \fontdimen65\font=0pt\relax % radical_degree_raise
+    %
     % увеличиваем количество доступных параметров до 23
-    \fontdimen23\font=0pt\relax
+    \fontdimen66\font=0pt\relax
   }
 
 \__eskdfont_set_symbol_font:nnnnn {largesymbols} \mddefault \updefault
@@ -694,12 +714,46 @@
     \fontdimen8\font=.1ex\relax %FractionRuleThickness
     % увеличиваем количество доступных параметров до 13
     \fontdimen13\font=0pt\relax
+    %
+    % переопределяем параметры знака корня (радикала)
+    \fontdimen9\font=1pt\relax % UpperLimitGapMin
+    \fontdimen10\font=1pt\relax % LowerLimitGapMin
+    \fontdimen11\font=1pt\relax % UpperLimitBaselineRiseMin
+    \fontdimen12\font=1pt\relax % LowerLimitBaselineDropMin
+    %
+    \fontdimen62\font=0pt\relax % radical_kern
+    \fontdimen61\font=0pt\relax % radical_rule
+    \fontdimen60\font=0pt\relax % radical_vgap
+    \fontdimen59\font=0pt\relax % radical_vgap
+    \fontdimen63\font=0pt\relax % radical_degree_before
+    \fontdimen64\font=0pt\relax % radical_degree_after
+    \fontdimen65\font=0pt\relax % radical_degree_raise
+    %
+    % увеличиваем количество доступных параметров до 23
+    \fontdimen66\font=0pt\relax
   }
   {
     % переопределяем толщину линии в дробях для шрифта типа Б d = 1/10 h = 1/7 c = 0,1428571428571429ex
     \fontdimen8\font=.1428571428571429ex\relax %FractionRuleThickness
     % увеличиваем количество доступных параметров до 13
     \fontdimen13\font=0pt\relax
+    %
+    % переопределяем параметры знака корня (радикала)
+    \fontdimen9\font=1pt\relax % UpperLimitGapMin
+    \fontdimen10\font=1pt\relax % LowerLimitGapMin
+    \fontdimen11\font=1pt\relax % UpperLimitBaselineRiseMin
+    \fontdimen12\font=1pt\relax % LowerLimitBaselineDropMin
+    %
+    \fontdimen62\font=0pt\relax % radical_kern
+    \fontdimen61\font=0pt\relax % radical_rule
+    \fontdimen60\font=0pt\relax % radical_vgap
+    \fontdimen59\font=0pt\relax % radical_vgap
+    \fontdimen63\font=0pt\relax % radical_degree_before
+    \fontdimen64\font=0pt\relax % radical_degree_after
+    \fontdimen65\font=0pt\relax % radical_degree_raise
+    %
+    % увеличиваем количество доступных параметров до 23
+    \fontdimen66\font=0pt\relax
   }
 
 %\SetMathAlphabet   \mathbf        {eskd} \g_fontspec_encoding_tl {eskdfont} \bfdefault \updefault
