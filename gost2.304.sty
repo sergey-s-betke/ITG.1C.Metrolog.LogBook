@@ -433,19 +433,15 @@
 % опционально используем только заглавные римские цифры, как предусмотрено ГОСТ 2.304
 \cs_new_nopar:Nn \eskdfont_int_to_Roman:n
   {
-    \if_meaning:w \c_eskdfont_mainfont_tl \f@family
-      \__eskdfont_int_to_Roman_aux:n {#1}
-    \else:
-      \int_to_Roman:n {#1}
-    \fi:
+    \tl_if_eq:NNTF \c_eskdfont_mainfont_tl \f@family
+      { \__eskdfont_int_to_Roman_aux:n {#1} }
+      { \int_to_Roman:n {#1} }
   }
 \cs_new_nopar:Nn \eskdfont_int_to_roman:n
   {
-    \if_meaning:w \c_eskdfont_mainfont_tl \f@family
-      \__eskdfont_int_to_Roman_aux:n {#1}
-    \else:
-      \int_to_roman:n {#1}
-    \fi:
+    \tl_if_eq:NNTF \c_eskdfont_mainfont_tl \f@family
+      { \__eskdfont_int_to_Roman_aux:n {#1} }
+      { \int_to_roman:n {#1} }
   }
 
 \dim_new:N \l__eskdfont_romannumeral_kern_dim
