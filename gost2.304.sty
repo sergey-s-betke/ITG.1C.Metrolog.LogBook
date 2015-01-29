@@ -480,6 +480,7 @@
 % опционально заменяем математические шрифты
 \tl_new:N \l__eskdfont_mathfont_features_tl % fontspec параметры math шрифтов
 
+% определяем допустимые размеры шрифтов для формул
 \cs_new:Nn \__eskdfont_declare_math_sizes:nnnn
   {
     \DeclareMathSizes
@@ -489,7 +490,6 @@
       { \dim_to_decimal:n {#4} }
   }
 
-% определяем допустимые размеры шрифтов для формул
 \cs_new:Nn \__eskdfont_declare_math_sizes:
   {
     \dim_new:N \l__eskdfont_mathscriptsize_dim
@@ -650,6 +650,10 @@
   }
 \cs_new_nopar:Nn \__eskdfont_set_symbol_font:nnnnn
   {
+    % hack - меняем масштабы шрифтов, чтобы внутреннее имя шрифта отличалось от других,
+    % и это шрифт мог иметь отличный от других набор команд FontAdjustment
+    \fp_gadd:Nn \g__eskdfont_type_A_scale_fp {0.00001}
+    \fp_gadd:Nn \g__eskdfont_type_B_scale_fp {0.00001}
     \tl_set:Nn \l__eskdfont_type_A_fontadjustment_tl {#4}
     \tl_set:Nn \l__eskdfont_type_B_fontadjustment_tl {#5}
     \__eskdfont_set_symbol_font:nnn {#1} {#2} {#3}
@@ -664,23 +668,27 @@
   {
     % положение дробной линии по вертикали
     \fontdimen22\font=.505ex\relax %AxisHeight
+    % увеличиваем количество доступных параметров до 23
+    \fontdimen23\font=0pt\relax
   }
   {
     % положение дробной линии по вертикали
     \fontdimen22\font=.81ex\relax %AxisHeight
+    % увеличиваем количество доступных параметров до 23
+    \fontdimen23\font=0pt\relax
   }
 
 \__eskdfont_set_symbol_font:nnnnn {largesymbols} \mddefault \updefault
   {
     % переопределяем толщину линии в дробях для шрифта типа А d = 1/14 h = 1/10 c = .1ex
     \fontdimen8\font=.1ex\relax %FractionRuleThickness
-    \fontdimen48\font=.1ex\relax %FractionRuleThickness
+    % увеличиваем количество доступных параметров до 13
     \fontdimen13\font=0pt\relax
   }
   {
     % переопределяем толщину линии в дробях для шрифта типа Б d = 1/10 h = 1/7 c = 0,1428571428571429ex
-    \fontdimen8\font=0,1428571428571429ex\relax %FractionRuleThickness
-    \fontdimen48\font=0,1428571428571429ex\relax %FractionRuleThickness
+    \fontdimen8\font=.1428571428571429ex\relax %FractionRuleThickness
+    % увеличиваем количество доступных параметров до 13
     \fontdimen13\font=0pt\relax
   }
 
