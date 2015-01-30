@@ -1,9 +1,9 @@
 SplineFontDB: 3.0
-FontName: Untitled1
-FullName: Untitled1
-FamilyName: Untitled1
+FontName: GOST2.304-81TypeA
+FullName: GOST 2.304-81 Type A
+FamilyName: GOST 2.304-81
 Weight: Regular
-Copyright: Copyright (c) 2015, Anonymous
+Copyright: Copyright (c) 2015, Sergei S. Betke, sergey.s.betke@yandex.ru
 UComments: "2015-1-30: Created with FontForge (http://fontforge.org)"
 Version: 001.000
 ItalicAngle: 0
@@ -20,7 +20,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 0
 OS2_UseTypoMetrics: 1
 CreationTime: 1422632559
-ModificationTime: 1422632559
+ModificationTime: 1422634218
 OS2TypoAscent: 0
 OS2TypoAOffset: 1
 OS2TypoDescent: 0
@@ -37,15 +37,21 @@ HheadDOffset: 1
 OS2CapHeight: 0
 OS2XHeight: 0
 OS2Vendor: 'PfEd'
+MarkAttachClasses: 1
 DEI: 91125
+LangName: 1033 "" "" "Normal" "" "" "" "" "" "" "Sergei S. Betke"
+LangName: 1049 "" "" "+BB4EMQRLBEcEPQRLBDkA"
 Encoding: UnicodeFull
+Compacted: 1
 UnicodeInterp: none
 NameList: AGL For New Fonts
 DisplaySize: -48
 AntiAlias: 1
 FitToEm: 1
-WinInfo: 64 16 4
+WinInfo: 0 16 4
 OnlyBitmaps: 1
+BeginPrivate: 0
+EndPrivate
 BeginChars: 1114112 0
 EndChars
 EndSplineFont
