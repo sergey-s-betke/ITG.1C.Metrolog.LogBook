@@ -8,20 +8,22 @@ UComments: "2015-1-30: Created with FontForge (http://fontforge.org)"
 Version: 001.000
 ItalicAngle: 0
 UnderlinePosition: -100
-UnderlineWidth: 50
-Ascent: 800
-Descent: 200
+UnderlineWidth: 100
+Ascent: 1400
+Descent: 400
 InvalidEm: 0
 LayerCount: 2
 Layer: 0 1 "Back" 1
 Layer: 1 1 "Fore" 0
 XUID: [1021 655 1312083872 19032]
+BaseHoriz: 4 'ideo' 'idtp' 'math' 'romn'
+BaseScript: 'DFLT' 3  -400 1400 0 0
 FSType: 0
 OS2Version: 0
 OS2_WeightWidthSlopeOnly: 1
 OS2_UseTypoMetrics: 1
 CreationTime: 1422632559
-ModificationTime: 1422955715
+ModificationTime: 1422964847
 PfmFamily: 33
 TTFWeight: 400
 TTFWidth: 5
@@ -41,8 +43,8 @@ HheadAscent: 0
 HheadAOffset: 1
 HheadDescent: 0
 HheadDOffset: 1
-OS2CapHeight: 0
-OS2XHeight: 0
+OS2CapHeight: 1400
+OS2XHeight: 1000
 OS2FamilyClass: 2048
 OS2Vendor: 'PfEd'
 MarkAttachClasses: 1
@@ -57,15 +59,15 @@ DisplaySize: -48
 AntiAlias: 1
 FitToEm: 1
 WinInfo: 0 16 4
-OnlyBitmaps: 1
 BeginPrivate: 0
 EndPrivate
-TeXData: 1 0 0 346030 173015 115343 0 1048576 115343 783286 444596 497025 792723 393216 433062 380633 303038 157286 324010 404750 52429 2506097 1059062 262144
+TeXData: 3 0 0 346030 173015 116508 582542 1048576 116508 783286 444596 497025 792723 393216 433062 380633 303038 157286 324010 404750 52429 2506097 1059062 262144
 BeginChars: 1114112 1
 
 StartChar: zero
 Encoding: 48 48 0
 Width: 900
+VWidth: 1000
 Flags: W
 LayerCount: 2
 Back
