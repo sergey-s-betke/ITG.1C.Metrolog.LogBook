@@ -24,7 +24,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 1
 OS2_UseTypoMetrics: 1
 CreationTime: 1422632559
-ModificationTime: 1423003447
+ModificationTime: 1423005270
 PfmFamily: 33
 TTFWeight: 400
 TTFWidth: 5
@@ -48,6 +48,7 @@ OS2CapHeight: 1400
 OS2XHeight: 1000
 OS2FamilyClass: 2048
 OS2Vendor: 'PfEd'
+Lookup: 258 0 0 "'kern' Horizontal Kerning lookup 0" { "'kern' Horizontal Kerning lookup 0 subtable" [270,27,0] } []
 MarkAttachClasses: 1
 DEI: 91125
 ShortTable: maxp 16
@@ -75,6 +76,7 @@ LangName: 1033 "" "" "Normal" "" "" "" "" "" "" "Sergei S. Betke"
 LangName: 1049 "" "" "+BB4EMQRLBEcEPQRLBDkA"
 GaspTable: 4 8 10 20 13 60 15 65535 2 1
 Encoding: UnicodeFull
+Compacted: 1
 UnicodeInterp: none
 NameList: AGL For New Fonts
 DisplaySize: -48
@@ -304,6 +306,8 @@ SplineSet
  170 1000 170 1000 150 1000 c 128,-1,0
  130 1000 130 1000 115 1015 c 128,-1,1
 EndSplineSet
+Validated: 3073
+Kerns2: 3 -100 "'kern' Horizontal Kerning lookup 0 subtable"
 EndChar
 
 StartChar: two
@@ -345,6 +349,8 @@ SplineSet
  770 100 770 100 785 85 c 128,-1,0
  800 70 800 70 800 50 c 128,-1,1
 EndSplineSet
+Validated: 3073
+Kerns2: 3 -100 "'kern' Horizontal Kerning lookup 0 subtable"
 EndChar
 
 StartChar: three
@@ -397,6 +403,7 @@ SplineSet
  130 1300 130 1300 115 1315 c 128,-1,0
  100 1330 100 1330 100 1350 c 128,-1,1
 EndSplineSet
+Validated: 3073
 EndChar
 EndChars
 EndSplineFont
