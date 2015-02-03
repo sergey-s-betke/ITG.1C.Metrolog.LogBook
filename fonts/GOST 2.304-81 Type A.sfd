@@ -24,7 +24,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 1
 OS2_UseTypoMetrics: 1
 CreationTime: 1422632559
-ModificationTime: 1422995303
+ModificationTime: 1422999592
 PfmFamily: 33
 TTFWeight: 400
 TTFWidth: 5
@@ -75,7 +75,6 @@ LangName: 1033 "" "" "Normal" "" "" "" "" "" "" "Sergei S. Betke"
 LangName: 1049 "" "" "+BB4EMQRLBEcEPQRLBDkA"
 GaspTable: 4 8 10 20 13 60 15 65535 2 1
 Encoding: UnicodeFull
-Compacted: 1
 UnicodeInterp: none
 NameList: AGL For New Fonts
 DisplaySize: -48
@@ -239,15 +238,15 @@ Grid
   Named: "h (14d)"
 EndSplineSet
 TeXData: 3 0 0 346030 173015 116508 582542 1048576 116508 783286 444596 497025 792723 393216 433062 380633 303038 157286 324010 404750 52429 2506097 1059062 262144
-BeginChars: 1114112 1
+BeginChars: 1114112 2
 
 StartChar: zero
 Encoding: 48 48 0
 Width: 900
 VWidth: 1000
 Flags: W
-HStem: 0 100<308.922 591.078> 1300 100<303.322 596.678>
-VStem: 100 100<204.42 1197.25> 700 100<204.42 1197.25>
+HStem: 0 100<308.182 591.818> 1300 100<303.212 595.929>
+VStem: 100 100<204.612 1197.25> 700 100<204.612 1197.25>
 LayerCount: 2
 Back
 Fore
@@ -276,6 +275,35 @@ SplineSet
  100 182 100 182 100 350 c 2,12,-1
 EndSplineSet
 Validated: 3073
+EndChar
+
+StartChar: one
+Encoding: 49 49 1
+Width: 600
+VWidth: 0
+Flags: MW
+VStem: 400 100<1.18652 1229>
+LayerCount: 2
+Back
+Fore
+SplineSet
+115 1015 m 128,-1,1
+ 100 1030 100 1030 100 1050 c 0,2,3
+ 100 1071 100 1071 115 1085 c 2,4,-1
+ 415 1385 l 1,5,6
+ 431 1400 431 1400 450 1400 c 0,7,8
+ 474 1400 474 1400 487 1386 c 128,-1,9
+ 500 1372 500 1372 500 1350 c 2,10,-1
+ 500 50 l 2,11,12
+ 500 30 500 30 485 15 c 128,-1,13
+ 470 0 470 0 450 0 c 128,-1,14
+ 430 0 430 0 415 15 c 128,-1,15
+ 400 30 400 30 400 50 c 2,16,-1
+ 400 1229 l 1,17,-1
+ 185 1015 l 2,18,19
+ 170 1000 170 1000 150 1000 c 128,-1,0
+ 130 1000 130 1000 115 1015 c 128,-1,1
+EndSplineSet
 EndChar
 EndChars
 EndSplineFont
