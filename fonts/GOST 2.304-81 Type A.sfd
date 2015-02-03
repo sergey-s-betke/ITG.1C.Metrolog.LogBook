@@ -14,10 +14,9 @@ Ascent: 1400
 Descent: 400
 InvalidEm: 0
 LayerCount: 3
-Layer: 0 1 "Back" 1
+Layer: 0 0 "Back" 1
 Layer: 1 0 "Fore" 0
 Layer: 2 1 "Old" 0
-StrokedFont: 1
 XUID: [1021 655 1312083872 19032]
 BaseHoriz: 4 'ideo' 'idtp' 'math' 'romn'
 BaseScript: 'DFLT' 3  -400 1400 0 0
@@ -26,7 +25,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 1
 OS2_UseTypoMetrics: 1
 CreationTime: 1422632559
-ModificationTime: 1422973048
+ModificationTime: 1422976621
 PfmFamily: 33
 TTFWeight: 400
 TTFWidth: 5
@@ -54,7 +53,7 @@ MarkAttachClasses: 1
 DEI: 91125
 LangName: 1033 "" "" "Normal" "" "" "" "" "" "" "Sergei S. Betke"
 LangName: 1049 "" "" "+BB4EMQRLBEcEPQRLBDkA"
-GaspTable: 3 8 10 20 5 65535 15 1
+GaspTable: 4 8 10 20 13 60 15 65535 2 1
 Encoding: UnicodeFull
 Compacted: 1
 UnicodeInterp: none
@@ -226,19 +225,29 @@ StartChar: zero
 Encoding: 48 48 0
 Width: 900
 VWidth: 1000
-Flags: MW
+Flags: W
+HStem: 0 100<308.603 591.397> 1300 100<305.7 594.3>
+VStem: 100 100<206.63 1193.87> 700 100<206.63 1193.87>
 LayerCount: 3
 Back
 Fore
 SplineSet
-150 350 m 2
- 150 1050 l 2
- 150 1250 300 1350 450 1350 c 0
- 600 1350 750 1250 750 1050 c 2
- 750 350 l 2
- 750 150 600 50 450 50 c 0
- 300 50 150 150 150 350 c 2
+200 350 m 2
+ 200 181 322 100 450 100 c 0
+ 578 100 700 181 700 350 c 2
+ 700 1050 l 2
+ 700 1219 588 1300 450 1300 c 24
+ 312 1300 200 1219 200 1050 c 2
+ 200 350 l 2
+100 350 m 2
+ 100 1050 l 2
+ 100 1281 257 1400 450 1400 c 24
+ 643 1400 800 1281 800 1050 c 2
+ 800 350 l 2
+ 800 119 622 0 450 0 c 0
+ 278 0 100 119 100 350 c 2
 EndSplineSet
+Validated: 1
 Layer: 2
 EndChar
 EndChars
