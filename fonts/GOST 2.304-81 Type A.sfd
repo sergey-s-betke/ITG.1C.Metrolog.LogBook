@@ -24,7 +24,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 1
 OS2_UseTypoMetrics: 1
 CreationTime: 1422632559
-ModificationTime: 1422992090
+ModificationTime: 1422995303
 PfmFamily: 33
 TTFWeight: 400
 TTFWidth: 5
@@ -68,12 +68,6 @@ ShortTable: maxp 16
   0
   0
 EndShort
-TtTable: prep
-
-EndTTInstrs
-TtTable: fpgm
-
-EndTTInstrs
 ShortTable: cvt  1
   0
 EndShort
