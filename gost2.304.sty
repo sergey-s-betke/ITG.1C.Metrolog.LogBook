@@ -276,8 +276,8 @@
 \@onlypreamble \__eskdfont_normalsize_gset:
 
 % основные параметры шрифтов ГОСТ 2.304
-\tl_const:Nn \c__eskdfont_type_A_tl { OpenGost~Type~A~TT }
-\tl_const:Nn \c__eskdfont_type_B_tl { OpenGost~Type~B~TT }
+\tl_const:Nn \c__eskdfont_type_A_tl { GOST2.304-81TypeA }
+\tl_const:Nn \c__eskdfont_type_B_tl { GOST2.304-81TypeA }
 \tl_new:N \l__eskdfont_type_A_features_tl
 \tl_new:N \l__eskdfont_type_A_fontadjustment_tl
 \fp_new:N \g__eskdfont_type_A_scale_fp
@@ -303,7 +303,7 @@
 \tl_gset:Nn \g__eskdfont_font_features_tl
   {
     Path = fonts/
-    ,Extension = .ttf
+    ,Extension = .otf
     ,UprightFont = \tl_use:N \c__eskdfont_type_A_tl
     ,OpticalSize = 0
     ,Mapping = tex-text
