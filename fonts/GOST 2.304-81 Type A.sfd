@@ -5,7 +5,7 @@ FamilyName: GOST 2.304-81
 Weight: Regular
 Copyright: 
 UComments: "2015-1-30: Created with FontForge (http://fontforge.org)"
-Version: 001.000
+Version: 01.00.0000
 StrokeWidth: 100
 ItalicAngle: 0
 UnderlinePosition: -100
@@ -24,7 +24,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 1
 OS2_UseTypoMetrics: 1
 CreationTime: 1422632559
-ModificationTime: 1423040598
+ModificationTime: 1423063830
 PfmFamily: 33
 TTFWeight: 400
 TTFWidth: 5
@@ -72,8 +72,8 @@ EndShort
 ShortTable: cvt  1
   0
 EndShort
-LangName: 1033 "" "" "Normal" "" "" "" "" "" "" "Sergei S. Betke"
-LangName: 1049 "" "" "+BB4EMQRLBEcEPQRLBDkA"
+LangName: 1033 "" "" "Normal" "" "" "01.00.0000" "" "" "" "Sergei S. Betke"
+LangName: 1049 "" "+BBMEHgQhBCIA 2.304-81" "+BB4EMQRLBEcEPQRLBDkA" "" "+BBMEHgQhBCIA 2.304-81 +BCIEOAQ/ +BBAA" "" "" "" "" "+BBEENQRCBDoENQAA +BCEENQRABDMENQQ5 +BCEENQRABDMENQQ1BDIEOARH"
 GaspTable: 4 8 10 20 13 60 15 65535 2 1
 Encoding: UnicodeFull
 Compacted: 1
@@ -452,6 +452,7 @@ SplineSet
  705 1678 705 1678 718.5 1689 c 128,-1,23
  732 1700 732 1700 750 1700 c 2,0,-1
 EndSplineSet
+Validated: 3073
 EndChar
 EndChars
 EndSplineFont
