@@ -10,13 +10,12 @@ StrokeWidth: 100
 ItalicAngle: 0
 UnderlinePosition: -100
 UnderlineWidth: 100
-Ascent: 1400
+Ascent: 1700
 Descent: 400
 InvalidEm: 0
 LayerCount: 2
 Layer: 0 1 "Back" 1
 Layer: 1 1 "Fore" 0
-HasVMetrics: 1
 XUID: [1021 655 1312083872 19032]
 BaseHoriz: 4 'ideo' 'idtp' 'math' 'romn'
 BaseScript: 'DFLT' 3  -400 1400 0 0
@@ -25,7 +24,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 1
 OS2_UseTypoMetrics: 1
 CreationTime: 1422632559
-ModificationTime: 1423124477
+ModificationTime: 1423128043
 PfmFamily: 33
 TTFWeight: 400
 TTFWidth: 5
@@ -482,6 +481,7 @@ EndChar
 StartChar: radical
 Encoding: 8730 8730 4
 Width: 1100
+VWidth: 1800
 Flags: MW
 TeX: 100 1800
 HStem: 1600 100<790 1100>
