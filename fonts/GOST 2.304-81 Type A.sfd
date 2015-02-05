@@ -16,6 +16,7 @@ InvalidEm: 0
 LayerCount: 2
 Layer: 0 1 "Back" 1
 Layer: 1 1 "Fore" 0
+HasVMetrics: 1
 XUID: [1021 655 1312083872 19032]
 BaseHoriz: 4 'ideo' 'idtp' 'math' 'romn'
 BaseScript: 'DFLT' 3  -400 1400 0 0
@@ -24,7 +25,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 1
 OS2_UseTypoMetrics: 1
 CreationTime: 1422632559
-ModificationTime: 1423063830
+ModificationTime: 1423124477
 PfmFamily: 33
 TTFWeight: 400
 TTFWidth: 5
@@ -75,6 +76,63 @@ EndShort
 LangName: 1033 "" "" "Normal" "" "" "01.00.0000" "" "" "" "Sergei S. Betke"
 LangName: 1049 "" "+BBMEHgQhBCIA 2.304-81" "+BB4EMQRLBEcEPQRLBDkA" "" "+BBMEHgQhBCIA 2.304-81 +BCIEOAQ/ +BBAA" "" "" "" "" "+BBEENQRCBDoENQAA +BCEENQRABDMENQQ5 +BCEENQRABDMENQQ1BDIEOARH"
 GaspTable: 4 8 10 20 13 60 15 65535 2 1
+MATH:ScriptPercentScaleDown: 80
+MATH:ScriptScriptPercentScaleDown: 60
+MATH:DelimitedSubFormulaMinHeight: 2700
+MATH:DisplayOperatorMinHeight: 0
+MATH:MathLeading: 0 
+MATH:AxisHeight: 100 
+MATH:AccentBaseHeight: 0 
+MATH:FlattenedAccentBaseHeight: 0 
+MATH:SubscriptShiftDown: 0 
+MATH:SubscriptTopMax: 0 
+MATH:SubscriptBaselineDropMin: 0 
+MATH:SuperscriptShiftUp: 0 
+MATH:SuperscriptShiftUpCramped: 0 
+MATH:SuperscriptBottomMin: 0 
+MATH:SuperscriptBaselineDropMax: 0 
+MATH:SubSuperscriptGapMin: 400 
+MATH:SuperscriptBottomMaxWithSubscript: 0 
+MATH:SpaceAfterScript: 75 
+MATH:UpperLimitGapMin: 0 
+MATH:UpperLimitBaselineRiseMin: 0 
+MATH:LowerLimitGapMin: 0 
+MATH:LowerLimitBaselineDropMin: 0 
+MATH:StackTopShiftUp: 0 
+MATH:StackTopDisplayStyleShiftUp: 0 
+MATH:StackBottomShiftDown: 0 
+MATH:StackBottomDisplayStyleShiftDown: 0 
+MATH:StackGapMin: 300 
+MATH:StackDisplayStyleGapMin: 700 
+MATH:StretchStackTopShiftUp: 0 
+MATH:StretchStackBottomShiftDown: 0 
+MATH:StretchStackGapAboveMin: 0 
+MATH:StretchStackGapBelowMin: 0 
+MATH:FractionNumeratorShiftUp: 0 
+MATH:FractionNumeratorDisplayStyleShiftUp: 0 
+MATH:FractionDenominatorShiftDown: 0 
+MATH:FractionDenominatorDisplayStyleShiftDown: 0 
+MATH:FractionNumeratorGapMin: 100 
+MATH:FractionNumeratorDisplayStyleGapMin: 300 
+MATH:FractionRuleThickness: 100 
+MATH:FractionDenominatorGapMin: 100 
+MATH:FractionDenominatorDisplayStyleGapMin: 300 
+MATH:SkewedFractionHorizontalGap: 0 
+MATH:SkewedFractionVerticalGap: 0 
+MATH:OverbarVerticalGap: 300 
+MATH:OverbarRuleThickness: 100 
+MATH:OverbarExtraAscender: 100 
+MATH:UnderbarVerticalGap: 300 
+MATH:UnderbarRuleThickness: 100 
+MATH:UnderbarExtraDescender: 100 
+MATH:RadicalVerticalGap: 100 
+MATH:RadicalDisplayStyleVerticalGap: 0 
+MATH:RadicalRuleThickness: 100 
+MATH:RadicalExtraAscender: 100 
+MATH:RadicalKernBeforeDegree: 500 
+MATH:RadicalKernAfterDegree: -1000 
+MATH:RadicalDegreeBottomRaisePercent: 60
+MATH:MinConnectorOverlap: 36
 Encoding: UnicodeFull
 Compacted: 1
 UnicodeInterp: none
