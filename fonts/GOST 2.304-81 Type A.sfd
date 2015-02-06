@@ -24,7 +24,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 1
 OS2_UseTypoMetrics: 0
 CreationTime: 1422632559
-ModificationTime: 1423233676
+ModificationTime: 1423234278
 PfmFamily: 33
 TTFWeight: 400
 TTFWidth: 5
@@ -74,7 +74,7 @@ ShortTable: cvt  1
 EndShort
 LangName: 1033 "" "" "Normal" "" "" "01.00.0000" "" "" "" "Sergei S. Betke"
 LangName: 1049 "" "+BBMEHgQhBCIA 2.304-81" "+BB4EMQRLBEcEPQRLBDkA" "" "+BBMEHgQhBCIA 2.304-81 +BCIEOAQ/ +BBAA" "" "" "" "" "+BBEENQRCBDoENQAA +BCEENQRABDMENQQ5 +BCEENQRABDMENQQ1BDIEOARH"
-GaspTable: 4 8 10 42 13 84 15 65535 2 1
+GaspTable: 4 8 10 21 13 84 15 65535 2 1
 MATH:ScriptPercentScaleDown: 80
 MATH:ScriptScriptPercentScaleDown: 60
 MATH:DelimitedSubFormulaMinHeight: 2700
