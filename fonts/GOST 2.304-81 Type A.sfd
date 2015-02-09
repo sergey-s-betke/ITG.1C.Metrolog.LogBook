@@ -24,7 +24,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 1
 OS2_UseTypoMetrics: 0
 CreationTime: 1422632559
-ModificationTime: 1423507258
+ModificationTime: 1423509508
 PfmFamily: 33
 TTFWeight: 400
 TTFWidth: 5
@@ -139,7 +139,7 @@ NameList: AGL For New Fonts
 DisplaySize: -48
 AntiAlias: 1
 FitToEm: 1
-WinInfo: 0 27 9
+WinInfo: 162 27 9
 BeginPrivate: 0
 EndPrivate
 Grid
@@ -4171,7 +4171,7 @@ EndSplineSet
 Validated: 3073
 EndChar
 
-StartChar: softhyphen
+StartChar: uni00AD
 Encoding: 173 173 110
 Width: 800
 Flags: W
@@ -4354,14 +4354,14 @@ EndSplineSet
 Validated: 3073
 EndChar
 
-StartChar: micro
+StartChar: mu
 Encoding: 181 181 116
-Width: 830
+Width: 900
 Flags: W
 LayerCount: 2
 Back
 Fore
-Validated: 1
+Refer: 168 956 N 1 0 0 1 0 0 2
 EndChar
 
 StartChar: paragraph
@@ -4408,7 +4408,7 @@ EndSplineSet
 Validated: 3073
 EndChar
 
-StartChar: NBSP
+StartChar: uni00A0
 Encoding: 160 160 118
 Width: 400
 Flags: W
@@ -4780,7 +4780,7 @@ Fore
 Refer: 186 1043 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: Delta
+StartChar: uni0394
 Encoding: 916 916 136
 Width: 900
 Flags: W
@@ -5185,7 +5185,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: Omega
+StartChar: uni03A9
 Encoding: 937 937 156
 Width: 980
 Flags: W
@@ -5740,7 +5740,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: mu
+StartChar: uni03BC
 Encoding: 956 956 168
 Width: 830
 Flags: W
@@ -6324,16 +6324,18 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10023
+StartChar: uni0401
 Encoding: 1025 1025 182
-Width: 780
-Flags: W
+Width: 800
+Flags: MW
 LayerCount: 2
 Back
 Fore
+Refer: 105 168 N 1 0 0 1 100 200 2
+Refer: 188 1045 N 1 0 0 1 0 0 2
 EndChar
 
-StartChar: afii10017
+StartChar: uni0410
 Encoding: 1040 1040 183
 Width: 1000
 Flags: W
@@ -6343,7 +6345,7 @@ Fore
 Refer: 36 65 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: afii10018
+StartChar: uni0411
 Encoding: 1041 1041 184
 Width: 870
 Flags: W
@@ -6381,7 +6383,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10019
+StartChar: uni0412
 Encoding: 1042 1042 185
 Width: 900
 Flags: W
@@ -6391,7 +6393,7 @@ Fore
 Refer: 37 66 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: afii10020
+StartChar: uni0413
 Encoding: 1043 1043 186
 Width: 750
 Flags: W
@@ -6417,7 +6419,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10021
+StartChar: uni0414
 Encoding: 1044 1044 187
 Width: 850
 Flags: W
@@ -6460,7 +6462,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10022
+StartChar: uni0415
 Encoding: 1045 1045 188
 Width: 800
 Flags: W
@@ -6470,7 +6472,7 @@ Fore
 Refer: 40 69 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: afii10024
+StartChar: uni0416
 Encoding: 1046 1046 189
 Width: 1060
 Flags: W
@@ -6518,7 +6520,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10025
+StartChar: uni0417
 Encoding: 1047 1047 190
 Width: 840
 Flags: W
@@ -6569,7 +6571,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10026
+StartChar: uni0418
 Encoding: 1048 1048 191
 Width: 900
 Flags: W
@@ -6601,7 +6603,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10027
+StartChar: uni0419
 Encoding: 1049 1049 192
 Width: 900
 Flags: W
@@ -6644,7 +6646,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10028
+StartChar: uni041A
 Encoding: 1050 1050 193
 Width: 900
 Flags: W
@@ -6654,7 +6656,7 @@ Fore
 Refer: 46 75 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: afii10029
+StartChar: uni041B
 Encoding: 1051 1051 194
 Width: 850
 Flags: W
@@ -6685,7 +6687,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10030
+StartChar: uni041C
 Encoding: 1052 1052 195
 Width: 1100
 Flags: W
@@ -6695,7 +6697,7 @@ Fore
 Refer: 48 77 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: afii10031
+StartChar: uni041D
 Encoding: 1053 1053 196
 Width: 900
 Flags: W
@@ -6705,7 +6707,7 @@ Fore
 Refer: 43 72 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: afii10032
+StartChar: uni041E
 Encoding: 1054 1054 197
 Width: 900
 Flags: W
@@ -6715,7 +6717,7 @@ Fore
 Refer: 50 79 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: afii10033
+StartChar: uni041F
 Encoding: 1055 1055 198
 Width: 900
 Flags: W
@@ -6745,7 +6747,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10034
+StartChar: uni0420
 Encoding: 1056 1056 199
 Width: 900
 Flags: W
@@ -6755,7 +6757,7 @@ Fore
 Refer: 51 80 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: afii10035
+StartChar: uni0421
 Encoding: 1057 1057 200
 Width: 800
 Flags: W
@@ -6765,7 +6767,7 @@ Fore
 Refer: 38 67 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: afii10036
+StartChar: uni0422
 Encoding: 1058 1058 201
 Width: 900
 Flags: W
@@ -6775,7 +6777,7 @@ Fore
 Refer: 55 84 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: afii10037
+StartChar: uni0423
 Encoding: 1059 1059 202
 Width: 890
 Flags: W
@@ -6816,7 +6818,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10038
+StartChar: uni0424
 Encoding: 1060 1060 203
 Width: 1200
 Flags: W
@@ -6872,7 +6874,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10039
+StartChar: uni0425
 Encoding: 1061 1061 204
 Width: 1000
 Flags: W
@@ -6882,7 +6884,7 @@ Fore
 Refer: 59 88 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: afii10040
+StartChar: uni0426
 Encoding: 1062 1062 205
 Width: 930
 Flags: W
@@ -6919,7 +6921,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10041
+StartChar: uni0427
 Encoding: 1063 1063 206
 Width: 890
 Flags: W
@@ -6954,7 +6956,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10042
+StartChar: uni0428
 Encoding: 1064 1064 207
 Width: 1100
 Flags: W
@@ -6991,7 +6993,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10043
+StartChar: uni0429
 Encoding: 1065 1065 208
 Width: 1130
 Flags: W
@@ -7035,7 +7037,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10044
+StartChar: uni042A
 Encoding: 1066 1066 209
 Width: 1000
 Flags: W
@@ -7073,7 +7075,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10045
+StartChar: uni042B
 Encoding: 1067 1067 210
 Width: 1000
 Flags: W
@@ -7118,7 +7120,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10046
+StartChar: uni042C
 Encoding: 1068 1068 211
 Width: 870
 Flags: W
@@ -7152,7 +7154,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10047
+StartChar: uni042D
 Encoding: 1069 1069 212
 Width: 870
 Flags: W
@@ -7193,7 +7195,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10048
+StartChar: uni042E
 Encoding: 1070 1070 213
 Width: 990
 Flags: W
@@ -7240,7 +7242,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10049
+StartChar: uni042F
 Encoding: 1071 1071 214
 Width: 880
 Flags: W
@@ -7280,7 +7282,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10065
+StartChar: uni0430
 Encoding: 1072 1072 215
 Width: 900
 Flags: W
@@ -7290,7 +7292,7 @@ Fore
 Refer: 68 97 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: afii10066
+StartChar: uni0431
 Encoding: 1073 1073 216
 Width: 780
 Flags: W
@@ -7333,7 +7335,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10067
+StartChar: uni0432
 Encoding: 1074 1074 217
 Width: 790
 Flags: W
@@ -7379,7 +7381,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10068
+StartChar: uni0433
 Encoding: 1075 1075 218
 Width: 750
 Flags: W
@@ -7418,7 +7420,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10069
+StartChar: uni0434
 Encoding: 1076 1076 219
 Width: 790
 Flags: W
@@ -7460,7 +7462,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10070
+StartChar: uni0435
 Encoding: 1077 1077 220
 Width: 800
 Flags: W
@@ -7470,7 +7472,7 @@ Fore
 Refer: 72 101 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: afii10072
+StartChar: uni0436
 Encoding: 1078 1078 221
 Width: 960
 Flags: W
@@ -7518,7 +7520,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10073
+StartChar: uni0437
 Encoding: 1079 1079 222
 Width: 680
 Flags: W
@@ -7565,7 +7567,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10074
+StartChar: uni0438
 Encoding: 1080 1080 223
 Width: 800
 Flags: W
@@ -7575,7 +7577,7 @@ Fore
 Refer: 81 110 N -1 0 0 -1 800 1000 2
 EndChar
 
-StartChar: afii10075
+StartChar: uni0439
 Encoding: 1081 1081 224
 Width: 800
 Flags: W
@@ -7618,7 +7620,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10076
+StartChar: uni043A
 Encoding: 1082 1082 225
 Width: 770
 Flags: W
@@ -7654,7 +7656,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10077
+StartChar: uni043B
 Encoding: 1083 1083 226
 Width: 750
 Flags: W
@@ -7685,7 +7687,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10078
+StartChar: uni043C
 Encoding: 1084 1084 227
 Width: 900
 Flags: W
@@ -7721,7 +7723,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10079
+StartChar: uni043D
 Encoding: 1085 1085 228
 Width: 800
 Flags: W
@@ -7757,7 +7759,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10080
+StartChar: uni043E
 Encoding: 1086 1086 229
 Width: 800
 Flags: W
@@ -7767,7 +7769,7 @@ Fore
 Refer: 82 111 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: afii10081
+StartChar: uni043F
 Encoding: 1087 1087 230
 Width: 800
 Flags: W
@@ -7777,7 +7779,7 @@ Fore
 Refer: 81 110 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: afii10082
+StartChar: uni0440
 Encoding: 1088 1088 231
 Width: 800
 Flags: W
@@ -7787,7 +7789,7 @@ Fore
 Refer: 83 112 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: afii10083
+StartChar: uni0441
 Encoding: 1089 1089 232
 Width: 700
 Flags: W
@@ -7797,7 +7799,7 @@ Fore
 Refer: 70 99 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: afii10084
+StartChar: uni0442
 Encoding: 1090 1090 233
 Width: 1100
 Flags: W
@@ -7807,7 +7809,7 @@ Fore
 Refer: 80 109 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: afii10085
+StartChar: uni0443
 Encoding: 1091 1091 234
 Width: 800
 Flags: W
@@ -7848,7 +7850,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10086
+StartChar: uni0444
 Encoding: 1092 1092 235
 Width: 1060
 Flags: W
@@ -7896,7 +7898,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10087
+StartChar: uni0445
 Encoding: 1093 1093 236
 Width: 800
 Flags: W
@@ -7906,7 +7908,7 @@ Fore
 Refer: 91 120 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: afii10088
+StartChar: uni0446
 Encoding: 1094 1094 237
 Width: 830
 Flags: W
@@ -7945,7 +7947,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10089
+StartChar: uni0447
 Encoding: 1095 1095 238
 Width: 790
 Flags: W
@@ -7980,7 +7982,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10090
+StartChar: uni0448
 Encoding: 1096 1096 239
 Width: 1100
 Flags: W
@@ -7990,7 +7992,7 @@ Fore
 Refer: 80 109 N -1 0 0 -1 1100 1000 3
 EndChar
 
-StartChar: afii10091
+StartChar: uni0449
 Encoding: 1097 1097 240
 Width: 1130
 Flags: W
@@ -8036,7 +8038,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10092
+StartChar: uni044A
 Encoding: 1098 1098 241
 Width: 800
 Flags: W
@@ -8074,7 +8076,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10093
+StartChar: uni044B
 Encoding: 1099 1099 242
 Width: 900
 Flags: W
@@ -8119,7 +8121,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10094
+StartChar: uni044C
 Encoding: 1100 1100 243
 Width: 770
 Flags: W
@@ -8153,7 +8155,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10095
+StartChar: uni044D
 Encoding: 1101 1101 244
 Width: 770
 Flags: W
@@ -8194,7 +8196,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10096
+StartChar: uni044E
 Encoding: 1102 1102 245
 Width: 890
 Flags: W
@@ -8241,7 +8243,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10097
+StartChar: uni044F
 Encoding: 1103 1103 246
 Width: 790
 Flags: W
@@ -8281,13 +8283,15 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: afii10071
+StartChar: uni0451
 Encoding: 1105 1105 247
-Width: 780
+Width: 800
 Flags: W
 LayerCount: 2
 Back
 Fore
+Refer: 105 168 N 1 0 0 1 100 -100 2
+Refer: 220 1077 N 1 0 0 1 0 0 2
 EndChar
 
 StartChar: uni2010
@@ -8932,7 +8936,7 @@ Refer: 41 70 N 1 0 0 1 500 0 2
 Refer: 114 177 N 1 0 0 1 0 0 2
 EndChar
 
-StartChar: afii61352
+StartChar: uni2116
 Encoding: 8470 8470 281
 Width: 1400
 Flags: W
@@ -9040,7 +9044,7 @@ SplineSet
 EndSplineSet
 EndChar
 
-StartChar: uni2126
+StartChar: Omega
 Encoding: 8486 8486 283
 Width: 980
 Flags: W
@@ -9472,7 +9476,7 @@ Fore
 Refer: 359 8960 N 1 0 0 1 0 0 3
 EndChar
 
-StartChar: uni2206
+StartChar: Delta
 Encoding: 8710 8710 307
 Width: 1000
 Flags: W
