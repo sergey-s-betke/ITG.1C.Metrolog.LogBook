@@ -24,7 +24,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 1
 OS2_UseTypoMetrics: 0
 CreationTime: 1422632559
-ModificationTime: 1423511831
+ModificationTime: 1423513367
 PfmFamily: 33
 TTFWeight: 400
 TTFWidth: 5
@@ -139,7 +139,7 @@ NameList: AGL For New Fonts
 DisplaySize: -48
 AntiAlias: 1
 FitToEm: 1
-WinInfo: 54 27 9
+WinInfo: 162 27 9
 BeginPrivate: 0
 EndPrivate
 Grid
@@ -337,8 +337,9 @@ Validated: 3073
 EndChar
 
 StartChar: round
-Encoding: 65535 -1 1
+Encoding: 57344 57344 1
 Width: 800
+GlyphClass: 5
 Flags: W
 HStem: 800 100<272.699 527.301> 1300 100<272.699 527.301>
 VStem: 100 100<972.699 1227.3> 600 100<972.699 1227.3>
@@ -567,9 +568,9 @@ VStem: 100 100<972.699 1227.3> 600 100<972.699 1227.3> 1000 100<172.699 427.3> 1
 LayerCount: 2
 Back
 Fore
-Refer: 394 -1 S 1 0 0 1 300 0 2
-Refer: 1 -1 S 1 0 0 1 0 0 2
-Refer: 1 -1 S 1 0 0 1 900 -800 2
+Refer: 394 57345 S 1 0 0 1 300 0 2
+Refer: 1 57344 S 1 0 0 1 0 0 2
+Refer: 1 57344 S 1 0 0 1 900 -800 2
 Validated: 32769
 EndChar
 
@@ -8638,11 +8639,11 @@ VStem: 100 100<972.699 1227.3> 600 100<972.699 1227.3> 1000 100<172.699 427.3> 1
 LayerCount: 2
 Back
 Fore
-Refer: 394 -1 S 1 0 0 1 300 0 2
-Refer: 1 -1 S 1 0 0 1 0 0 2
-Refer: 1 -1 S 1 0 0 1 900 -800 2
-Refer: 1 -1 S 1 0 0 1 1600 -800 2
-Validated: 98305
+Refer: 394 57345 S 1 0 0 1 300 0 2
+Refer: 1 57344 S 1 0 0 1 0 0 2
+Refer: 1 57344 S 1 0 0 1 900 -800 2
+Refer: 1 57344 S 1 0 0 1 1600 -800 2
+Validated: 32769
 EndChar
 
 StartChar: uni2031
@@ -8654,12 +8655,12 @@ VStem: 100 100<972.699 1227.3> 600 100<972.699 1227.3> 1000 100<172.699 427.3> 1
 LayerCount: 2
 Back
 Fore
-Refer: 394 -1 N 1 0 0 1 300 0 2
-Refer: 1 -1 N 1 0 0 1 0 0 2
-Refer: 1 -1 N 1 0 0 1 900 -800 2
-Refer: 1 -1 N 1 0 0 1 1600 -800 2
-Refer: 1 -1 N 1 0 0 1 2300 -800 2
-Validated: 98305
+Refer: 394 57345 N 1 0 0 1 300 0 2
+Refer: 1 57344 N 1 0 0 1 0 0 2
+Refer: 1 57344 N 1 0 0 1 900 -800 2
+Refer: 1 57344 N 1 0 0 1 1600 -800 2
+Refer: 1 57344 N 1 0 0 1 2300 -800 2
+Validated: 32769
 EndChar
 
 StartChar: minute
@@ -12278,8 +12279,9 @@ Validated: 1
 EndChar
 
 StartChar: percentslash
-Encoding: 65534 -1 394
+Encoding: 57345 57345 394
 Width: 1100
+GlyphClass: 5
 Flags: W
 LayerCount: 2
 Back
