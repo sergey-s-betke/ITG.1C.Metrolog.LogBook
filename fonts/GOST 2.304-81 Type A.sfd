@@ -24,7 +24,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 1
 OS2_UseTypoMetrics: 0
 CreationTime: 1422632559
-ModificationTime: 1423732657
+ModificationTime: 1423732914
 PfmFamily: 33
 TTFWeight: 400
 TTFWidth: 5
@@ -11355,41 +11355,35 @@ EndChar
 
 StartChar: product
 Encoding: 8719 8719 374
-Width: 2100
-VWidth: 0
+Width: 900
+Flags: W
 LayerCount: 2
 Back
 Fore
-SplineSet
-500 1346 m 1052,0,-1
-EndSplineSet
-Validated: 3073
+Refer: 148 928 S 1 0 0 1 0 0 2
+Validated: 98305
 EndChar
 
 StartChar: uni2210
 Encoding: 8720 8720 375
-Width: 2100
-VWidth: 0
+Width: 900
+Flags: W
 LayerCount: 2
 Back
 Fore
-SplineSet
-400 1388 m 1052,0,-1
-EndSplineSet
-Validated: 3073
+Refer: 374 8719 S -1 0 0 -1 900 1400 2
+Validated: 98305
 EndChar
 
 StartChar: summation
 Encoding: 8721 8721 376
-Width: 2100
-VWidth: 0
+Width: 900
+Flags: W
 LayerCount: 2
 Back
 Fore
-SplineSet
-82 1600 m 1052,0,-1
-EndSplineSet
-Validated: 3073
+Refer: 150 931 S 1 0 0 1 0 0 2
+Validated: 98305
 EndChar
 
 StartChar: uni2224
