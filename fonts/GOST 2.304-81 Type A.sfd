@@ -24,7 +24,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 1
 OS2_UseTypoMetrics: 0
 CreationTime: 1422632559
-ModificationTime: 1423774515
+ModificationTime: 1423775546
 PfmFamily: 33
 TTFWeight: 400
 TTFWidth: 5
@@ -134,13 +134,12 @@ MATH:RadicalKernAfterDegree: -1000
 MATH:RadicalDegreeBottomRaisePercent: 60
 MATH:MinConnectorOverlap: 36
 Encoding: UnicodeFull
-Compacted: 1
 UnicodeInterp: none
 NameList: AGL For New Fonts
 DisplaySize: -48
 AntiAlias: 1
 FitToEm: 1
-WinInfo: 216 27 9
+WinInfo: 9045 27 9
 BeginPrivate: 0
 EndPrivate
 Grid
@@ -11367,81 +11366,92 @@ EndChar
 
 StartChar: uni239B
 Encoding: 9115 9115 388
-Width: 2100
-VWidth: 0
+Width: 400
+VWidth: 2100
+Flags: W
 LayerCount: 2
 Back
 Fore
 SplineSet
-50 1574 m 1052,0,-1
+100 -400 m 21,0,1
+ 100 1060 100 1060 198 1452 c 4,2,3
+ 210 1500 210 1500 250 1500 c 4,4,5
+ 271 1500 271 1500 285.5 1485.5 c 132,-1,6
+ 300 1471 300 1471 300 1450 c 4,7,8
+ 300 1444 300 1444 298 1437 c 4,9,10
+ 200 1094 200 1094 200 -400 c 4,11,-1
+ 100 -400 l 21,0,1
 EndSplineSet
 Validated: 3073
 EndChar
 
 StartChar: uni239C
 Encoding: 9116 9116 389
-Width: 2100
-VWidth: 0
+Width: 400
+VWidth: 2100
+Flags: W
 LayerCount: 2
 Back
 Fore
-SplineSet
-50 1589 m 1052,0,-1
-EndSplineSet
-Validated: 3073
+Refer: 407 9134 N 1 0 0 1 -100 0 2
+Validated: 98305
 EndChar
 
 StartChar: uni239D
 Encoding: 9117 9117 390
-Width: 2100
-VWidth: 0
+Width: 400
+VWidth: 2100
+Flags: W
 LayerCount: 2
 Back
 Fore
 SplineSet
-50 1676 m 1052,0,-1
+100 1800 m 9,0,1
+ 200 1800 l 0,2,3
+ 200 306 200 306 298 -37 c 0,4,5
+ 300 -44 300 -44 300 -50 c 0,6,7
+ 300 -71 300 -71 285.5 -85.5 c 128,-1,8
+ 271 -100 271 -100 250 -100 c 0,9,10
+ 210 -100 210 -100 198 -52 c 0,11,12
+ 100 340 100 340 100 1800 c 9,0,1
 EndSplineSet
 Validated: 3073
 EndChar
 
 StartChar: uni239E
 Encoding: 9118 9118 391
-Width: 2100
-VWidth: 0
+Width: 400
+VWidth: 2100
+Flags: W
 LayerCount: 2
 Back
 Fore
-SplineSet
-16 1650 m 1052,0,-1
-EndSplineSet
-Validated: 3073
+Refer: 390 9117 S -1 0 0 -1 400 1400 2
+Validated: 98305
 EndChar
 
 StartChar: uni239F
 Encoding: 9119 9119 392
-Width: 2100
-VWidth: 0
+Width: 400
+VWidth: 2100
+Flags: W
 LayerCount: 2
 Back
 Fore
-SplineSet
-32 1679 m 1052,0,-1
-EndSplineSet
-Validated: 3073
+Refer: 389 9116 N 1 0 0 1 100 0 2
+Validated: 98305
 EndChar
 
 StartChar: uni23A0
 Encoding: 9120 9120 393
-Width: 2100
-VWidth: 0
+Width: 400
+VWidth: 2100
+Flags: W
 LayerCount: 2
 Back
-SplineSet
-100 1658 m 1052,0,-1
-EndSplineSet
-Validated: 3073
 Fore
-Validated: 1
+Refer: 388 9115 N -1 0 0 -1 400 1400 2
+Validated: 98305
 EndChar
 
 StartChar: uni23A1
